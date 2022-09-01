@@ -1,0 +1,30 @@
+svg {
+  height: 100%;
+  width: 100%;
+
+  g {
+    #Body {
+      fill: white;
+    }
+
+    #Cross {
+      fill: rgb(181, 48, 48);
+    }
+  }
+}
+
+svg:not(.doc) {
+  g {
+    #Mirror {
+      display: none;
+    }
+
+    #Body {
+      fill: rgb(181, 48, 48);
+    }
+
+    #Cross {
+      display: none;
+    }
+  }
+}

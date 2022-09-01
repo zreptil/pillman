@@ -1,18 +1,19 @@
-import {BaseData} from "./base-data";
+import {BaseData} from './base-data';
+import {JsonData} from '@/_model/json-data';
 
 export class UserData extends BaseData {
   constructor(public name: string = null) {
     super();
   }
 
-  asJson(): any {
+  get asJson(): any {
     return {
       'n': this.name
     };
   }
 
-  fromJson(json: any): void {
-    this.name = BaseData.fromJsonText(json['n']);
+  _fillFromJson(json: any): void {
+    this.name = JsonData.toString(json['n']);
   }
 
 }

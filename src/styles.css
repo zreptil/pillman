@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  --mainBack: #aaf;
+  --logInfoBack: #606099;
+  --logInfoFore: #fff;
+  --logErrorBack: #ff2020;
+  --logErrorFore: #fff;
+  --logDebugColor: 255, 255, 0;
+  --logDebugBack: repeating-linear-gradient(45deg, rgba(var(--logDebugColor), 0.6), rgba(var(--logDebugColor), 0.6) 10px, rgba(var(--logDebugColor), 0.8) 10px, rgba(var(--logDebugColor), 0.8) 20px);
+  --logDebugFore: #000;
+  --toolbarBack: rgba(0, 0, 0, 0.3);
+  --toolbarFore: #fff;
+}
+
+body {
+  background-color: var(--mainBack);
+  display: flex;
+  flex-flow: column;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}

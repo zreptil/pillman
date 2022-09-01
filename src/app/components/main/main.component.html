@@ -1,0 +1,14 @@
+<mat-toolbar>
+  <button (click)="clickMode($event)" mat-icon-button>
+    <mat-icon>{{modeIcon}}</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <app-pillman [isDoc]="ss.data.appMode=='edit'"></app-pillman>
+</mat-toolbar>
+<div content>
+  <app-color-picker [imageDataUrl]="ss.data.colorImage" [onFileLoaded]="onColorFileLoaded.bind(this)"></app-color-picker>
+  <app-pillman [isDoc]="ss.data.appMode=='edit'"></app-pillman>
+  <ng-container *ngFor="let pill of ss.data.listMedication">
+    <app-pill-view *ngIf="showPill(pill)" [pill]="pill"></app-pill-view>
+  </ng-container>
+</div>

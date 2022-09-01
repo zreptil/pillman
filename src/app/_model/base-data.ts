@@ -1,30 +1,36 @@
-import {Utils} from "../classes/utils";
+import {Utils} from '../classes/utils';
+import {Log} from '@/_services/log.service';
 
 export abstract class BaseData {
-  static fromJsonText(json: any): string {
-    return `${json}`;
-  }
+  abstract get asJson(): any;
 
-  abstract fromJson(json: any): void;
-
-  abstract asJson(): any;
-
-  asJsonString(): string {
+  get asString(): string {
     try {
-      return JSON.stringify(this.asJson());
+      return JSON.stringify(this.asJson);
     } catch (ex) {
       Utils.showDebug(ex);
-      Utils.show(`Fehler bei asJsonString`);
+      Log.error(`Fehler bei BaseData.asJsonString`);
     }
     return null;
   }
 
-  fromJsonString(json: string) {
+  abstract _fillFromJson(json: any): void;
+
+  fillFromJson(json: any): void {
     try {
-      this.fromJson(JSON.parse(json));
+      this._fillFromJson(json);
     } catch (ex) {
       Utils.showDebug(ex);
-      Utils.show(`Fehler beim Parsing von ${json}`);
+      console.error('Fehler bei fillFromJson von', this, json);
+    }
+  };
+
+  fillFromString(src: string): void {
+    try {
+      this.fillFromJson(JSON.parse(src));
+    } catch (ex) {
+      Utils.showDebug(ex);
+      console.error('Fehler beim Parsing von', this, src);
     }
   }
 }

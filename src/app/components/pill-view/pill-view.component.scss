@@ -1,0 +1,56 @@
+:host {
+  --size: 7em;
+}
+
+mat-card {
+  width: 20em;
+  margin: 0.25em;
+  cursor: pointer;
+
+  mat-card-title {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+div[shapes] {
+  display: flex;
+  flex-flow: wrap;
+  align-items: center;
+}
+
+[pill] {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.2em;
+  outline: 1px solid black;
+
+  [actions] {
+    display: flex;
+    flex-flow: row;
+  }
+}
+
+[title] {
+  font-size: 0.8em;
+}
+
+[pill].round {
+  border-radius: 50%;
+  width: var(--size);
+  height: var(--size);
+}
+
+[pill].capsule {
+  border-radius: var(--size);
+  width: calc(var(--size) * 2);
+  height: calc(var(--size));
+}
+
+button[pill] {
+  cursor: pointer;
+  border: none;
+  --size: 5em;
+}

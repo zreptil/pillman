@@ -1,16 +1,33 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
+import {MainComponent} from './components/main/main.component';
+import {LogComponent} from './components/log/log.component';
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {MaterialModule} from './material.module';
+import {PillmanComponent} from './components/pillman/pillman.component';
+import {PillViewComponent} from './components/pill-view/pill-view.component';
+import { ColorPickerComponent } from './controls/color-picker/color-picker.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    MaterialModule
+  ],
+  declarations: [
+    AppComponent,
+    MainComponent,
+    LogComponent,
+    PillmanComponent,
+    PillViewComponent,
+    ColorPickerComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
