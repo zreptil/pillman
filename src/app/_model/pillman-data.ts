@@ -32,6 +32,7 @@ export class PillmanData extends BaseData {
   }
 
   _fillFromJson(json: any): void {
+    if (json == null) return;
     this.consumeDisplay = JsonData.toNumber(json['cd']);
     this.listMedication = [];
     for (const med of json['med']) {

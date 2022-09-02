@@ -13,6 +13,7 @@ export class UserData extends BaseData {
   }
 
   _fillFromJson(json: any): void {
+    if (json == null) return;
     this.name = JsonData.toString(json['n']);
   }
 

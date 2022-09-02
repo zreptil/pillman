@@ -50,7 +50,7 @@ export class PillData extends BaseData {
   }
 
   _fillFromJson(json: any): void {
-    console.log(json);
+    if (json == null) return;
     this.name = JsonData.toString(json['n']);
     this.time = JsonData.toNumber(json['t'] || 8 * 60);
     this.lastConsumed = JsonData.toDate(json['lc'], null);
