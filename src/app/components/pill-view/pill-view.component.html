@@ -1,23 +1,29 @@
 <ng-container *ngIf="ss.data.appMode=='view'">
   <div [class]="classForPill" [ngStyle]="styleForPill" pill>
-    <div title>{{pill?.name}}</div>
-    <div actions>
-      <button (click)="clickEat($event)" mat-flat-button mat-icon-button>
-        <mat-icon>restaurant</mat-icon>
-      </button>
-      <button (click)="clickMissed($event)" mat-flat-button mat-icon-button>
-        <mat-icon>no_meals</mat-icon>
-      </button>
+    <div content>
+      <div title>{{pill?.name}}</div>
+      <div actions>
+        <button (click)="clickEat($event)" [ngStyle]="styleForPill" mat-flat-button mat-icon-button>
+          <mat-icon>restaurant</mat-icon>
+        </button>
+        <button (click)="clickMissed($event)" [ngStyle]="styleForPill" mat-flat-button mat-icon-button>
+          <mat-icon>no_meals</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 </ng-container>
 <ng-container *ngIf="ss.data.appMode=='edit'">
   <ng-container *ngIf="!pill.isEdit">
     <div [class]="classForPill" [ngStyle]="styleForPill" pill>
-      <div title>{{pill?.name}}</div>
-      <button (click)="clickEdit($event)" mat-flat-button>
-        <mat-icon>edit</mat-icon>
-      </button>
+      <div content>
+        <div title>{{pill?.name}}</div>
+        <div actions>
+          <button (click)="clickEdit($event)" [ngStyle]="styleForPill" mat-flat-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
     </div>
   </ng-container>
   <ng-container *ngIf="pill.isEdit">
@@ -34,14 +40,20 @@
           <input [(ngModel)]="pill.name" matInput>
         </mat-form-field>
         <div shapes>
-          <ng-container *ngFor="let shape of ['round', 'capsule']">
+          <ng-container *ngFor="let shape of shapeList">
             <button (click)="clickShape($event, shape)" [class.mat-elevation-z8]="shape===pill.shape" [class]="shape" [ngStyle]="styleForPill" pill style="background-color:red"></button>
           </ng-container>
         </div>
+        <app-color-picker (onFileLoaded)="onColorFileLoaded($event)"
+                          [(color)]="pill.color"
+                          [imageDataUrl]="ss.data.colorImage"></app-color-picker>
       </mat-card-content>
       <mat-card-actions>
         <button (click)="clickSave($event)" mat-flat-button>
           <mat-icon>save</mat-icon>
+        </button>
+        <button (click)="clickDelete($event)" mat-flat-button>
+          <mat-icon>delete</mat-icon>
         </button>
       </mat-card-actions>
     </mat-card>

@@ -27,6 +27,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -45,7 +46,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     // MatChipsModule,
     // MatStepperModule,
     // MatDatepickerModule,
-    // MatDialogModule,
+    MatDialogModule,
     MatDividerModule,
     // MatExpansionModule,
     // MatGridListModule,

@@ -9,7 +9,8 @@ import {FormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {PillmanComponent} from './components/pillman/pillman.component';
 import {PillViewComponent} from './components/pill-view/pill-view.component';
-import { ColorPickerComponent } from './controls/color-picker/color-picker.component';
+import {ColorPickerComponent, ColorPickerDialog} from './controls/color-picker/color-picker.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,9 @@ import { ColorPickerComponent } from './controls/color-picker/color-picker.compo
     LogComponent,
     PillmanComponent,
     PillViewComponent,
-    ColorPickerComponent
+    ColorPickerComponent,
+    ColorPickerDialog,
+    DialogComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

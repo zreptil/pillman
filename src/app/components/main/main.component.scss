@@ -41,3 +41,34 @@ div[content] {
     }
   }
 }
+
+[cross] {
+  --size: 6em;
+  position: relative;
+  width: calc(var(--size) + 10px);
+  height: calc(var(--size) + 10px);
+  background-color: white;
+  margin: 0;
+  padding: 0;
+
+  div {
+    position: absolute;
+    margin: 5px;
+  }
+
+  [horz] {
+    width: var(--size);
+    height: calc(var(--size) * 0.33);
+    left: 0;
+    top: calc(var(--size) * 0.33);
+    background-color: red;
+  }
+
+  [vert] {
+    width: calc(var(--size) * 0.33);
+    height: var(--size);
+    background-color: red;
+    left: calc(var(--size) * 0.33);
+    top: 0;
+  }
+}

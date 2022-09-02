@@ -3,12 +3,17 @@
     <mat-icon>{{modeIcon}}</mat-icon>
   </button>
   <span class="spacer"></span>
-  <app-pillman [isDoc]="ss.data.appMode=='edit'"></app-pillman>
+  <app-pillman [isDoc]="ss.data.appMode==='edit'"></app-pillman>
 </mat-toolbar>
 <div content>
-  <app-color-picker [imageDataUrl]="ss.data.colorImage" [onFileLoaded]="onColorFileLoaded.bind(this)"></app-color-picker>
-  <app-pillman [isDoc]="ss.data.appMode=='edit'"></app-pillman>
-  <ng-container *ngFor="let pill of ss.data.listMedication">
-    <app-pill-view *ngIf="showPill(pill)" [pill]="pill"></app-pill-view>
+  <app-pillman [isDoc]="ss.data.appMode==='edit'"></app-pillman>
+  <ng-container *ngFor="let pill of ss.data.listMedication; let idx = index">
+    <app-pill-view *ngIf="showPill(pill)" [idx]="idx" [pill]="pill"></app-pill-view>
+  </ng-container>
+  <ng-container *ngIf="ss.data.appMode==='edit'">
+    <button (click)="clickCross($event)" cross mat-flat-button>
+      <div horz></div>
+      <div vert></div>
+    </button>
   </ng-container>
 </div>

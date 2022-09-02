@@ -4,7 +4,7 @@
       <mat-icon>delete</mat-icon>
     </button>
     <div lines>
-      <div *ngFor="let line of msg[type]" [innerHtml]="line"></div>
+      <div *ngFor="let line of msg[type]" [innerHtml]="line | json"></div>
     </div>
   </div>
 </ng-container>

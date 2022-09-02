@@ -33,8 +33,11 @@ export class ColorUtils {
     return [H, S, L];
   }
 
+  static rgb2value(rgb: number[]): number {
+    return rgb[0] * 65536 + rgb[1] * 256 + rgb[2];
+  }
 
-  static hsl2rgb(hsl: number[]) {
+  static hsl2rgb(hsl: number[]): number[] {
     // arguments: [H,S,L] or H,S,L
     //return [r, g, b];
     const h = Number(hsl[0]) / 360;
@@ -66,7 +69,7 @@ export class ColorUtils {
     return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
   }
 
-  static rgb2hex(rgb: number[]) {
+  static rgb2hex(rgb: number[]): string[] {
     const r = +rgb[0];
     const g = +rgb[1];
     const b = +rgb[2];
@@ -85,58 +88,61 @@ export class ColorUtils {
     return [hexR, hexG, hexB];
   }
 
-  static hex2rgb(hexList: string[]) {
+  static hex2rgb(hexList: string[]): number[] {
     const ret = [];
     for (const hex of hexList) {
       ret.push(parseInt(hex, 16));
     }
-
     return ret;
   }
 
-  static hsl2hex(hsl: number[]) {
+  static hsl2hex(hsl: number[]): string[] {
     const ret = ColorUtils.hsl2rgb(hsl);
     return ColorUtils.rgb2hex(ret);
   }
 
-  static hex2hsl(hex: string[]) {
+  static hex2hsl(hex: string[]): number[] {
     var ret = ColorUtils.hex2rgb(hex);
     return ColorUtils.rgb2hsl(ret);
   }
 
-  static hex2ry(hex: string) {
+  static hex2ry(hex: string): string[] {
     if (hex != null && hex.charAt(0) === '#') {
       hex = hex.substring(1);
     }
 
     const hexRy = ['ff', 'ff', 'ff'];
-    if (hex.length === 6) {
-      hexRy[0] = hex.slice(0, 2);
-      hexRy[1] = hex.slice(2, 4);
-      hexRy[2] = hex.slice(4, 6);
-    } else if (hex.length === 3) {
-      const r = hex.slice(0, 1);
-      const g = hex.slice(1, 2);
-      const b = hex.slice(2, 3);
-      hexRy[0] = r + r;
-      hexRy[1] = g + g;
-      hexRy[2] = b + b;
+    if (hex != null) {
+      if (hex.length === 6) {
+        hexRy[0] = hex.slice(0, 2);
+        hexRy[1] = hex.slice(2, 4);
+        hexRy[2] = hex.slice(4, 6);
+      } else if (hex.length === 3) {
+        const r = hex.slice(0, 1);
+        const g = hex.slice(1, 2);
+        const b = hex.slice(2, 3);
+        hexRy[0] = r + r;
+        hexRy[1] = g + g;
+        hexRy[2] = b + b;
+      }
     }
     return hexRy;
   }
 
-  static rgb2ry(rgb: string) {
+  static rgb2ry(rgb: string): number[] {
     // "rgb(255,100,178)"
     // "255,100,178"
     // ["255", "100", "178"]
-    const ry = rgb.split(/([()])/)[2].split(',');
-    for (const v of ry) {
+    const src = rgb.split(/([()])/)[2].split(',');
+    const ret = [];
+    for (const v of src) {
       if (+v < 0 || +v > 255) return [255, 255, 255];
+      ret.push(+v);
     }
-    return ry;
+    return ret;
   }
 
-  static hsl2ry(hsl: string) {
+  static hsl2ry(hsl: string): number[] {
     // "hsl(255,100%,50%)"
     // "255,100%,50%"
     // ["255", "100", "178"]
@@ -150,19 +156,19 @@ export class ColorUtils {
     return hslry;
   }
 
-  static validateHex(hex: string) {
+  static validateHex(hex: string): boolean {
     return /(^#?[0-9A-F]{6}$)|(^#?[0-9A-F]{3}$)/i.test(hex);
   }
 
-  static validateRgb(rgb: string) {
+  static validateRgb(rgb: string): boolean {
     return /^rgb\((\s*\d{1,3}\s*),(\s*\d{1,3}\s*),(\s*\d{1,3}\s*)\)$/.test(rgb);
   }
 
-  static validateHsl(hsl: string) {
+  static validateHsl(hsl: string): boolean {
     return /^hsl\((\s*\d{1,3}\s*),(\s*\d{1,3}%\s*),(\s*\d{1,3}%\s*)\)$/.test(hsl);
   }
 
-  static display_hex(ry: number[]) {
+  static display_hex(ry: string[]): string | false {
     var hex = `#${ry[0]}${ry[1]}${ry[2]}`;
     if (ColorUtils.validateHex(hex)) {
       return hex;
@@ -180,7 +186,7 @@ export class ColorUtils {
     }
   }
 
-  static display_hsl(ry: number[]) {
+  static display_hsl(ry: number[]): string | false {
     var hsl = `hsl(${Math.round(ry[0])},${Math.round(ry[1])}%,${Math.round(ry[2])}%)`;
     if (ColorUtils.validateHsl(hsl)) {
       return hsl;
@@ -189,7 +195,7 @@ export class ColorUtils {
     }
   }
 
-  static getRelativeLuminance(rgb: number[]) {
+  static getRelativeLuminance(rgb: number[]): number {
     rgb = rgb.map(function (c) {
       c /= 255;
       return c < .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4);
@@ -197,7 +203,7 @@ export class ColorUtils {
     return (21.26 * rgb[0] + 71.52 * rgb[1] + 7.22 * rgb[2]) / 100
   }
 
-  static colorContrast(c1: number[], c2: number[]) {
+  static colorContrast(c1: number[], c2: number[]): number {
     var l1 = ColorUtils.getRelativeLuminance(c1);
     var l2 = ColorUtils.getRelativeLuminance(c2);
     var ret = (l1 + .05) / (l2 + .05);
@@ -205,12 +211,11 @@ export class ColorUtils {
     return ret < 1 ? 1 / ret : ret;
   }
 
-  static getFontColor(rgbRy: number[]) {
+  static getFontColor(rgbRy: number[]): string {
     if (ColorUtils.colorContrast(rgbRy, [255, 255, 255]) > 4.5) {
       return 'white';
     } else {
       return 'black';
     }
   }
-
 }

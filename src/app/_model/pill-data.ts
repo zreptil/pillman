@@ -1,19 +1,23 @@
 import {BaseData} from './base-data';
 import {JsonData} from './json-data';
+import {ColorData} from '@/_model/color-data';
 
 export class PillData extends BaseData {
   static intervals = {
     daily: {title: $localize`täglich`, days: 1},
     weekly: {title: $localize`wöchentlich`, days: 7}
   };
-  isEdit: boolean;
-  shape: 'round' | 'capsule';
-  color = 0xfff;
+
+  static shapeList = ['roundS', 'roundM', 'roundL', 'capsule'];
+
+  isEdit: boolean = false;
+  shape: 'roundL' | 'roundM' | 'roundS' | 'capsule' = PillData.shapeList[0] as any;
+  color: ColorData = new ColorData([255, 255, 255]);
   name: string;
-  time: number;
+  time: number = 8 * 60;
   lastConsumed: Date;
   nextConsume: Date;
-  interval: 'daily' | 'weekly';
+  interval: 'daily' | 'weekly' = 'daily';
   count: number;
   supply: number;
   supplyLow: number;
@@ -29,7 +33,7 @@ export class PillData extends BaseData {
       's': this.supply,
       'low': this.supplyLow,
       'sh': this.shape,
-      'col': this.color
+      'col': this.color.value
     };
   }
 
@@ -46,6 +50,7 @@ export class PillData extends BaseData {
   }
 
   _fillFromJson(json: any): void {
+    console.log(json);
     this.name = JsonData.toString(json['n']);
     this.time = JsonData.toNumber(json['t'] || 8 * 60);
     this.lastConsumed = JsonData.toDate(json['lc'], null);
@@ -53,14 +58,16 @@ export class PillData extends BaseData {
     this.count = JsonData.toNumber(json['c']);
     this.supply = JsonData.toNumber(json['s']);
     this.supplyLow = JsonData.toNumber(json['low']);
-    this.shape = json['sh'] || 'round';
-    this.color = JsonData.toNumber(json['col']) || 0xfff;
+    this.shape = json['sh'];
+    if (PillData.shapeList.find(s => s === this.shape) == null) {
+      this.shape = PillData.shapeList[0] as any;
+    }
+    this.color = new ColorData(json['col'] || [255, 255, 255]);
+    console.log(this);
   }
 
   setNextConsume(): void {
     let next: Date = this.lastConsumed || new Date();
-    const hour = Math.floor((this.time || 8 * 60) / 60);
-    const minute = (this.time || 8 * 60) % 60;
     const check = next.getHours() * 60 + next.getMinutes();
     if (this.time < check) {
       next.setTime(next.getTime() + PillData.intervals[this.interval].days);

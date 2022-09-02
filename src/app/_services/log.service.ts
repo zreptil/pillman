@@ -9,7 +9,7 @@ export class Log {
     LogService.instance.msg[type] = [];
   }
 
-  static info(text: string): void {
+  static info(text: any): void {
     LogService.instance.msg['info']?.push(text);
   }
 

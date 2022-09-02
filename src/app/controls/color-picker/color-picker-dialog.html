@@ -1,0 +1,30 @@
+<div class="adialog">
+  <h1 i18n mat-dialog-title>Farbauswahl</h1>
+  <div mat-dialog-content>
+    <input #imgSelect (change)="fileSelected($event)" type="file">
+    <!-- Picker color code will be shown here -->
+    <p class="res"></p>
+    <!-- Selected image will be shown here -->
+    <canvas #canvasImage
+            (click)="canvasClick($event)"
+            (mouseenter)="canvasMouseEnter($event)"
+            (mousemove)="canvasMouseMove($event)"
+            (mouseout)="canvasMouseOut($event)"
+            id="canvas"></canvas>
+    <div class="palette"></div>
+    <canvas #canvasLens class="lens" height="100" width="100"></canvas>
+    <img #img [src]="data.imageDataUrl" alt="" class="img" id="img">
+  </div>
+  <div mat-dialog-actions>
+    <button (click)="clickPalette($event)" mat-icon-button>
+      <mat-icon>palette</mat-icon>
+    </button>
+    <button (click)="clickFile($event)" mat-icon-button>
+      <mat-icon>upload_file</mat-icon>
+    </button>
+    <div (click)="colorClick($event, color)"
+         *ngFor="let color of savedColors; let idx = index"
+         [class]="classForCurrColor(idx)"
+         [ngStyle]="{backgroundColor:color.display}"></div>
+  </div>
+</div>

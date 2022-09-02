@@ -16,24 +16,22 @@ export class MainComponent implements OnInit {
     return list[this.ss.data.appMode];
   }
 
-  onColorFileLoaded(content: string): void {
-    if (content.length < 500000) {
-      this.ss.data.colorImage = content;
-      this.ss.save();
-    }
-  }
-
   ngOnInit(): void {
   }
 
-  showPill(pill: PillData): boolean {
-    let ret = true;
-    return ret;
+  showPill(_: PillData): boolean {
+    return true;
   }
 
   clickMode(event: MouseEvent) {
     event.stopPropagation();
     const list = {view: 'edit', edit: 'view'};
     this.ss.data.appMode = list[this.ss.data.appMode] as any;
+  }
+
+  clickCross(event: MouseEvent) {
+    event.stopPropagation();
+    this.ss.data.listMedication.push(new PillData());
+    this.ss.save();
   }
 }
