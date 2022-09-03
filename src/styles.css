@@ -27,6 +27,8 @@ body {
   --logDebugFore: #000;
   --toolbarBack: rgba(0, 0, 0, 0.3);
   --toolbarFore: #fff;
+  --helpBack: #fff;
+  --helpFore: #000;
 }
 
 body {
@@ -37,4 +39,8 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+}
+
+[spacer] {
+  flex: 1 1 auto;
 }

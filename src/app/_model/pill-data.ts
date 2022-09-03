@@ -12,6 +12,8 @@ export class PillData extends BaseData {
 
   isEdit: boolean = false;
   shape: 'roundL' | 'roundM' | 'roundS' | 'capsule' = PillData.shapeList[0] as any;
+  splith: boolean = false;
+  splitv: boolean = false;
   color: ColorData = new ColorData([255, 255, 255]);
   name: string;
   time: number = 8 * 60;
@@ -33,7 +35,9 @@ export class PillData extends BaseData {
       's': this.supply,
       'low': this.supplyLow,
       'sh': this.shape,
-      'col': this.color.value
+      'col': this.color.value,
+      'sph': this.splith,
+      'spv': this.splitv
     };
   }
 
@@ -50,20 +54,20 @@ export class PillData extends BaseData {
   }
 
   _fillFromJson(json: any): void {
-    if (json == null) return;
-    this.name = JsonData.toString(json['n']);
-    this.time = JsonData.toNumber(json['t'] || 8 * 60);
-    this.lastConsumed = JsonData.toDate(json['lc'], null);
+    this.name = JsonData.toString(json, 'n');
+    this.time = JsonData.toNumber(json, 't', 8 * 60);
+    this.lastConsumed = JsonData.toDate(json, 'lc', null);
     this.interval = json['i'] || 'daily';
-    this.count = JsonData.toNumber(json['c']);
-    this.supply = JsonData.toNumber(json['s']);
-    this.supplyLow = JsonData.toNumber(json['low']);
+    this.count = JsonData.toNumber(json, 'c');
+    this.supply = JsonData.toNumber(json, 's');
+    this.supplyLow = JsonData.toNumber(json, 'low');
     this.shape = json['sh'];
     if (PillData.shapeList.find(s => s === this.shape) == null) {
       this.shape = PillData.shapeList[0] as any;
     }
     this.color = new ColorData(json['col'] || [255, 255, 255]);
-    console.log(this);
+    this.splith = JsonData.toBool(json, 'sph');
+    this.splitv = JsonData.toBool(json, 'spv');
   }
 
   setNextConsume(): void {

@@ -12,9 +12,14 @@ export class UserData extends BaseData {
     };
   }
 
+  static fromJson(json: any): UserData {
+    const ret = new UserData();
+    ret.fillFromJson(json);
+    return ret;
+  }
+
   _fillFromJson(json: any): void {
-    if (json == null) return;
-    this.name = JsonData.toString(json['n']);
+    this.name = JsonData.toString(json, 'n', 'Max Mustermann');
   }
 
 }

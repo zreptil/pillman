@@ -11,6 +11,8 @@
         </button>
       </div>
     </div>
+    <div horz></div>
+    <div vert></div>
   </div>
 </ng-container>
 <ng-container *ngIf="ss.data.appMode=='edit'">
@@ -24,6 +26,8 @@
           </button>
         </div>
       </div>
+      <div horz></div>
+      <div vert></div>
     </div>
   </ng-container>
   <ng-container *ngIf="pill.isEdit">
@@ -31,22 +35,26 @@
       <mat-card-title>
         <div i18n>Medikament</div>
         <button (click)="clickCancel($event)" mat-flat-button mat-icon-button>
-          <mat-icon>cancel</mat-icon>
+          <mat-icon>close</mat-icon>
         </button>
       </mat-card-title>
       <mat-card-content>
         <mat-form-field>
           <mat-label i18n>Name</mat-label>
-          <input [(ngModel)]="pill.name" matInput>
+          <input [(ngModel)]="pill.name" autofocus matInput>
         </mat-form-field>
         <div shapes>
           <ng-container *ngFor="let shape of shapeList">
-            <button (click)="clickShape($event, shape)" [class.mat-elevation-z8]="shape===pill.shape" [class]="shape" [ngStyle]="styleForPill" pill style="background-color:red"></button>
+            <button (click)="clickShape($event, shape)" [class.mat-elevation-z8]="shape===pill.shape" [class]="classForShape(shape)" [ngStyle]="styleForPill" pill>
+              <div horz></div>
+              <div vert></div>
+            </button>
           </ng-container>
+          <app-color-picker (onFileLoaded)="onColorFileLoaded($event)"
+                            [(color)]="pill.color"
+                            [imageDataUrl]="ss.data.colorImage"
+                            [maxFilesize]="500000"></app-color-picker>
         </div>
-        <app-color-picker (onFileLoaded)="onColorFileLoaded($event)"
-                          [(color)]="pill.color"
-                          [imageDataUrl]="ss.data.colorImage"></app-color-picker>
       </mat-card-content>
       <mat-card-actions>
         <button (click)="clickSave($event)" mat-flat-button>

@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {UserData} from './_model/user-data';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +9,5 @@ export class AppComponent {
   title = 'pillman';
 
   constructor() {
-    const test: UserData = new UserData();
-    test.fillFromJson({n: 'zreptil'});
   }
 }

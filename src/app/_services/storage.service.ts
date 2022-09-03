@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BaseData} from '../_model/base-data';
+import {BaseData} from '@/_model/base-data';
 import {LogService} from '@/_services/log.service';
 
 @Injectable({
@@ -8,7 +8,7 @@ import {LogService} from '@/_services/log.service';
 export class StorageService {
 
   constructor() {
-    LogService.create();
+    LogService.create(localStorage.getItem('debug') === 'true');
   }
 
   read(key: string): any {

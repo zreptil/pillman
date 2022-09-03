@@ -10,7 +10,9 @@ import {MaterialModule} from './material.module';
 import {PillmanComponent} from './components/pillman/pillman.component';
 import {PillViewComponent} from './components/pill-view/pill-view.component';
 import {ColorPickerComponent, ColorPickerDialog} from './controls/color-picker/color-picker.component';
-import { DialogComponent } from './components/dialog/dialog.component';
+import {DialogComponent} from './components/dialog/dialog.component';
+import {AutofocusDirective} from './_directives/autofocus.directive';
+import {LogPipe} from './components/log/log.pipe';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { DialogComponent } from './components/dialog/dialog.component';
     PillViewComponent,
     ColorPickerComponent,
     ColorPickerDialog,
-    DialogComponent
+    DialogComponent,
+    AutofocusDirective,
+    LogPipe
   ],
   providers: [],
   bootstrap: [AppComponent]

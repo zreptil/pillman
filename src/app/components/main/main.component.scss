@@ -8,10 +8,6 @@ mat-toolbar {
   color: var(--toolbarFore);
   align-items: center;
 
-  .spacer {
-    flex: 1 1 auto;
-  }
-
   ::ng-deep app-pillman {
     height: 48px;
 
@@ -21,11 +17,12 @@ mat-toolbar {
   }
 }
 
-div[content] {
+[content] {
   display: flex;
   width: 100vw;
   flex-flow: row;
   flex-wrap: wrap;
+  align-items: center;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -34,7 +31,6 @@ div[content] {
     left: 50%;
     top: 50%;
     transform: translate(-50px, -50%);
-    opacity: 0.2;
 
     svg {
       width: 100px;
@@ -57,11 +53,21 @@ div[content] {
   }
 
   [horz] {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
     width: var(--size);
     height: calc(var(--size) * 0.33);
     left: 0;
     top: calc(var(--size) * 0.33);
     background-color: red;
+
+    div {
+      position: initial;
+      font-size: 0.8em;
+      line-height: 0.2em;
+    }
   }
 
   [vert] {

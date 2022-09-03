@@ -27,11 +27,19 @@ export class MainComponent implements OnInit {
     event.stopPropagation();
     const list = {view: 'edit', edit: 'view'};
     this.ss.data.appMode = list[this.ss.data.appMode] as any;
+    this.ss.save();
   }
 
   clickCross(event: MouseEvent) {
     event.stopPropagation();
-    this.ss.data.listMedication.push(new PillData());
+    const pill = new PillData();
+    pill.isEdit = true;
+    this.ss.data.listMedication.push(pill);
+    this.ss.save();
+  }
+
+  clickPillman() {
+    this.ss.data.showHelp = !this.ss.data.showHelp;
     this.ss.save();
   }
 }

@@ -1,5 +1,7 @@
 <div class="type{{data?.type}}" mat-dialog-title>
+  <mat-icon *ngIf="type!=null">{{type}}</mat-icon>
   <div>{{data.title}}</div>
+  <div spacer></div>
   <button (click)="clickClose()" mat-icon-button>
     <mat-icon>close</mat-icon>
   </button>

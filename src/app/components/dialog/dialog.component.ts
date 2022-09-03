@@ -1,7 +1,7 @@
 import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Observable, of} from 'rxjs';
-import {DialogData, DialogResultButton, IDialogButton} from '@/_model/dialog-data';
+import {DialogData, DialogResultButton, DialogType, IDialogButton} from '@/_model/dialog-data';
 
 @Component({
   selector: 'app-dialog',
@@ -14,6 +14,21 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  }
+
+  get type(): string {
+    switch (this.data?.type) {
+      case DialogType.warning:
+        return 'warning';
+      case DialogType.error:
+        return 'error';
+      case DialogType.info:
+        return 'info';
+      case DialogType.confirm:
+      case DialogType.confirmNo:
+        return 'help';
+    }
+    return null;
   }
 
   update(data: string | string[]): void {

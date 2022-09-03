@@ -5,10 +5,10 @@
 mat-card {
   width: 20em;
   margin: 0.25em;
-  cursor: pointer;
 
   mat-card-title {
     display: flex;
+    align-items: center;
     justify-content: space-between;
   }
 }
@@ -34,6 +34,32 @@ div[shapes] {
   [actions] {
     display: flex;
     flex-flow: row;
+  }
+
+  position: relative;
+
+  [horz], [vert] {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+  }
+
+  [horz] {
+    width: 100%;
+    top: 50%;
+    height: 0;
+    border-top: 2px solid rgba(0, 0, 0, 0.7);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    left: 0;
+  }
+
+  [vert] {
+    height: 100%;
+    border-left: 2px solid rgba(0, 0, 0, 0.7);
+    border-right: 2px solid rgba(255, 255, 255, 0.7);
+    left: 50%;
+    width: 0;
+    top: 0;
   }
 }
 
@@ -80,6 +106,18 @@ div[shapes] {
   border-radius: var(--size);
   width: calc(var(--size) * 1.5);
   height: calc(var(--size) * 0.75);
+}
+
+.splitv {
+  [vert] {
+    display: block;
+  }
+}
+
+.splith {
+  [horz] {
+    display: block;
+  }
 }
 
 button[pill] {

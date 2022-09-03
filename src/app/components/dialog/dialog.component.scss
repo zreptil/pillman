@@ -1,30 +1,7 @@
-/*
-
-Vorübergehend (?) alles in color.scss verschoben,
-damit ein einheitliches CI gesichert werden kann.
-
-*/
 @import '~node_modules/@angular/material/theming';
 
-$c1: #ff0000;
-$c2: #0000ff;
-$c3: #a0a0a0;
-.deactivated-type2 {
-  color: $c2;
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px $c1, 0 0 30px $c1, 0 0 40px $c1, 0 0 55px $c1, 0 0 75px $c1;
-
-  * {
-    color: $c2;
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px $c1, 0 0 30px $c1, 0 0 40px $c1, 0 0 55px $c1, 0 0 75px $c1;
-  }
-
-  background: repeating-linear-gradient(45deg, $c1, $c1 1.5em, $c2 0.5em, $c2 3em) !important;
-}
-
-::ng-deep td code {
-  font-size: 50%;
-
-  pre {
-    white-space: normal;
-  }
+.mat-dialog-title {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 }

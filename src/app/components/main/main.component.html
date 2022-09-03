@@ -2,18 +2,23 @@
   <button (click)="clickMode($event)" mat-icon-button>
     <mat-icon>{{modeIcon}}</mat-icon>
   </button>
-  <span class="spacer"></span>
-  <app-pillman [isDoc]="ss.data.appMode==='edit'"></app-pillman>
+  <div spacer></div>
+  <button (click)="clickPillman()" mat-icon-button>
+    <app-pillman [isDoc]="ss.data.appMode==='edit'"></app-pillman>
+  </button>
 </mat-toolbar>
 <div content>
-  <app-pillman [isDoc]="ss.data.appMode==='edit'"></app-pillman>
+  <app-pillman [isDoc]="ss.data.appMode==='edit'" [ngStyle]="{opacity:ss.data.showHelp ? 1.0 : 0.2}" [speak]="ss.data.showHelp"></app-pillman>
   <ng-container *ngFor="let pill of ss.data.listMedication; let idx = index">
     <app-pill-view *ngIf="showPill(pill)" [idx]="idx" [pill]="pill"></app-pill-view>
   </ng-container>
   <ng-container *ngIf="ss.data.appMode==='edit'">
     <button (click)="clickCross($event)" cross mat-flat-button>
-      <div horz></div>
       <div vert></div>
+      <div horz i18n>
+        <div>Medikament</div>
+        <div>hinzufügen</div>
+      </div>
     </button>
   </ng-container>
 </div>

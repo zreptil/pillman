@@ -3,7 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PillData} from '@/_model/pill-data';
 import {ColorData} from '@/_model/color-data';
 import {Log} from '@/_services/log.service';
-import {DialogResultButton} from '@/_model/dialog-data';
+import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 
 @Component({
   selector: 'app-pill-view',
@@ -31,7 +31,28 @@ export class PillViewComponent implements OnInit {
 
   get classForPill(): string[] {
     const ret: string[] = [];
-    ret.push(this.pill?.shape);
+    if (this.pill == null) {
+      return ret;
+    }
+    ret.push(this.pill.shape);
+    this.fillSplit(ret);
+    return ret;
+  }
+
+  fillSplit(ret: string[]): void {
+    if (this.pill.splith === true) {
+      ret.push('splith');
+    }
+    if (this.pill.splitv === true) {
+      ret.push('splitv');
+    }
+  }
+
+  classForShape(shape: string): string[] {
+    const ret: string[] = [shape];
+    if (this.pill.shape === shape) {
+      this.fillSplit(ret);
+    }
     return ret;
   }
 
@@ -45,8 +66,30 @@ export class PillViewComponent implements OnInit {
 
   clickSave(event: MouseEvent) {
     event.preventDefault();
-    this.ss.save();
-    this.pill.isEdit = false;
+    if ((this.pill?.name?.trim() || '') === '') {
+      const btns: IDialogDef = {
+        type: DialogType.warning,
+        title: $localize`Warnung`,
+        buttons: [{
+          title: $localize`Löschen`,
+          result: {btn: DialogResultButton.ok}
+        }, {
+          title: $localize`Editieren`,
+          result: {btn: DialogResultButton.cancel}
+        }]
+      }
+      this.ss.ask([$localize`Ein Medikament ohne Namen wird nicht gespeichert.`,
+        $localize`Soll das Medikament gelöscht werden, oder willst Du es weiter editieren?`], btns).subscribe(result => {
+        if (result.btn === DialogResultButton.ok) {
+          this.ss.data.listMedication.splice(this.idx, 1);
+          this.ss.save();
+          this.pill.isEdit = false;
+        }
+      });
+    } else {
+      this.ss.save();
+      this.pill.isEdit = false;
+    }
   }
 
   clickEdit(event: MouseEvent) {
@@ -67,12 +110,23 @@ export class PillViewComponent implements OnInit {
 
   clickCancel(event: MouseEvent) {
     event.preventDefault();
-    this.pill = PillData.fromString(this.orgPill);
+    this.pill.fillFromString(this.orgPill);
+    if ((this.pill?.name?.trim() || '') === '') {
+      this.ss.data.listMedication.splice(this.idx, 1);
+    }
+    this.pill.isEdit = false;
   }
 
   clickShape(event: MouseEvent, shape: string) {
     event.preventDefault();
-    this.pill.shape = shape as any;
+    if (this.pill.shape === shape) {
+      this.pill.splitv = !this.pill.splitv;
+      if (!this.pill.splitv) {
+        this.pill.splith = !this.pill.splith;
+      }
+    } else {
+      this.pill.shape = shape as any;
+    }
   }
 
   clickMissed(event: MouseEvent) {
@@ -94,9 +148,7 @@ export class PillViewComponent implements OnInit {
   }
 
   onColorFileLoaded(content: any) {
-    if (content.length < 500000) {
-      this.ss.data.colorImage = content;
-      this.ss.save();
-    }
+    this.ss.data.colorImage = content;
+    this.ss.save();
   }
 }

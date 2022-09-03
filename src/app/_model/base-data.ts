@@ -1,4 +1,4 @@
-import {Utils} from '../classes/utils';
+import {Utils} from '@/classes/utils';
 import {Log} from '@/_services/log.service';
 
 export abstract class BaseData {
@@ -27,9 +27,13 @@ export abstract class BaseData {
 
   fillFromString(src: string): void {
     try {
-      this.fillFromJson(JSON.parse(src));
+      if (src == null) {
+        this.fillFromJson({});
+      } else {
+        this.fillFromJson(JSON.parse(src));
+      }
     } catch (ex) {
-      Utils.showDebug(ex);
+      Log.debug(ex);
       console.error('Fehler beim Parsing von', this, src);
     }
   }

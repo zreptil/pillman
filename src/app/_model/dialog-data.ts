@@ -11,7 +11,8 @@ export enum DialogType {
   confirmNo,
   info,
   debug,
-  error
+  error,
+  warning
 }
 
 export class DialogResult {
@@ -26,9 +27,9 @@ export interface IDialogButton {
 }
 
 export interface IDialogDef {
+  type: DialogType;
   title: string;
   buttons: IDialogButton[];
-  mayDisableControl?: (key: string) => boolean;
 }
 
 export class DialogData {
@@ -37,6 +38,7 @@ export class DialogData {
   buttons: IDialogButton[];
   private defs = new Map<DialogType, IDialogDef>([
     [DialogType.info, {
+      type: DialogType.info,
       title: $localize`Information`,
       buttons: [
         {title: $localize`Ok`, result: {btn: DialogResultButton.ok}}
@@ -44,6 +46,7 @@ export class DialogData {
     }
     ],
     [DialogType.error, {
+      type: DialogType.error,
       title: $localize`Fehler`,
       buttons: [
         {title: $localize`Ok`, result: {btn: DialogResultButton.ok}}
@@ -51,6 +54,7 @@ export class DialogData {
     }
     ],
     [DialogType.debug, {
+      type: DialogType.debug,
       title: $localize`Debug Meldung`,
       buttons: [
         {title: $localize`Ok`, result: {btn: DialogResultButton.ok}}
@@ -58,6 +62,7 @@ export class DialogData {
     }
     ],
     [DialogType.confirm, {
+      type: DialogType.confirm,
       title: $localize`Bestätigung`,
       buttons: [
         {title: $localize`Nein`, result: {btn: DialogResultButton.no}},
@@ -66,6 +71,7 @@ export class DialogData {
     }
     ],
     [DialogType.confirmNo, {
+      type: DialogType.confirmNo,
       title: $localize`Bestätigung`,
       buttons: [
         {title: $localize`Nein`, result: {btn: DialogResultButton.no}, focus: true},
@@ -81,9 +87,11 @@ export class DialogData {
     if (typeof type === 'number') {
       this.buttons = this.defs.get(type).buttons;
       this.title = this.defs.get(type).title;
+      this.type = this.defs.get(type).type;
     } else {
       this.buttons = type.buttons;
       this.title = type.title;
+      this.type = type.type;
     }
   }
 

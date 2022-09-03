@@ -8,10 +8,19 @@
     },
     "@schematics/angular:component": {
       "skipTests": true,
-      "style": "scss"
+      "style": "scss",
+      "module": "app"
     },
     "@schematics/angular:class": {
       "skipTests": true
+    },
+    "@schematics/angular:directive": {
+      "skipTests": true,
+      "module": "app"
+    },
+    "@schematics/angular:pipe": {
+      "skipTests": true,
+      "module": "app"
     }
   },
   "projects": {

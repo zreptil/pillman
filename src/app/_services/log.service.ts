@@ -1,7 +1,11 @@
 import {Injectable} from '@angular/core';
 
 export class Log {
-  static get msg(): { [key: string]: string[] } {
+  static get mayDebug(): boolean {
+    return LogService.instance.mayDebug;
+  }
+
+  static get msg(): { [key: string]: any[] } {
     return LogService.instance.msg;
   }
 
@@ -13,11 +17,11 @@ export class Log {
     LogService.instance.msg['info']?.push(text);
   }
 
-  static debug(text: string): void {
+  static debug(text: any): void {
     LogService.instance.msg['debug']?.push(text);
   }
 
-  static error(text: string): void {
+  static error(text: any): void {
     LogService.instance.msg['error']?.push(text);
   }
 }
@@ -34,10 +38,10 @@ export class LogService {
     error: []
   };
 
-  constructor() {
+  constructor(public mayDebug: boolean) {
   }
 
-  static create(): void {
-    LogService.instance = new LogService();
+  static create(mayDebug: boolean): void {
+    LogService.instance = new LogService(mayDebug);
   }
 }

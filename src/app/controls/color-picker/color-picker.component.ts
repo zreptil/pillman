@@ -3,12 +3,14 @@ import {Log} from '@/_services/log.service';
 import {ColorUtils} from '@/controls/color-picker/color-utils';
 import {ColorData} from '@/_model/color-data';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {DialogResultButton} from '@/_model/dialog-data';
 
 export interface DialogData {
   imageDataUrl: string;
   onFileLoaded: EventEmitter<any>;
   color: ColorData;
   colorChange: EventEmitter<ColorData>;
+  maxFilesize: number;
 }
 
 @Component({
@@ -29,6 +31,9 @@ export class ColorPickerComponent {
   @Output()
   colorChange = new EventEmitter<ColorData>();
 
+  @Input()
+  maxFilesize = 1000000;
+
   constructor(public dialog: MatDialog) {
   }
 
@@ -38,7 +43,8 @@ export class ColorPickerComponent {
         imageDataUrl: this.imageDataUrl,
         onFileLoaded: this.onFileLoaded,
         color: this.color || new ColorData([255, 255, 255]),
-        colorChange: this.colorChange
+        colorChange: this.colorChange,
+        maxFilesize: this.maxFilesize
       }
     })
   }
@@ -50,7 +56,6 @@ export class ColorPickerComponent {
 })
 export class ColorPickerDialog {
   isActive = false;
-  maxFilesize = 1000000;
   @ViewChild('canvasImage')
   canvasImage: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvasLens')
@@ -229,7 +234,7 @@ export class ColorPickerDialog {
     if (imageInput?.target?.files?.length > 0) {
       const reader = new FileReader();
       const file = imageInput.target.files[0];
-      if (file.size < this.maxFilesize) {
+      if (file.size < this.data.maxFilesize) {
         reader.addEventListener('load', (event: any) => {
           let content = event.target.result;
           this.data.imageDataUrl = content;
@@ -240,7 +245,8 @@ export class ColorPickerDialog {
         });
         reader.readAsDataURL(file);
       } else {
-        Log.error($localize`Die Datei ist mit ${file.size} Bytes zu gross für den Upload.`);
+        Log.error($localize`Die Datei hat ${file.size} Bytes, darf aber maximal ${this.data.maxFilesize} Bytes haben.`);
+        Log.debug(file);
       }
     } else {
       console.error(imageInput);
@@ -319,5 +325,11 @@ export class ColorPickerDialog {
     this.isActive = false;
     this.data.colorChange?.emit(color);
     this.dialogRef.close();
+  }
+
+  clickClose() {
+    this.dialogRef.close({
+      btn: DialogResultButton.cancel
+    });
   }
 }

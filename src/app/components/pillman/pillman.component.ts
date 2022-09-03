@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {SessionService} from '@/_services/session.service';
 
 @Component({
   selector: 'app-pillman',
@@ -10,7 +11,14 @@ export class PillmanComponent implements OnInit {
   @Input()
   isDoc = false;
 
-  constructor() {
+  @Input()
+  speak = false;
+
+  constructor(public ss: SessionService) {
+  }
+
+  get isEditingPill(): boolean {
+    return this.ss.data.listMedication.find(p => p.isEdit) != null;
   }
 
   get classForSvg(): string[] {

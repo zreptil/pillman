@@ -1,3 +1,14 @@
+.mat-dialog-title {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[spacer] {
+  flex: 1 1 auto;
+}
+
 .dialog {
   display: flex;
   flex-flow: row;

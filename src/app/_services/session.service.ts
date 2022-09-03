@@ -15,36 +15,23 @@ export class SessionService {
   private dlgRef: MatDialogRef<any>;
 
   constructor(public ss: StorageService, private dialog: MatDialog) {
-    // const data = PillmanData.fromJson({
-    //   'cd': 0,
-    //   'med': [{
-    //     'n': 'Atorvastatin',
-    //     't': 7 * 60,
-    //     'lc': new Date().valueOf(),
-    //     'i': 0,
-    //     'c': 1,
-    //     's': 100,
-    //     'low': 10
-    //   }]
-    // });
-    // for (let i = 0; i < 10; i++) {
-    //   data.listMedication.push(data.listMedication[0]);
-    // }
-    // this.pillmanData = data;
-    // this.save();
     this.load();
   }
 
   load(): void {
     this.data = new PillmanData();
-    this.data.fillFromString(this.ss.read('data'));
+    this.data.fillFromString(this.ss.read('pillman'));
   }
 
   save(): void {
-    this.ss.write('data', this.data);
+    this.ss.write('pillman', this.data);
   }
 
   confirm(content: string | string[], type = DialogType.confirm): Observable<DialogResult> {
+    return this.showDialog(type, content);
+  }
+
+  ask(content: string | string[], type: IDialogDef): Observable<DialogResult> {
     return this.showDialog(type, content);
   }
 
