@@ -5,6 +5,7 @@ import {Observable, of} from 'rxjs';
 import {DialogData, DialogResult, DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {DialogComponent} from '@/components/dialog/dialog.component';
+import {Log} from '@/_services/log.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class SessionService {
     this.load();
   }
 
+  get mayDebug(): boolean {
+    return Log.mayDebug;
+  }
+
   load(): void {
     this.data = new PillmanData();
     this.data.fillFromString(this.ss.read('pillman'));
@@ -25,6 +30,10 @@ export class SessionService {
 
   save(): void {
     this.ss.write('pillman', this.data);
+  }
+
+  info(content: string | string[], type = DialogType.info): Observable<DialogResult> {
+    return this.showDialog(type, content);
   }
 
   confirm(content: string | string[], type = DialogType.confirm): Observable<DialogResult> {

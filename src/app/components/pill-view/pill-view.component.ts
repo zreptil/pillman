@@ -4,6 +4,7 @@ import {PillData} from '@/_model/pill-data';
 import {ColorData} from '@/_model/color-data';
 import {Log} from '@/_services/log.service';
 import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-pill-view',
@@ -25,6 +26,25 @@ export class PillViewComponent implements OnInit {
   constructor(public ss: SessionService) {
   }
 
+  get pillTime(): number {
+    let ret = this.pill.time;
+    if (Log.mayDebug) {
+      ret -= 30;
+    }
+    return ret;
+  }
+
+  get nextPillTime(): string {
+    switch (this.ss.data.timeDisplay) {
+      case 'duration':
+        const now = new Date();
+        const time = now.getHours() * 60 + now.getMinutes();
+        const duration = this.pillTime - time;
+        return Utils.fmtDuration(duration);
+    }
+    return Utils.fmtTime(this.pillTime);
+  }
+
   get styleForPill(): any {
     return {'background-color': this.pill.color.display, 'color': this.pill.color.fontDisplay};
   };
@@ -33,6 +53,12 @@ export class PillViewComponent implements OnInit {
     const ret: string[] = [];
     if (this.pill == null) {
       return ret;
+    }
+    if (this.ss.data.appMode === 'view') {
+      const now = new Date();
+      if (this.pillTime < now.getHours() * 60 + now.getMinutes()) {
+        ret.push('alarm');
+      }
     }
     ret.push(this.pill.shape);
     this.fillSplit(ret);
@@ -86,7 +112,16 @@ export class PillViewComponent implements OnInit {
           this.pill.isEdit = false;
         }
       });
+    } else if (this.ss.data.listMedication.find((m, idx) => m.name.toLowerCase() === this.pill.name.toLowerCase() && idx != this.idx) != null) {
+      this.ss.info([$localize`Ein Medikament mit diesem Namen gibt es schon in der Liste.`,
+        $localize`Bitte gib einen anderen Namen ein.`]).subscribe(_ => {
+      });
     } else {
+      this.pill.lastConsumed = null;
+      const now = new Date();
+      if (this.pill.time < now.getHours() * 60 + now.getMinutes()) {
+        this.pill.lastConsumed = now;
+      }
       this.ss.save();
       this.pill.isEdit = false;
     }
@@ -129,9 +164,18 @@ export class PillViewComponent implements OnInit {
     }
   }
 
+  clickTime(event: MouseEvent) {
+    event.preventDefault();
+    const list = {time: 'duration', duration: 'time'};
+    this.ss.data.timeDisplay = list[this.ss.data.timeDisplay] as any;
+    this.ss.save();
+  }
+
   clickMissed(event: MouseEvent) {
     event.preventDefault();
+    this.pill.lastConsumed = new Date();
     this.pill.setNextConsume();
+    this.ss.save();
   }
 
   clickEat(event: MouseEvent) {
@@ -139,7 +183,9 @@ export class PillViewComponent implements OnInit {
     if (this.pill.supply > 0) {
       this.pill.supply -= this.pill.count;
     }
+    this.pill.lastConsumed = new Date();
     this.pill.setNextConsume();
+    this.ss.save();
   }
 
   onColorSelected(color: ColorData) {

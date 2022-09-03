@@ -1,6 +1,7 @@
 import {BaseData} from './base-data';
 import {JsonData} from './json-data';
 import {ColorData} from '@/_model/color-data';
+import {Utils} from '@/classes/utils';
 
 export class PillData extends BaseData {
   static intervals = {
@@ -20,12 +21,13 @@ export class PillData extends BaseData {
   lastConsumed: Date;
   nextConsume: Date;
   interval: 'daily' | 'weekly' = 'daily';
-  count: number;
+  count: number = 1;
   supply: number;
   supplyLow: number;
   dowActive = [true, true, true, true, true, true, true];
 
   get asJson(): any {
+    this.setNextConsume();
     return {
       'n': this.name,
       't': this.time,
@@ -68,14 +70,25 @@ export class PillData extends BaseData {
     this.color = new ColorData(json['col'] || [255, 255, 255]);
     this.splith = JsonData.toBool(json, 'sph');
     this.splitv = JsonData.toBool(json, 'spv');
+    this.setNextConsume();
+    console.log(this);
   }
 
   setNextConsume(): void {
+    if (Utils.isToday(this.lastConsumed)) {
+      this.nextConsume = new Date();
+      this.nextConsume.setHours(Math.floor(this.time / 60));
+      this.nextConsume.setMinutes(this.time % 60);
+      this.nextConsume.setDate(this.nextConsume.getDate() + 1);
+      return;
+    }
     let next: Date = this.lastConsumed || new Date();
     const check = next.getHours() * 60 + next.getMinutes();
     if (this.time < check) {
-      next.setTime(next.getTime() + PillData.intervals[this.interval].days);
+      next.setTime(next.getTime() + (PillData.intervals[this.interval]?.days || 1));
     }
+    next.setHours(Math.floor(this.time / 60));
+    next.setMinutes(this.time % 60);
     this.nextConsume = next;
   }
 }

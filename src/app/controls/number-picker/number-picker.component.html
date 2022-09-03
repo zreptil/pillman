@@ -1,0 +1,16 @@
+<div picker>
+  <div adjustment>
+    <button (click)="clickAdjust(diff)" mat-flat-button>
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+  </div>
+  <div label>
+    <div>{{label}}</div>
+    <div>{{value}}</div>
+  </div>
+  <div adjustment>
+    <button (click)="clickAdjust(-diff)" mat-flat-button>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+</div>

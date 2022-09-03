@@ -3,13 +3,16 @@
     <div content>
       <div title>{{pill?.name}}</div>
       <div actions>
-        <button (click)="clickEat($event)" [ngStyle]="styleForPill" mat-flat-button mat-icon-button>
+        <button (click)="clickEat($event)" [ngStyle]="styleForPill" mat-icon-button>
           <mat-icon>restaurant</mat-icon>
         </button>
-        <button (click)="clickMissed($event)" [ngStyle]="styleForPill" mat-flat-button mat-icon-button>
+        <button (click)="clickMissed($event)" [ngStyle]="styleForPill" mat-icon-button>
           <mat-icon>no_meals</mat-icon>
         </button>
       </div>
+      <button (click)="clickTime($event)" label mat-flat-button>
+        {{nextPillTime}}
+      </button>
     </div>
     <div horz></div>
     <div vert></div>
@@ -43,7 +46,7 @@
           <mat-label i18n>Name</mat-label>
           <input [(ngModel)]="pill.name" autofocus matInput>
         </mat-form-field>
-        <div shapes>
+        <div line>
           <ng-container *ngFor="let shape of shapeList">
             <button (click)="clickShape($event, shape)" [class.mat-elevation-z8]="shape===pill.shape" [class]="classForShape(shape)" [ngStyle]="styleForPill" pill>
               <div horz></div>
@@ -54,6 +57,10 @@
                             [(color)]="pill.color"
                             [imageDataUrl]="ss.data.colorImage"
                             [maxFilesize]="500000"></app-color-picker>
+        </div>
+        <div line>
+          <app-number-picker [(value)]="pill.count" label="Anzahl"></app-number-picker>
+          <app-time-picker *ngIf="pill.count>0" [(value)]="pill.time" label="Einnahme" minuteDiff="5"></app-time-picker>
         </div>
       </mat-card-content>
       <mat-card-actions>

@@ -5,7 +5,7 @@ export class JsonData {
     if (json == null || json[key] == null) {
       return def;
     }
-    return +json;
+    return +json[key];
   }
 
   static toString(json: any, key: string, def = ''): string {

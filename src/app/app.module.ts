@@ -13,6 +13,8 @@ import {ColorPickerComponent, ColorPickerDialog} from './controls/color-picker/c
 import {DialogComponent} from './components/dialog/dialog.component';
 import {AutofocusDirective} from './_directives/autofocus.directive';
 import {LogPipe} from './components/log/log.pipe';
+import { TimePickerComponent } from './controls/time-picker/time-picker.component';
+import { NumberPickerComponent } from './controls/number-picker/number-picker.component';
 
 @NgModule({
   imports: [
@@ -31,7 +33,9 @@ import {LogPipe} from './components/log/log.pipe';
     ColorPickerDialog,
     DialogComponent,
     AutofocusDirective,
-    LogPipe
+    LogPipe,
+    TimePickerComponent,
+    NumberPickerComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

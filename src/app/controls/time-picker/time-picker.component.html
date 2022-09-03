@@ -1,0 +1,22 @@
+<div picker>
+  <div adjustment>
+    <button (click)="clickTimeAdjust(60)" mat-flat-button>
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <button (click)="clickTimeAdjust(minuteDiff)" mat-flat-button>
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+  </div>
+  <div label>
+    <div>{{label}}</div>
+    <div>{{time}}</div>
+  </div>
+  <div adjustment>
+    <button (click)="clickTimeAdjust(-60)" mat-flat-button>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <button (click)="clickTimeAdjust(-minuteDiff)" mat-flat-button>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+</div>

@@ -9,10 +9,13 @@ export enum ConsumeDisplay {
 }
 
 export class PillmanData extends BaseData {
+  static timeList = ['time', 'duration'];
+
   user: UserData;
   consumeDisplay: ConsumeDisplay;
   listMedication: PillData[] = [];
   appMode: 'view' | 'edit' = 'view';
+  timeDisplay: 'time' | 'duration' = PillmanData.timeList[0] as any;
   showHelp = true;
   colorImage: string;
 
@@ -31,7 +34,8 @@ export class PillmanData extends BaseData {
       'cd': this.consumeDisplay?.valueOf() || 0,
       'med': medis,
       'ci': this.colorImage,
-      'sh': this.showHelp
+      'sh': this.showHelp,
+      'td': this.timeDisplay
     };
   }
 
@@ -51,5 +55,9 @@ export class PillmanData extends BaseData {
     }
     this.colorImage = JsonData.toString(json, 'ci');
     this.showHelp = JsonData.toBool(json, 'sh', true);
+    this.timeDisplay = json?.['td'];
+    if (PillmanData.timeList.find(v => v === this.timeDisplay) == null) {
+      this.timeDisplay = PillmanData.timeList[0] as any;
+    }
   }
 }
