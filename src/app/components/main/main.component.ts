@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SessionService} from '@/_services/session.service';
 import {PillData} from '@/_model/pill-data';
 import {Utils} from '@/classes/utils';
+import {PillService} from '@/_services/pill.service';
 
 @Component({
   selector: 'app-main',
@@ -11,7 +12,8 @@ import {Utils} from '@/classes/utils';
 export class MainComponent implements OnInit {
   viewTimer: any;
 
-  constructor(public ss: SessionService) {
+  constructor(public ss: SessionService,
+              public ps: PillService) {
   }
 
   get modeIcon(): string {
@@ -70,9 +72,9 @@ export class MainComponent implements OnInit {
   clickCross(event: MouseEvent) {
     event.stopPropagation();
     const pill = new PillData();
-    pill.isEdit = true;
     this.ss.data.listMedication.push(pill);
     this.ss.save();
+    this.ps.editPill(this.ss.data.listMedication.length - 1);
   }
 
   clickPillman() {

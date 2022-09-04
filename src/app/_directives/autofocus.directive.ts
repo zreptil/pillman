@@ -10,6 +10,6 @@ export class AutofocusDirective {
   ngAfterViewInit() {
     setTimeout(() => {
       this.host.nativeElement.focus();
-    }, 10);
+    }, 500);
   }
 }

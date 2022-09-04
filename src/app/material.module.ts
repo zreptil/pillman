@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MatDialogModule} from '@angular/material/dialog';
 import {PortalModule} from '@angular/cdk/portal';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatButtonModule} from '@angular/material/button';
@@ -27,10 +28,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   exports: [
+    MatFormFieldModule,
     // A11yModule,
     // CdkStepperModule,
     // CdkTableModule,
@@ -46,7 +47,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     // MatChipsModule,
     // MatStepperModule,
     // MatDatepickerModule,
-    MatDialogModule,
     MatDividerModule,
     // MatExpansionModule,
     // MatGridListModule,
@@ -73,7 +73,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatTreeModule,
     PortalModule,
     ScrollingModule,
-    MatFormFieldModule,
+    MatDialogModule,
     BrowserAnimationsModule
   ]
 })

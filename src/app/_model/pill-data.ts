@@ -4,15 +4,15 @@ import {ColorData} from '@/_model/color-data';
 import {Utils} from '@/classes/utils';
 
 export class PillData extends BaseData {
-  static intervals = {
+  static intervals: { [key: string]: any } = {
     daily: {title: $localize`täglich`, days: 1},
     weekly: {title: $localize`wöchentlich`, days: 7}
   };
 
   static shapeList = ['roundS', 'roundM', 'roundL', 'capsule'];
+  static alarmList = ['wiggle', 'wobble'];
 
-  isEdit: boolean = false;
-  shape: 'roundL' | 'roundM' | 'roundS' | 'capsule' = PillData.shapeList[0] as any;
+  shape: string = PillData.shapeList[0];
   splith: boolean = false;
   splitv: boolean = false;
   color: ColorData = new ColorData([255, 255, 255]);
@@ -20,10 +20,11 @@ export class PillData extends BaseData {
   time: number = 8 * 60;
   lastConsumed: Date;
   nextConsume: Date;
-  interval: 'daily' | 'weekly' = 'daily';
+  interval: string = 'daily';
   count: number = 1;
   supply: number;
   supplyLow: number;
+  alarmAnimation: string = PillData.alarmList[0];
   dowActive = [true, true, true, true, true, true, true];
 
   get asJson(): any {
@@ -39,7 +40,8 @@ export class PillData extends BaseData {
       'sh': this.shape,
       'col': this.color.value,
       'sph': this.splith,
-      'spv': this.splitv
+      'spv': this.splitv,
+      'aa': this.alarmAnimation
     };
   }
 
@@ -65,13 +67,16 @@ export class PillData extends BaseData {
     this.supplyLow = JsonData.toNumber(json, 'low');
     this.shape = json['sh'];
     if (PillData.shapeList.find(s => s === this.shape) == null) {
-      this.shape = PillData.shapeList[0] as any;
+      this.shape = PillData.shapeList[0];
     }
     this.color = new ColorData(json['col'] || [255, 255, 255]);
     this.splith = JsonData.toBool(json, 'sph');
     this.splitv = JsonData.toBool(json, 'spv');
+    this.alarmAnimation = json['aa'];
+    if (PillData.alarmList.find(a => a === this.alarmAnimation) == null) {
+      this.alarmAnimation = PillData.alarmList[0];
+    }
     this.setNextConsume();
-    console.log(this);
   }
 
   setNextConsume(): void {
@@ -80,15 +85,24 @@ export class PillData extends BaseData {
       this.nextConsume.setHours(Math.floor(this.time / 60));
       this.nextConsume.setMinutes(this.time % 60);
       this.nextConsume.setDate(this.nextConsume.getDate() + 1);
-      return;
+    } else if (Utils.isTodayOrBefore(this.lastConsumed)) {
+      this.nextConsume = new Date();
+      this.nextConsume.setHours(Math.floor(this.time / 60));
+      this.nextConsume.setMinutes(this.time % 60);
+    } else {
+      let next: Date = this.lastConsumed;
+      if (next == null) {
+        next = new Date();
+        next.setDate(next.getDate() - 1);
+      }
+      const check = next.getHours() * 60 + next.getMinutes();
+      if (this.time < check) {
+        next.setTime(next.getTime() + (PillData.intervals[this.interval]?.days || 1));
+      }
+      next.setHours(Math.floor(this.time / 60));
+      next.setMinutes(this.time % 60);
+      this.nextConsume = next;
     }
-    let next: Date = this.lastConsumed || new Date();
-    const check = next.getHours() * 60 + next.getMinutes();
-    if (this.time < check) {
-      next.setTime(next.getTime() + (PillData.intervals[this.interval]?.days || 1));
-    }
-    next.setHours(Math.floor(this.time / 60));
-    next.setMinutes(this.time % 60);
-    this.nextConsume = next;
+    // Log.debug({name: this.name, last: Utils.fmtDate(this.lastConsumed), next: Utils.fmtDate(this.nextConsume)});
   }
 }

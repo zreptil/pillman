@@ -1,0 +1,52 @@
+<h1 mat-dialog-title>
+  <div i18n>Medikament</div>
+  <button (click)="clickCancel($event)" mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div mat-dialog-content>
+  <div line>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input [(ngModel)]="data.pill.name" autofocus matInput required>
+    </mat-form-field>
+  </div>
+  <div line>
+    <ng-container *ngFor="let shape of shapeList">
+      <button (click)="clickShape($event, shape)" [class]="ps.classForShape(data.pill, shape)" [ngStyle]="ps.styleForPill(data.pill)" pill>
+        <div horz></div>
+        <div vert></div>
+      </button>
+    </ng-container>
+    <app-color-picker (onFileLoaded)="onColorFileLoaded($event)"
+                      [(color)]="data.pill.color"
+                      [imageDataUrl]="ss.data.colorImage"
+                      [maxFilesize]="500000"></app-color-picker>
+  </div>
+  <h2 i18n>Einnahme</h2>
+  <div line>
+    <app-number-picker [(value)]="data.pill.count" i18n-label label="Anzahl"></app-number-picker>
+    <app-time-picker *ngIf="data.pill.count>0" [(value)]="data.pill.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
+  </div>
+  <h2 i18n>Alarmanzeige</h2>
+  <div line>
+    <ng-container *ngFor="let alarm of alarmList">
+      <button (click)="clickAlarm($event, alarm)" [class]="ps.classForAlarm(data.pill, alarm)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
+        <div content>
+          <div [class]="ps.classForText" title>{{data.pill?.name}}</div>
+          <div label>{{ps.nextPillTime(data.pill)}}</div>
+        </div>
+        <div horz></div>
+        <div vert></div>
+      </button>
+    </ng-container>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button (click)="clickSave($event)" mat-flat-button>
+    <mat-icon>save</mat-icon>
+  </button>
+  <button (click)="clickDelete($event)" mat-flat-button>
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

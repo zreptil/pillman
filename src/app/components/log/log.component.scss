@@ -22,6 +22,10 @@
   [lines] {
     display: flex;
     flex-flow: column;
+    flex: 1;
+
+    div {
+    }
   }
 
   button {
@@ -34,26 +38,47 @@
 }
 
 .info {
+  color: var(--logInfoFore);
   background-color: var(--logInfoBack);
 
   button {
     color: var(--logInfoFore);
   }
+
+  [lines] {
+    div {
+      border-bottom: 1px solid var(--logInfoFore);
+    }
+  }
 }
 
 .error {
+  color: var(--logErrorFore);
   background-color: var(--logErrorBack);
 
   button {
     color: var(--logErrorFore);
   }
+
+  [lines] {
+    div {
+      border-bottom: 1px solid var(--logErrorFore);
+    }
+  }
 }
 
 .debug {
-  color: #000;
+  color: var(--logDebugFore);
   background: var(--logDebugBack);
+  font-weight: bold;
 
   button {
     color: var(--logDebugFore);
+  }
+
+  [lines] {
+    div {
+      border-bottom: 1px solid var(--logDebugFore);
+    }
   }
 }

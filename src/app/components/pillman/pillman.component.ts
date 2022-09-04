@@ -18,13 +18,14 @@ export class PillmanComponent implements OnInit {
   }
 
   get isEditingPill(): boolean {
-    return this.ss.data.listMedication.find(p => p.isEdit) != null;
+    return false;
   }
 
   get classForSvg(): string[] {
     const ret: string[] = [];
-    if (this.isDoc)
+    if (this.isDoc) {
       ret.push('doc');
+    }
     return ret;
   }
 

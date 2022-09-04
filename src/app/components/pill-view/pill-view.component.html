@@ -1,17 +1,17 @@
 <ng-container *ngIf="ss.data.appMode=='view'">
-  <div [class]="classForPill" [ngStyle]="styleForPill" pill>
+  <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
     <div content>
-      <div title>{{pill?.name}}</div>
+      <div [class]="ps.classForText" title>{{pill?.name}}</div>
       <div actions>
-        <button (click)="clickEat($event)" [ngStyle]="styleForPill" mat-icon-button>
+        <button (click)="clickEat($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
           <mat-icon>restaurant</mat-icon>
         </button>
-        <button (click)="clickMissed($event)" [ngStyle]="styleForPill" mat-icon-button>
+        <button (click)="clickMissed($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
           <mat-icon>no_meals</mat-icon>
         </button>
       </div>
-      <button (click)="clickTime($event)" label mat-flat-button>
-        {{nextPillTime}}
+      <button (click)="clickTime($event)" [class]="ps.classForText" label mat-flat-button>
+        {{ps.nextPillTime(pill)}}
       </button>
     </div>
     <div horz></div>
@@ -19,58 +19,16 @@
   </div>
 </ng-container>
 <ng-container *ngIf="ss.data.appMode=='edit'">
-  <ng-container *ngIf="!pill.isEdit">
-    <div [class]="classForPill" [ngStyle]="styleForPill" pill>
-      <div content>
-        <div title>{{pill?.name}}</div>
-        <div actions>
-          <button (click)="clickEdit($event)" [ngStyle]="styleForPill" mat-flat-button>
-            <mat-icon>edit</mat-icon>
-          </button>
-        </div>
+  <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
+    <div content>
+      <div title>{{pill?.name}}</div>
+      <div actions>
+        <button (click)="clickEdit($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
       </div>
-      <div horz></div>
-      <div vert></div>
     </div>
-  </ng-container>
-  <ng-container *ngIf="pill.isEdit">
-    <mat-card (click)="clickCard($event)">
-      <mat-card-title>
-        <div i18n>Medikament</div>
-        <button (click)="clickCancel($event)" mat-flat-button mat-icon-button>
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-card-title>
-      <mat-card-content>
-        <mat-form-field>
-          <mat-label i18n>Name</mat-label>
-          <input [(ngModel)]="pill.name" autofocus matInput>
-        </mat-form-field>
-        <div line>
-          <ng-container *ngFor="let shape of shapeList">
-            <button (click)="clickShape($event, shape)" [class.mat-elevation-z8]="shape===pill.shape" [class]="classForShape(shape)" [ngStyle]="styleForPill" pill>
-              <div horz></div>
-              <div vert></div>
-            </button>
-          </ng-container>
-          <app-color-picker (onFileLoaded)="onColorFileLoaded($event)"
-                            [(color)]="pill.color"
-                            [imageDataUrl]="ss.data.colorImage"
-                            [maxFilesize]="500000"></app-color-picker>
-        </div>
-        <div line>
-          <app-number-picker [(value)]="pill.count" label="Anzahl"></app-number-picker>
-          <app-time-picker *ngIf="pill.count>0" [(value)]="pill.time" label="Einnahme" minuteDiff="5"></app-time-picker>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button (click)="clickSave($event)" mat-flat-button>
-          <mat-icon>save</mat-icon>
-        </button>
-        <button (click)="clickDelete($event)" mat-flat-button>
-          <mat-icon>delete</mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </ng-container>
+    <div horz></div>
+    <div vert></div>
+  </div>
 </ng-container>
