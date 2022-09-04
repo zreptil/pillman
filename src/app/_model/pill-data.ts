@@ -45,6 +45,14 @@ export class PillData extends BaseData {
     };
   }
 
+  get isSupplyLow(): boolean {
+    return this.supplyLow > 0 && this.supply <= this.supplyLow;
+  }
+
+  get isAlarmed(): boolean {
+    return this.time <= Utils.getTime() && Utils.isToday(this.nextConsume);
+  }
+
   static fromString(src: string) {
     const ret = new PillData();
     ret.fillFromString(src);

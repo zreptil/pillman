@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SessionService} from '@/_services/session.service';
 import {PillData} from '@/_model/pill-data';
-import {Utils} from '@/classes/utils';
 import {PillService} from '@/_services/pill.service';
 
 @Component({
@@ -23,13 +22,6 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMode();
-  }
-
-  showPill(pill: PillData): boolean {
-    if (this.ss.data.appMode == 'edit') {
-      return true;
-    }
-    return Utils.isToday(pill.nextConsume);
   }
 
   // Der Timer wird einfach nur gestartet. Schon der Aufruf dieser

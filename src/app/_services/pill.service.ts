@@ -20,7 +20,7 @@ export class PillService {
   }
 
   styleForPill(pill: PillData): any {
-    return {'background-color': pill.color.display, 'color': pill.color.fontDisplay};
+    return {'background-color': pill.color.display, 'color': pill.color.fontDisplay, 'align-self': 'flex-end'};
   };
 
   fillSplit(pill: PillData, ret: string[]): void {
@@ -54,6 +54,10 @@ export class PillService {
     return ret;
   }
 
+  showSupplyLow(pill: PillData): boolean {
+    return pill.isSupplyLow && (!pill.isAlarmed || this.ss.data.appMode == 'edit');
+  }
+
   nextPillTime(pill: PillData): string {
     switch (this.ss.data.timeDisplay) {
       case 'duration':
@@ -65,9 +69,19 @@ export class PillService {
     return Utils.fmtTime(pill.time);
   }
 
+  showPill(pill: PillData): boolean {
+    if (this.ss.data.appMode == 'edit') {
+      return true;
+    }
+    if (Utils.isToday(pill.nextConsume)) {
+      return true;
+    }
+    return pill.isSupplyLow;
+  }
+
   editPill(idx: number): void {
     this.dialogRef = this.dialog.open(PillEditComponent, {
-      width: '100%',
+      minWidth: '50%',
       data: {
         pill: this.ss.data.listMedication[idx],
         idx: idx

@@ -1,34 +1,46 @@
 <ng-container *ngIf="ss.data.appMode=='view'">
-  <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
-    <div content>
-      <div [class]="ps.classForText" title>{{pill?.name}}</div>
-      <div actions>
-        <button (click)="clickEat($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
-          <mat-icon>restaurant</mat-icon>
-        </button>
-        <button (click)="clickMissed($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
-          <mat-icon>no_meals</mat-icon>
+  <div [class]="classForContainer">
+    <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
+      <div content>
+        <div [class]="ps.classForText" title>{{pill?.name}}</div>
+        <div *ngIf="pill.isAlarmed" actions>
+          <button (click)="clickEat($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
+            <mat-icon>restaurant</mat-icon>
+          </button>
+          <button (click)="clickMissed($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
+            <mat-icon>no_meals</mat-icon>
+          </button>
+        </div>
+        <button (click)="clickTime($event)" [class]="ps.classForText" label mat-flat-button>
+          {{ps.nextPillTime(pill)}}
         </button>
       </div>
-      <button (click)="clickTime($event)" [class]="ps.classForText" label mat-flat-button>
-        {{ps.nextPillTime(pill)}}
-      </button>
+      <div horz></div>
+      <div vert></div>
     </div>
-    <div horz></div>
-    <div vert></div>
+    <div *ngIf="ps.showSupplyLow(pill)" class="supplylow">
+      <div>Nachbestellen</div>
+      <div>(noch {{pill.supply}})</div>
+    </div>
   </div>
 </ng-container>
 <ng-container *ngIf="ss.data.appMode=='edit'">
-  <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
-    <div content>
-      <div title>{{pill?.name}}</div>
-      <div actions>
-        <button (click)="clickEdit($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
+  <div [class]="classForContainer">
+    <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
+      <div content>
+        <div title>{{pill?.name}}</div>
+        <div actions>
+          <button (click)="clickEdit($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
       </div>
+      <div horz></div>
+      <div vert></div>
     </div>
-    <div horz></div>
-    <div vert></div>
+    <div *ngIf="ps.showSupplyLow(pill)" class="supplylow">
+      <div>Nachbestellen</div>
+      <div>(noch {{pill.supply}})</div>
+    </div>
   </div>
 </ng-container>

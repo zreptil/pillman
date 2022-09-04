@@ -10,7 +10,7 @@
 <div content>
   <app-pillman [isDoc]="ss.data.appMode==='edit'" [ngStyle]="{opacity:ss.data.showHelp ? 1.0 : 0.2}" [speak]="ss.data.showHelp"></app-pillman>
   <ng-container *ngFor="let pill of ss.data.listMedication; let idx = index">
-    <app-pill-view *ngIf="showPill(pill)" [idx]="idx" [pill]="pill"></app-pill-view>
+    <app-pill-view *ngIf="ps.showPill(pill)" [idx]="idx" [pill]="pill"></app-pill-view>
   </ng-container>
   <ng-container *ngIf="ss.data.appMode==='edit'">
     <button (click)="clickCross($event)" cross mat-flat-button>

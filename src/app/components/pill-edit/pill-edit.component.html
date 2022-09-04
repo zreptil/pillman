@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>
   <div i18n>Medikament</div>
+  <div spacer></div>
   <button (click)="clickCancel($event)" mat-icon-button>
     <mat-icon>close</mat-icon>
   </button>
@@ -11,6 +12,17 @@
       <input [(ngModel)]="data.pill.name" autofocus matInput required>
     </mat-form-field>
   </div>
+  <h2 i18n>Einnahme</h2>
+  <div line>
+    <app-number-picker [(value)]="data.pill.count" i18n-label label="Anzahl"></app-number-picker>
+    <app-time-picker *ngIf="data.pill.count>0" [(value)]="data.pill.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
+  </div>
+  <h2 i18n>Vorrat</h2>
+  <div line>
+    <app-number-picker [(value)]="data.pill.supply" [max]="500" i18n-label label="Anzahl"></app-number-picker>
+    <app-number-picker [(value)]="data.pill.supplyLow" i18n-label label="Warnung"></app-number-picker>
+  </div>
+  <h2 i18n>Anzeige</h2>
   <div line>
     <ng-container *ngFor="let shape of shapeList">
       <button (click)="clickShape($event, shape)" [class]="ps.classForShape(data.pill, shape)" [ngStyle]="ps.styleForPill(data.pill)" pill>
@@ -22,11 +34,6 @@
                       [(color)]="data.pill.color"
                       [imageDataUrl]="ss.data.colorImage"
                       [maxFilesize]="500000"></app-color-picker>
-  </div>
-  <h2 i18n>Einnahme</h2>
-  <div line>
-    <app-number-picker [(value)]="data.pill.count" i18n-label label="Anzahl"></app-number-picker>
-    <app-time-picker *ngIf="data.pill.count>0" [(value)]="data.pill.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
   </div>
   <h2 i18n>Alarmanzeige</h2>
   <div line>

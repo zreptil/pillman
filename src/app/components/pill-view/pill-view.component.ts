@@ -3,7 +3,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PillData} from '@/_model/pill-data';
 import {ColorData} from '@/_model/color-data';
 import {Log} from '@/_services/log.service';
-import {Utils} from '@/classes/utils';
 import {MatDialog} from '@angular/material/dialog';
 import {PillService} from '@/_services/pill.service';
 
@@ -24,13 +23,21 @@ export class PillViewComponent implements OnInit {
               public ps: PillService) {
   }
 
+  get classForContainer(): string[] {
+    const ret = ['pill-container'];
+    if (this.pill.isSupplyLow) {
+      ret.push('low');
+    }
+    return ret;
+  }
+
   get classForPill(): string[] {
     const ret: string[] = [];
     if (this.pill == null) {
       return ret;
     }
     if (this.ss.data.appMode === 'view') {
-      if (this.pill.time <= Utils.getTime()) {
+      if (this.pill.isAlarmed) {
         ret.push('alarm');
         ret.push(this.pill.alarmAnimation);
       }
