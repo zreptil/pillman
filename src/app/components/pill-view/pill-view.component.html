@@ -1,9 +1,9 @@
-<ng-container *ngIf="ss.data.appMode=='view'">
+<ng-container *ngIf="ss.data.appMode!=='edit'">
   <div [class]="classForContainer">
     <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
       <div content>
         <div [class]="ps.classForText" title>{{pill?.name}}</div>
-        <div *ngIf="pill.isAlarmed" actions>
+        <div *ngIf="pill.isAlerted" actions>
           <button (click)="clickEat($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
             <mat-icon>restaurant</mat-icon>
           </button>
@@ -24,7 +24,7 @@
     </div>
   </div>
 </ng-container>
-<ng-container *ngIf="ss.data.appMode=='edit'">
+<ng-container *ngIf="ss.data.appMode==='edit'">
   <div [class]="classForContainer">
     <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
       <div content>

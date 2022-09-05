@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {SessionService} from '@/_services/session.service';
 import {PillData} from '@/_model/pill-data';
 import {PillService} from '@/_services/pill.service';
+import {Utils} from '@/classes/utils';
+import {TimelineData} from '@/_model/timeline-data';
 
 @Component({
   selector: 'app-main',
@@ -10,22 +12,71 @@ import {PillService} from '@/_services/pill.service';
 })
 export class MainComponent implements OnInit {
   viewTimer: any;
+  // Methode im Timer sorgt dafür, dass die UI neu gezeichnet wird.
+  now = Utils.getTime();
 
   constructor(public ss: SessionService,
               public ps: PillService) {
   }
 
   get modeIcon(): string {
-    const list = {view: 'schedule', edit: 'edit'};
-    return list[this.ss.data.appMode];
+    const list: { [key: string]: string } = {
+      view: 'schedule',
+      edit: 'edit',
+      timeline: 'timelapse'
+    };
+    return list[this.ss.data.appMode] ?? 'help';
   }
+
+  get listMedication(): PillData[] {
+    return this.ss.data.listMedication.sort((a, b) => {
+      if (a.time < b.time) {
+        return -1;
+      }
+      if (a.time > b.time) {
+        return 1;
+      }
+      return 0;
+    })
+  }
+
+  get listTimeline(): TimelineData[] {
+    const ret: TimelineData[] = [];
+    let last: PillData = null;
+    for (const pill of this.listMedication) {
+      if (last == null || last.time !== pill.time) {
+        ret.push(new TimelineData(pill, last?.time ?? 0));
+      } else {
+        ret[ret.length - 1].pills.push(pill);
+      }
+      last = pill;
+    }
+    return ret;
+  }
+
+  get styleForCurrentmark(): any {
+    return this.styleForTimemark(Utils.getTime() / 60);
+  }
+
+  styleForTimemark(time: number): any {
+    const width = time * 60 / (24 * 60) * 90;
+    return {'left': `${width}%`};
+  }
+
+  styleForTimetext(time: number): any {
+    const left = time * 60 / (24 * 60) * 90;
+    return {'left': `calc(${left}% - 1em)`};
+  };
+
+  styleForTimeline(value: { timeDiff: number }): any {
+    const width = value.timeDiff / (24 * 60) * 90;
+    return {'width': `${width}%`};
+  };
 
   ngOnInit(): void {
     this.initMode();
   }
 
-  // Der Timer wird einfach nur gestartet. Schon der Aufruf dieser
-  // Methode im Timer sorgt dafür, dass die UI neu gezeichnet wird.
   onViewTimer(): void {
     this.startTimer();
   }
@@ -46,7 +97,7 @@ export class MainComponent implements OnInit {
   }
 
   initMode(): void {
-    if (this.ss.data.appMode === 'view') {
+    if (['view', 'timeline'].indexOf(this.ss.data.appMode) >= 0) {
       this.startTimer();
     } else {
       this.stopTimer();
@@ -55,8 +106,7 @@ export class MainComponent implements OnInit {
 
   clickMode(event: MouseEvent) {
     event.stopPropagation();
-    const list = {view: 'edit', edit: 'view'};
-    this.ss.data.appMode = list[this.ss.data.appMode] as any;
+    this.ss.data.appMode = Utils.nextListItem(this.ss.data.appMode, ['view', 'timeline', 'edit']);
     this.initMode();
     this.ss.save();
   }

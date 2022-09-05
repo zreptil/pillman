@@ -82,4 +82,15 @@ export class Utils {
     }
     return date.getHours() * 60 + date.getMinutes();
   }
+
+  static nextListItem(item: string, list: string[]): string {
+    if (list == null || list.length === 0) {
+      return null;
+    }
+    const idx = list.findIndex(s => s === item);
+    if (idx < 0 || idx === list.length - 1) {
+      return list[0];
+    }
+    return list[idx + 1]
+  }
 }

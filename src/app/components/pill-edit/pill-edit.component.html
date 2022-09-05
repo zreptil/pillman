@@ -37,8 +37,8 @@
   </div>
   <h2 i18n>Alarmanzeige</h2>
   <div line>
-    <ng-container *ngFor="let alarm of alarmList">
-      <button (click)="clickAlarm($event, alarm)" [class]="ps.classForAlarm(data.pill, alarm)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
+    <ng-container *ngFor="let alert of alertList">
+      <button (click)="clickAlert($event, alert)" [class]="ps.classForAlert(data.pill, alert)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
         <div content>
           <div [class]="ps.classForText" title>{{data.pill?.name}}</div>
           <div label>{{ps.nextPillTime(data.pill)}}</div>

@@ -43,19 +43,19 @@ export class PillService {
     return ret;
   }
 
-  classForAlarm(pill: PillData, alarm: string): string[] {
+  classForAlert(pill: PillData, alert: string): string[] {
     const ret = [pill.shape];
     this.fillSplit(pill, ret);
-    ret.push('alarm');
-    ret.push(alarm);
-    if (alarm === pill.alarmAnimation) {
+    ret.push('alert');
+    ret.push(alert);
+    if (alert === pill.alertAnimation) {
       ret.push('mark');
     }
     return ret;
   }
 
   showSupplyLow(pill: PillData): boolean {
-    return pill.isSupplyLow && (!pill.isAlarmed || this.ss.data.appMode == 'edit');
+    return pill.isSupplyLow && (!pill.isAlerted || this.ss.data.appMode == 'edit');
   }
 
   nextPillTime(pill: PillData): string {

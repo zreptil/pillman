@@ -10,7 +10,7 @@ export class PillData extends BaseData {
   };
 
   static shapeList = ['roundS', 'roundM', 'roundL', 'capsule'];
-  static alarmList = ['wiggle', 'wobble'];
+  static alertList = ['wiggle', 'wobble'];
 
   shape: string = PillData.shapeList[0];
   splith: boolean = false;
@@ -24,7 +24,7 @@ export class PillData extends BaseData {
   count: number = 1;
   supply: number;
   supplyLow: number;
-  alarmAnimation: string = PillData.alarmList[0];
+  alertAnimation: string = PillData.alertList[0];
   dowActive = [true, true, true, true, true, true, true];
 
   get asJson(): any {
@@ -41,7 +41,7 @@ export class PillData extends BaseData {
       'col': this.color.value,
       'sph': this.splith,
       'spv': this.splitv,
-      'aa': this.alarmAnimation
+      'aa': this.alertAnimation
     };
   }
 
@@ -49,7 +49,7 @@ export class PillData extends BaseData {
     return this.supplyLow > 0 && this.supply <= this.supplyLow;
   }
 
-  get isAlarmed(): boolean {
+  get isAlerted(): boolean {
     return this.time <= Utils.getTime() && Utils.isToday(this.nextConsume);
   }
 
@@ -80,9 +80,9 @@ export class PillData extends BaseData {
     this.color = new ColorData(json['col'] || [255, 255, 255]);
     this.splith = JsonData.toBool(json, 'sph');
     this.splitv = JsonData.toBool(json, 'spv');
-    this.alarmAnimation = json['aa'];
-    if (PillData.alarmList.find(a => a === this.alarmAnimation) == null) {
-      this.alarmAnimation = PillData.alarmList[0];
+    this.alertAnimation = json['aa'];
+    if (PillData.alertList.find(a => a === this.alertAnimation) == null) {
+      this.alertAnimation = PillData.alertList[0];
     }
     this.setNextConsume();
   }

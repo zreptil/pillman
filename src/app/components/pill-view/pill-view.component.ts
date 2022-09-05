@@ -5,6 +5,7 @@ import {ColorData} from '@/_model/color-data';
 import {Log} from '@/_services/log.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PillService} from '@/_services/pill.service';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-pill-view',
@@ -36,10 +37,10 @@ export class PillViewComponent implements OnInit {
     if (this.pill == null) {
       return ret;
     }
-    if (this.ss.data.appMode === 'view') {
-      if (this.pill.isAlarmed) {
-        ret.push('alarm');
-        ret.push(this.pill.alarmAnimation);
+    if (['view', 'timeline'].indexOf(this.ss.data.appMode) >= 0) {
+      if (this.pill.isAlerted) {
+        ret.push('alert');
+        ret.push(this.pill.alertAnimation);
       }
     }
     ret.push(this.pill.shape);
@@ -74,8 +75,7 @@ export class PillViewComponent implements OnInit {
 
   clickTime(event: MouseEvent) {
     event.preventDefault();
-    const list = {time: 'duration', duration: 'time'};
-    this.ss.data.timeDisplay = list[this.ss.data.timeDisplay] as any;
+    this.ss.data.timeDisplay = Utils.nextListItem(this.ss.data.timeDisplay, ['duration', 'time']);
     this.ss.save();
   }
 
@@ -89,4 +89,3 @@ export class PillViewComponent implements OnInit {
     this.ps.editPill(this.idx);
   }
 }
-

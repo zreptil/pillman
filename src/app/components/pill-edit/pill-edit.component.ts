@@ -19,7 +19,7 @@ export class PillDialogData {
 export class PillEditComponent {
   orgPill: string;
   shapeList = PillData.shapeList;
-  alarmList = PillData.alarmList;
+  alertList = PillData.alertList;
 
   constructor(public ss: SessionService,
               public ps: PillService,
@@ -52,9 +52,9 @@ export class PillEditComponent {
     }
   }
 
-  clickAlarm(event: MouseEvent, alarm: string) {
+  clickAlert(event: MouseEvent, alert: string) {
     event.preventDefault();
-    this.data.pill.alarmAnimation = alarm;
+    this.data.pill.alertAnimation = alert;
   }
 
   clickSave(event: MouseEvent) {
@@ -79,10 +79,9 @@ export class PillEditComponent {
           this.dialogRef.close();
         }
       });
-    } else if (this.ss.data.listMedication.find((m, idx) => m.name.toLowerCase() === this.data.pill.name.toLowerCase() && idx != this.data.idx) != null) {
+    } else if (this.ss.data.listMedication.find((m) => m.name.toLowerCase() === this.data.pill.name.toLowerCase() && m !== this.data.pill) != null) {
       this.ss.info([$localize`Ein Medikament mit diesem Namen gibt es schon in der Liste.`,
-        $localize`Bitte gib einen anderen Namen ein.`]).subscribe(_ => {
-      });
+        $localize`Bitte gib einen anderen Namen ein.`]);
     } else {
       this.data.pill.lastConsumed = null;
       this.ss.save();
