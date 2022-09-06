@@ -1,0 +1,17 @@
+{
+  "icons": [
+    {
+      "sizes": "230x230",
+      "src": "img/favicon.png",
+      "type": "image/png"
+    }
+  ],
+  "display": "standalone",
+  "name": "Pillman",
+  "permissions": [],
+  "prefer_related_applications": true,
+  "related_applications": [],
+  "short_name": "Pillman",
+  "start_url": "/index.html",
+  "url": "https://pillman.zreptil.de/"
+}
