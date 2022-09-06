@@ -1,51 +1,12 @@
 <div *ngIf="show" root>
   <div>
-    <ng-container *ngIf="ss.data.appMode === 'timeline'">
-      <p i18n>Willkommen zu Pillman!</p>
-      <p i18n>
-        Pillman ist ein einfacher Pillenmanager. Hiermit kann man seine Medikamente erfassen und sich
-        daran erinnern lassen, sie zu nehmen.
-      </p>
-      <p i18n>
-        Links oben ist ein kleines Icon
-        <mat-icon>timelapse</mat-icon>
-        , mit dem man den Modus umschalten kann.
-      </p>
-      <p i18n>
-        Im aktuellen Modus werden die einzunehmenden Medikamente entlang eines Zeitstrahls für den
-        aktuellen Tag angezeigt. Dabei werden alle Medikamente für den Tag angezeigt und auch
-        die Alarmierung entsprechend der Alarmeinstellungen der Medikamente berücksichtigt.
-      </p>
-      <p *ngIf="ss.data.showPast" i18n>
-        Mit dem Icon
-        <mat-icon>sync_alt</mat-icon>
-        rechts oben kann man die vergangenen Einnahmen ausblenden.
-      </p>
-      <p *ngIf="!ss.data.showPast" i18n>
-        Mit dem Icon
-        <mat-icon>arrow_right_alt</mat-icon>
-        rechts oben kann man die vergangenen Einnahmen einblenden.
-      </p>
-      <p i18n>
-        Mit dem Icon
-        <mat-icon>restaurant</mat-icon>
-        wird die das Medikament als eingenommen festgelegt, mit dem Icon
-        <mat-icon>no_meals</mat-icon>
-        wird es als verpasst und nicht eingenommen festgelegt.
-      </p>
-      <p *ngIf="ss.data.timeDisplay === 'time'" i18n>
-        Am unteren Rand der Pille wird die Zeit angezeigt, zu der die nächste Einnahme erfolgen
-        soll oder zu der die letzte Einnahme erfolgen sollte. Wenn diese angeklickt wird, dann
-        wird auf die Anzeige der Dauer umgeschaltet.
-      </p>
-      <p *ngIf="ss.data.timeDisplay === 'duration'" i18n>
-        Am unteren Rand der Pille wird die Dauer bis zur nächsten Einnahme oder seit der letzten
-        Einnahme angezeigt. Wenn diese angeklickt wird, dann wird auf die Anzeige des Zeitpunkts
-        der nächsten oder der vergangenen Einnahme umgeschaltet.
-      </p>
-    </ng-container>
     <ng-container *ngIf="ss.data.appMode === 'edit'">
       <ng-container *ngIf="!ps.isEditingPill">
+        <p i18n>Willkommen zu Pillman!</p>
+        <p i18n>
+          Pillman ist ein einfacher Pillenmanager. Hiermit kann man seine Medikamente erfassen und sich
+          daran erinnern lassen, sie zu nehmen.
+        </p>
         <p i18n>
           Links oben ist ein kleines Icon
           <mat-icon>edit</mat-icon>
@@ -101,6 +62,45 @@
           zur exakten Darstellung.
         </p>
       </ng-container>
+    </ng-container>
+    <ng-container *ngIf="ss.data.appMode === 'timeline'">
+      <p i18n>
+        Links oben ist ein kleines Icon
+        <mat-icon>timelapse</mat-icon>
+        , mit dem man den Modus umschalten kann.
+      </p>
+      <p i18n>
+        Im aktuellen Modus werden die einzunehmenden Medikamente entlang eines Zeitstrahls für den
+        aktuellen Tag angezeigt. Dabei werden alle Medikamente für den Tag angezeigt und auch
+        die Alarmierung entsprechend der Alarmeinstellungen der Medikamente berücksichtigt.
+      </p>
+      <p *ngIf="ss.data.showPast" i18n>
+        Mit dem Icon
+        <mat-icon>sync_alt</mat-icon>
+        rechts oben kann man die vergangenen Einnahmen ausblenden.
+      </p>
+      <p *ngIf="!ss.data.showPast" i18n>
+        Mit dem Icon
+        <mat-icon>arrow_right_alt</mat-icon>
+        rechts oben kann man die vergangenen Einnahmen einblenden.
+      </p>
+      <p i18n>
+        Mit dem Icon
+        <mat-icon>restaurant</mat-icon>
+        wird die das Medikament als eingenommen festgelegt, mit dem Icon
+        <mat-icon>no_meals</mat-icon>
+        wird es als verpasst und nicht eingenommen festgelegt.
+      </p>
+      <p *ngIf="ss.data.timeDisplay === 'time'" i18n>
+        Am unteren Rand der Pille wird die Zeit angezeigt, zu der die nächste Einnahme erfolgen
+        soll oder zu der die letzte Einnahme erfolgen sollte. Wenn diese angeklickt wird, dann
+        wird auf die Anzeige der Dauer umgeschaltet.
+      </p>
+      <p *ngIf="ss.data.timeDisplay === 'duration'" i18n>
+        Am unteren Rand der Pille wird die Dauer bis zur nächsten Einnahme oder seit der letzten
+        Einnahme angezeigt. Wenn diese angeklickt wird, dann wird auf die Anzeige des Zeitpunkts
+        der nächsten oder der vergangenen Einnahme umgeschaltet.
+      </p>
     </ng-container>
     <p i18n>
       Dieser Text hier kann mit dem kleinen Pillman rechts oben ein- und ausgeschaltet werden.
