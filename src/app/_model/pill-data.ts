@@ -10,7 +10,8 @@ export class PillData extends BaseData {
   };
 
   static shapeList = ['roundS', 'roundM', 'roundL', 'capsule'];
-  static alertList = ['wiggle', 'wobble'];
+  static alertList = ['none', 'wiggle', 'wobble', 'sizer'];
+  static alertTextList = ['none', 'pulse'];
 
   shape: string = PillData.shapeList[0];
   splith: boolean = false;
@@ -22,9 +23,10 @@ export class PillData extends BaseData {
   nextConsume: Date;
   interval: string = 'daily';
   count: number = 1;
-  supply: number;
-  supplyLow: number;
-  alertAnimation: string = PillData.alertList[0];
+  supply: number = 0;
+  supplyLow: number = 0;
+  alertAnimation: string = PillData.alertList[1];
+  alertAnimationText: string = PillData.alertTextList[1];
   dowActive = [true, true, true, true, true, true, true];
 
   get asJson(): any {
@@ -41,7 +43,9 @@ export class PillData extends BaseData {
       'col': this.color.value,
       'sph': this.splith,
       'spv': this.splitv,
-      'aa': this.alertAnimation
+      'aa': this.alertAnimation,
+      'at': this.alertAnimationText,
+      'da': this.dowActive
     };
   }
 
@@ -82,8 +86,13 @@ export class PillData extends BaseData {
     this.splitv = JsonData.toBool(json, 'spv');
     this.alertAnimation = json['aa'];
     if (PillData.alertList.find(a => a === this.alertAnimation) == null) {
-      this.alertAnimation = PillData.alertList[0];
+      this.alertAnimation = PillData.alertList[1];
     }
+    this.alertAnimationText = json['at'];
+    if (PillData.alertTextList.find(a => a === this.alertAnimationText) == null) {
+      this.alertAnimationText = PillData.alertTextList[1];
+    }
+    this.dowActive = json['da'] ?? [true, true, true, true, true, true, true];
     this.setNextConsume();
   }
 
@@ -112,5 +121,13 @@ export class PillData extends BaseData {
       this.nextConsume = next;
     }
     // Log.debug({name: this.name, last: Utils.fmtDate(this.lastConsumed), next: Utils.fmtDate(this.nextConsume)});
+  }
+
+  isDowActive(date: Date) {
+    let dow = date.getDay() - 1;
+    if (dow < 0) {
+      dow = 6;
+    }
+    return this.dowActive[dow];
   }
 }

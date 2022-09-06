@@ -17,6 +17,7 @@ import {NumberPickerComponent} from './controls/number-picker/number-picker.comp
 import {FormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {PillEditComponent} from './components/pill-edit/pill-edit.component';
+import { HelpComponent } from './components/help/help.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {PillEditComponent} from './components/pill-edit/pill-edit.component';
     NumberPickerComponent,
     PillEditComponent,
     ColorPickerDialog,
-    PillEditComponent
+    PillEditComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,

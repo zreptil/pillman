@@ -28,7 +28,14 @@
     flex-flow: column;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
+  }
+
+  mat-form-field {
+    width: 2em;
+
+    input {
+      text-align: center;
+    }
   }
 }
 

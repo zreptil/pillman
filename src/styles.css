@@ -29,6 +29,7 @@ body {
   --toolbarFore: #fff;
   --helpBack: #fff;
   --helpFore: #000;
+  --markBorder: 1px solid #000;
 }
 
 body {

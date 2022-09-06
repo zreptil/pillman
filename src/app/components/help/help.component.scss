@@ -1,0 +1,40 @@
+[root] {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 20em;
+  height: 50%;
+
+  z-index: 10000;
+
+  border: 2px solid black;
+  border-top-left-radius: 1em;
+  border-bottom-left-radius: 1em;
+  padding: 0 0 0 0.5em;
+  background: var(--helpBack);
+  color: var(--helpFore);
+
+  div {
+    width: 100%;
+    height: calc(100% - 1em);
+    overflow-y: auto;
+    padding-top: 1em;
+
+    p {
+      padding-right: 0.5em;
+    }
+
+    mat-icon {
+      font-size: 12px;
+      width: initial;
+      height: initial;
+    }
+  }
+
+  h3 {
+    display: flex;
+    margin: 0.5em 0;
+    font-weight: bold;
+    font-size: 1em;
+  }
+}

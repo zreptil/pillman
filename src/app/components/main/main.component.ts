@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SessionService} from '@/_services/session.service';
 import {PillData} from '@/_model/pill-data';
 import {PillService} from '@/_services/pill.service';
 import {Utils} from '@/classes/utils';
 import {TimelineData} from '@/_model/timeline-data';
+import {PillmanData} from '@/_model/pillman-data';
+import {saveAs} from 'file-saver';
+import {Log} from '@/_services/log.service';
 
 @Component({
   selector: 'app-main',
@@ -12,11 +15,15 @@ import {TimelineData} from '@/_model/timeline-data';
 })
 export class MainComponent implements OnInit {
   viewTimer: any;
-  // Methode im Timer sorgt dafür, dass die UI neu gezeichnet wird.
-  now = Utils.getTime();
+  @ViewChild('fileSelect')
+  fileSelect: ElementRef<HTMLInputElement>;
 
   constructor(public ss: SessionService,
               public ps: PillService) {
+  }
+
+  get nowText(): string {
+    return Utils.fmtTime(Utils.getTime());
   }
 
   get modeIcon(): string {
@@ -44,12 +51,16 @@ export class MainComponent implements OnInit {
     const ret: TimelineData[] = [];
     let last: PillData = null;
     for (const pill of this.listMedication) {
-      if (last == null || last.time !== pill.time) {
-        ret.push(new TimelineData(pill, last?.time ?? 0));
-      } else {
-        ret[ret.length - 1].pills.push(pill);
+      if (pill.isDowActive(new Date())) {
+        if (Utils.isToday(pill.nextConsume) || this.ss.data.showPast) {
+          if (last == null || last.time !== pill.time) {
+            ret.push(new TimelineData(pill));
+          } else {
+            ret[ret.length - 1].pills.push(pill);
+          }
+          last = pill;
+        }
       }
-      last = pill;
     }
     return ret;
   }
@@ -58,19 +69,24 @@ export class MainComponent implements OnInit {
     return this.styleForTimemark(Utils.getTime() / 60);
   }
 
+  get styleForCurrenttext(): any {
+    const x = Utils.getTime() / 60 / 24 * 90;
+    return {'left': `calc(${x}% - 5em)`};
+  }
+
   styleForTimemark(time: number): any {
-    const width = time * 60 / (24 * 60) * 90;
-    return {'left': `${width}%`};
+    const x = time / 24 * 90;
+    return {'left': `${x}%`};
+  }
+
+  styleForTimepart(time: number): any {
+    const x = time / 24 * 90;
+    return {'left': `${x}%`};
   }
 
   styleForTimetext(time: number): any {
-    const left = time * 60 / (24 * 60) * 90;
-    return {'left': `calc(${left}% - 1em)`};
-  };
-
-  styleForTimeline(value: { timeDiff: number }): any {
-    const width = value.timeDiff / (24 * 60) * 90;
-    return {'width': `${width}%`};
+    const x = time / 24 * 90;
+    return {'left': `calc(${x}% - 1em)`};
   };
 
   ngOnInit(): void {
@@ -78,6 +94,10 @@ export class MainComponent implements OnInit {
   }
 
   onViewTimer(): void {
+    const pill = this.ss.data.listMedication.find(p => p.isAlerted);
+    if (pill != null) {
+      this.ps.playAudio(pill);
+    }
     this.startTimer();
   }
 
@@ -97,7 +117,7 @@ export class MainComponent implements OnInit {
   }
 
   initMode(): void {
-    if (['view', 'timeline'].indexOf(this.ss.data.appMode) >= 0) {
+    if (['timeline'].indexOf(this.ss.data.appMode) >= 0) {
       this.startTimer();
     } else {
       this.stopTimer();
@@ -106,7 +126,7 @@ export class MainComponent implements OnInit {
 
   clickMode(event: MouseEvent) {
     event.stopPropagation();
-    this.ss.data.appMode = Utils.nextListItem(this.ss.data.appMode, ['view', 'timeline', 'edit']);
+    this.ss.data.appMode = Utils.nextListItem(this.ss.data.appMode, PillmanData.modeList);
     this.initMode();
     this.ss.save();
   }
@@ -121,6 +141,39 @@ export class MainComponent implements OnInit {
 
   clickPillman() {
     this.ss.data.showHelp = !this.ss.data.showHelp;
+    this.ss.save();
+  }
+
+  clickExport() {
+    saveAs(new Blob([this.ss.data.asString]), `pillman.${Utils.fmtDate(new Date(), 'yyyyMMddhhmm')}.json`);
+  }
+
+  clickImport() {
+    this.fileSelect.nativeElement.click();
+  }
+
+  fileSelected(fileInput: any) {
+    if (fileInput?.target?.files?.length > 0) {
+      const reader = new FileReader();
+      const file = fileInput.target.files[0];
+      reader.addEventListener('load', (event: any) => {
+        let content = event.target.result;
+        const pos = content.indexOf(',');
+        if (pos >= 0) {
+          content = content.substring(pos + 1);
+        }
+        content = atob(content);
+        this.ss.data = PillmanData.fromString(content);
+      });
+      reader.readAsDataURL(file);
+    } else {
+      console.error(fileInput);
+      Log.error(fileInput);
+    }
+  }
+
+  clickShowPast() {
+    this.ss.data.showPast = !this.ss.data.showPast;
     this.ss.save();
   }
 }

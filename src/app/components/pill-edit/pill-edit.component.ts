@@ -7,7 +7,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 export class PillDialogData {
   pill: PillData;
-  idx: number;
 }
 
 @Component({
@@ -20,6 +19,8 @@ export class PillEditComponent {
   orgPill: string;
   shapeList = PillData.shapeList;
   alertList = PillData.alertList;
+  alertTextList = PillData.alertTextList;
+  dowShortNames = $localize`Mo|Di|Mi|Do|Fr|Sa|So`.split('|');
 
   constructor(public ss: SessionService,
               public ps: PillService,
@@ -33,7 +34,10 @@ export class PillEditComponent {
     event.preventDefault();
     this.ss.confirm($localize`Soll das Medikament wirklich gelöscht werden?`).subscribe(result => {
       if (result.btn === DialogResultButton.yes) {
-        this.ss.data.listMedication.splice(this.data.idx, 1);
+        const idx = this.ss.data.listMedication.findIndex(p => p.name === this.data.pill.name);
+        if (idx >= 0) {
+          this.ss.data.listMedication.splice(idx, 1);
+        }
         this.ss.save();
         this.dialogRef.close();
       }
@@ -53,8 +57,11 @@ export class PillEditComponent {
   }
 
   clickAlert(event: MouseEvent, alert: string) {
-    event.preventDefault();
     this.data.pill.alertAnimation = alert;
+  }
+
+  clickAlertText(event: MouseEvent, alert: string) {
+    this.data.pill.alertAnimationText = alert;
   }
 
   clickSave(event: MouseEvent) {
@@ -74,7 +81,10 @@ export class PillEditComponent {
       this.ss.ask([$localize`Ein Medikament ohne Namen wird nicht gespeichert.`,
         $localize`Soll das Medikament gelöscht werden, oder willst Du es weiter editieren?`], btns).subscribe(result => {
         if (result.btn === DialogResultButton.ok) {
-          this.ss.data.listMedication.splice(this.data.idx, 1);
+          const idx = this.ss.data.listMedication.findIndex(p => p.name === '' || p.name == null);
+          if (idx >= 0) {
+            this.ss.data.listMedication.splice(idx, 1);
+          }
           this.ss.save();
           this.dialogRef.close();
         }
@@ -98,8 +108,24 @@ export class PillEditComponent {
     event.preventDefault();
     this.data.pill.fillFromString(this.orgPill);
     if ((this.data.pill?.name?.trim() || '') === '') {
-      this.ss.data.listMedication.splice(this.data.idx, 1);
+      const idx = this.ss.data.listMedication.findIndex(p => p.name === '' || p.name == null);
+      if (idx >= 0) {
+        this.ss.data.listMedication.splice(idx, 1);
+      }
     }
     this.dialogRef.close();
+  }
+
+  clickWeekday(event: MouseEvent, idx: number) {
+    event.preventDefault();
+    this.data.pill.dowActive[idx] = !this.data.pill.dowActive[idx];
+  }
+
+  classForWeekday(idx: number): string[] {
+    const ret = [];
+    if (this.data.pill.dowActive[idx]) {
+      ret.push('mark');
+    }
+    return ret;
   }
 }

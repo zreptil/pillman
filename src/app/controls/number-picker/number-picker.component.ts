@@ -23,13 +23,15 @@ export class NumberPickerComponent implements OnInit {
 
   @Output()
   valueChange = new EventEmitter<number>();
+  isEditMode = false;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    if (this.value < this.min)
+    if (this.value < this.min) {
       this.value = this.min;
+    }
   }
 
   clickAdjust(diff: number) {
@@ -43,5 +45,24 @@ export class NumberPickerComponent implements OnInit {
     }
     this.value = v;
     this.valueChange?.emit(this.value);
+  }
+
+  clickValue() {
+    this.isEditMode = true;
+  }
+
+  keyupValue(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'Enter':
+      case 'Escape':
+      case 'Tab':
+        this.isEditMode = false;
+        break;
+    }
+    this.valueChange?.emit(+this.value);
+  }
+
+  blurValue() {
+    this.isEditMode = false;
   }
 }

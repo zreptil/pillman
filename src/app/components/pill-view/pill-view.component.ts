@@ -37,7 +37,7 @@ export class PillViewComponent implements OnInit {
     if (this.pill == null) {
       return ret;
     }
-    if (['view', 'timeline'].indexOf(this.ss.data.appMode) >= 0) {
+    if (['timeline'].indexOf(this.ss.data.appMode) >= 0) {
       if (this.pill.isAlerted) {
         ret.push('alert');
         ret.push(this.pill.alertAnimation);
@@ -58,6 +58,7 @@ export class PillViewComponent implements OnInit {
 
   clickMissed(event: MouseEvent) {
     event.preventDefault();
+    this.ps.stopAudio(this.pill);
     this.pill.lastConsumed = new Date();
     this.pill.setNextConsume();
     this.ss.save();
@@ -65,6 +66,7 @@ export class PillViewComponent implements OnInit {
 
   clickEat(event: MouseEvent) {
     event.preventDefault();
+    this.ps.stopAudio(this.pill);
     if (this.pill.supply > 0) {
       this.pill.supply -= this.pill.count;
     }

@@ -11,14 +11,7 @@ export class PillmanComponent implements OnInit {
   @Input()
   isDoc = false;
 
-  @Input()
-  speak = false;
-
   constructor(public ss: SessionService) {
-  }
-
-  get isEditingPill(): boolean {
-    return false;
   }
 
   get classForSvg(): string[] {
@@ -31,5 +24,4 @@ export class PillmanComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

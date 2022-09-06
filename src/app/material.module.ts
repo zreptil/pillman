@@ -28,6 +28,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   exports: [
@@ -41,7 +42,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     // MatBadgeModule,
     // MatBottomSheetModule,
     MatButtonModule,
-    // MatButtonToggleModule,
+    MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
     // MatChipsModule,

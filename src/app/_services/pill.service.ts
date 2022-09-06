@@ -9,14 +9,26 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
   providedIn: 'root'
 })
 export class PillService {
+  audio = new Audio();
+  isEditingPill = false;
   dialogRef: MatDialogRef<PillEditComponent>;
 
   constructor(public dialog: MatDialog,
               public ss: SessionService) {
   }
 
-  get classForText(): string[] {
-    return ['pulse'];
+  classForText(pill: PillData): string[] {
+    return [pill.alertAnimationText];
+  }
+
+  playAudio(_: PillData): void {
+    this.audio.src = '/assets/sound/006.mp3';
+    this.audio.load();
+    this.audio.play();
+  }
+
+  stopAudio(_: PillData): void {
+    this.audio.pause();
   }
 
   styleForPill(pill: PillData): any {
@@ -38,6 +50,17 @@ export class PillService {
       this.fillSplit(pill, ret);
     }
     if (shape === pill.shape) {
+      ret.push('mark');
+    }
+    return ret;
+  }
+
+  classForAlertText(pill: PillData, alert: string): string[] {
+    const ret = [pill.shape];
+    this.fillSplit(pill, ret);
+    ret.push('alert');
+    ret.push(alert);
+    if (alert === pill.alertAnimationText) {
       ret.push('mark');
     }
     return ret;
@@ -80,6 +103,7 @@ export class PillService {
   }
 
   editPill(idx: number): void {
+    this.isEditingPill = true;
     this.dialogRef = this.dialog.open(PillEditComponent, {
       minWidth: '50%',
       data: {
@@ -88,7 +112,8 @@ export class PillService {
       },
       disableClose: true
     });
-    // this.dialogRef.afterClosed().subscribe(result => {
-    // });
+    this.dialogRef.afterClosed().subscribe(_ => {
+      this.isEditingPill = false;
+    });
   }
 }

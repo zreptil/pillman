@@ -2,6 +2,7 @@ import {BaseData} from './base-data';
 import {PillData} from './pill-data';
 import {JsonData} from './json-data';
 import {UserData} from '@/_model/user-data';
+import {Log} from '@/_services/log.service';
 
 export enum ConsumeDisplay {
   Time,
@@ -10,12 +11,13 @@ export enum ConsumeDisplay {
 
 export class PillmanData extends BaseData {
   static timeList = ['time', 'duration'];
-  static modeList = ['view', 'edit', 'timeline'];
+  static modeList = ['timeline', 'edit'];
 
   user: UserData;
   consumeDisplay: ConsumeDisplay;
   listMedication: PillData[] = [];
   appMode = PillmanData.modeList[0];
+  showPast = true;
   timeDisplay = PillmanData.timeList[0];
   showHelp = true;
   colorImage: string;
@@ -32,6 +34,7 @@ export class PillmanData extends BaseData {
     return {
       'u': this.user,
       'm': this.appMode,
+      'sp': this.showPast,
       'cd': this.consumeDisplay?.valueOf() || 0,
       'med': medis,
       'ci': this.colorImage,
@@ -46,22 +49,34 @@ export class PillmanData extends BaseData {
     return ret;
   }
 
+  static fromString(src: string) {
+    const ret = new PillmanData();
+    ret.fillFromString(src);
+    return ret;
+  }
+
   _fillFromJson(json: any): void {
-    this.user = UserData.fromJson(json);
-    this.appMode = JsonData.toString(json, 'm', 'view');
-    if (PillmanData.modeList.find(v => v === this.appMode) == null) {
-      this.appMode = PillmanData.modeList[0];
-    }
-    this.consumeDisplay = JsonData.toNumber(json, 'cd');
-    this.listMedication = [];
-    for (const med of json['med'] || []) {
-      this.listMedication.push(PillData.fromJson(med));
-    }
-    this.colorImage = JsonData.toString(json, 'ci');
-    this.showHelp = JsonData.toBool(json, 'sh', true);
-    this.timeDisplay = json?.['td'];
-    if (PillmanData.timeList.find(v => v === this.timeDisplay) == null) {
-      this.timeDisplay = PillmanData.timeList[0];
+    try {
+      this.user = UserData.fromJson(json);
+      this.appMode = JsonData.toString(json, 'm', PillmanData.modeList[0]);
+      this.showPast = JsonData.toBool(json, 'sp', true);
+      if (PillmanData.modeList.find(v => v === this.appMode) == null) {
+        this.appMode = PillmanData.modeList[0];
+      }
+      this.consumeDisplay = JsonData.toNumber(json, 'cd');
+      this.listMedication = [];
+      for (const med of json['med'] || []) {
+        this.listMedication.push(PillData.fromJson(med));
+      }
+      this.colorImage = JsonData.toString(json, 'ci');
+      this.showHelp = JsonData.toBool(json, 'sh', true);
+      this.timeDisplay = json?.['td'];
+      if (PillmanData.timeList.find(v => v === this.timeDisplay) == null) {
+        this.timeDisplay = PillmanData.timeList[0];
+      }
+    } catch (ex) {
+      console.error('Fehler beim Laden', json, ex);
+      Log.error($localize`Fehler beim Import der Daten`);
     }
   }
 }

@@ -3,3 +3,24 @@
   flex-flow: row;
   align-items: center;
 }
+
+[weekdays] {
+  display: flex;
+  flex-flow: column;
+
+  button {
+    min-width: initial;
+    margin-right: 1px;
+    border: 1px solid transparent;
+  }
+
+  .mark {
+    border: var(--markBorder);
+  }
+}
+
+[pill].mark {
+  outline: 2px solid black;
+  border: 2px solid white;
+}
+

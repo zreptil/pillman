@@ -1,0 +1,109 @@
+<div *ngIf="show" root>
+  <div>
+    <ng-container *ngIf="ss.data.appMode === 'timeline'">
+      <p i18n>Willkommen zu Pillman!</p>
+      <p i18n>
+        Pillman ist ein einfacher Pillenmanager. Hiermit kann man seine Medikamente erfassen und sich
+        daran erinnern lassen, sie zu nehmen.
+      </p>
+      <p i18n>
+        Links oben ist ein kleines Icon
+        <mat-icon>timelapse</mat-icon>
+        , mit dem man den Modus umschalten kann.
+      </p>
+      <p i18n>
+        Im aktuellen Modus werden die einzunehmenden Medikamente entlang eines Zeitstrahls für den
+        aktuellen Tag angezeigt. Dabei werden alle Medikamente für den Tag angezeigt und auch
+        die Alarmierung entsprechend der Alarmeinstellungen der Medikamente berücksichtigt.
+      </p>
+      <p *ngIf="ss.data.showPast" i18n>
+        Mit dem Icon
+        <mat-icon>sync_alt</mat-icon>
+        rechts oben kann man die vergangenen Einnahmen ausblenden.
+      </p>
+      <p *ngIf="!ss.data.showPast" i18n>
+        Mit dem Icon
+        <mat-icon>arrow_right_alt</mat-icon>
+        rechts oben kann man die vergangenen Einnahmen einblenden.
+      </p>
+      <p i18n>
+        Mit dem Icon
+        <mat-icon>restaurant</mat-icon>
+        wird die das Medikament als eingenommen festgelegt, mit dem Icon
+        <mat-icon>no_meals</mat-icon>
+        wird es als verpasst und nicht eingenommen festgelegt.
+      </p>
+      <p *ngIf="ss.data.timeDisplay === 'time'" i18n>
+        Am unteren Rand der Pille wird die Zeit angezeigt, zu der die nächste Einnahme erfolgen
+        soll oder zu der die letzte Einnahme erfolgen sollte. Wenn diese angeklickt wird, dann
+        wird auf die Anzeige der Dauer umgeschaltet.
+      </p>
+      <p *ngIf="ss.data.timeDisplay === 'duration'" i18n>
+        Am unteren Rand der Pille wird die Dauer bis zur nächsten Einnahme oder seit der letzten
+        Einnahme angezeigt. Wenn diese angeklickt wird, dann wird auf die Anzeige des Zeitpunkts
+        der nächsten oder der vergangenen Einnahme umgeschaltet.
+      </p>
+    </ng-container>
+    <ng-container *ngIf="ss.data.appMode === 'edit'">
+      <ng-container *ngIf="!ps.isEditingPill">
+        <p i18n>
+          Links oben ist ein kleines Icon
+          <mat-icon>edit</mat-icon>
+          , mit dem man den Modus umschalten kann.
+        </p>
+        <p i18n>
+          In diesem Modus können die Medikamente verwaltet und App-Einstellungen vorgenommen werden.
+          Mit dem roten Kreuz wird ein neues Medikament angelegt. Mit dem Icon
+          <mat-icon>edit</mat-icon>
+          auf den Medikamenten kann das jeweilige Medikament editiert werden.
+        </p>
+        <p i18n>
+          Mit dem Icon
+          <mat-icon>file_download</mat-icon>
+          rechts oben kann man die gesamten Einstellungen
+          in eine Datei exportieren. Mit dem Icon
+          <mat-icon>file_upload</mat-icon>
+          kann man die Einstellungen
+          wieder aus einer Datei importieren.
+        </p>
+      </ng-container>
+      <ng-container *ngIf="ps.isEditingPill">
+        <p i18n>
+          In diesem Editor werden die Daten des Medikaments erfasst. Der Name muss eingegeben werden
+          und es darf auch nur ein Medikament dieses Namens geben.
+        </p>
+        <h3 i18n>Einnahme</h3>
+        <p i18n>
+          In diesem Bereich wird die Einnahme des Medikaments festgelegt. Es wird die Anzahl an
+          Pillen, der Zeitpunkt und die Wochentage angegeben, an denen die Einnahme stattfinden soll.
+        </p>
+        <h3 i18n>Vorrat</h3>
+        <p i18n>
+          Hier wird die vorhandene Menge an Pillen festgelegt, sowie die Anzahl, ab der ein Warnhinweis
+          angezeigt wird, wenn sie unterschritten wird.
+        </p>
+        <h3 i18n>Anzeige</h3>
+        <p i18n>
+          Hiermit wird die Darstellung des Medikaments gesteuert. Das aktive Aussehen ist markiert
+          und kann mit Anklicken des Icons
+          <mat-icon>palette</mat-icon>
+          auch farblich angepasst werden.
+          Wenn die aktuelle Form angeklickt wird, dann kann man die Teilung des Medikaments festlegen,
+          um den Erkennungswert zu steigern.
+        </p>
+        <h3 i18n>Alarmanzeige</h3>
+        <p i18n>
+          Wenn der Zeitpunkt zur Einnahme des Medikaments gekommen oder verstrichen ist, wird das
+          Medikament auf bestimmte Weise dargestellt. Diese Darstellung kann man hier festlegen.
+          In der ersten Zeile wählt man die Darstellung des Textes, in der zweiten Zeile die
+          Darstellung der Pille selbst. Sie werden dort so angezeigt, wie sie dann animiert
+          aussehen. Die Buttons für die Einnahme haben hier keine Funktion, sondern dienen nur
+          zur exakten Darstellung.
+        </p>
+      </ng-container>
+    </ng-container>
+    <p i18n>
+      Dieser Text hier kann mit dem kleinen Pillman rechts oben ein- und ausgeschaltet werden.
+    </p>
+  </div>
+</div>

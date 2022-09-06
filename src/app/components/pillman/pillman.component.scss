@@ -28,38 +28,3 @@ svg:not(.doc) {
     }
   }
 }
-
-[speak] {
-  ::-webkit-scrollbar,
-  ::-webkit-scrollbar-thumb,
-  ::-webkit-scrollbar-track {
-    border-top-right-radius: 1em;
-    border-bottom-right-radius: 1em;
-  }
-
-  z-index: 10000;
-
-  border: 2px solid black;
-  position: absolute;
-  top: -150px;
-  left: 110%;
-  width: 15em;
-  height: 200px;
-  border-radius: 1em;
-  padding: 0 0 0 0.5em;
-  background: var(--helpBack);
-  color: var(--helpFore);
-
-  div {
-    width: 100%;
-    height: calc(100% - 1em);
-    overflow-y: auto;
-    padding-top: 1em;
-
-    mat-icon {
-      font-size: 12px;
-      width: initial;
-      height: initial;
-    }
-  }
-}

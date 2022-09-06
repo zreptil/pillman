@@ -31,7 +31,6 @@ export class TimePickerComponent implements OnInit {
   }
 
   clickTimeAdjust(diff: number) {
-    console.log(this.minuteDiff, diff);
     let v = +this.value;
     v += +diff;
     while (v >= 24 * 60) {

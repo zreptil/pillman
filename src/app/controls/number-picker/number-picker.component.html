@@ -6,7 +6,10 @@
   </div>
   <div label>
     <div>{{label}}</div>
-    <div>{{value}}</div>
+    <mat-form-field *ngIf="isEditMode">
+      <input (blur)="blurValue()" (keyup)="keyupValue($event)" [(ngModel)]="value" autofocus matInput>
+    </mat-form-field>
+    <button (click)="clickValue()" *ngIf="!isEditMode" mat-flat-button>{{value}}</button>
   </div>
   <div adjustment>
     <button (click)="clickAdjust(-diff)" mat-flat-button>
