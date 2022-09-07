@@ -27,6 +27,8 @@ export class PillService {
 
   playAudio(name: string): void {
     this.audio.src = `/assets/sound/${name}.mp3`;
+    // it is also possible to provide a link to an mp3, maybe useful for later expansions
+    // this.audio.src = `https://legacy.zreptil.de/waveling/mp3.fun/000001.mp3`;
     this.audio.load();
     this.audio.play();
     this.isPlayingAudio = true;

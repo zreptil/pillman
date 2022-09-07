@@ -28,7 +28,9 @@ export class MainComponent implements OnInit {
     {label: 'Flipper', name: '003'},
     {label: 'Darth Vader', name: '004'},
     {label: 'Tusch', name: '005'},
-    {label: 'Sirene', name: '006'}
+    {label: 'Sirene', name: '006'},
+    {label: 'Wecker', name: '007'},
+    {label: 'Buzzer', name: '008'}
   ];
 
   constructor(public ss: SessionService,
