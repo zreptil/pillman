@@ -25,7 +25,7 @@ export class Utils {
         return $localize`in ${hours}\:${Utils.pad(minutes % 60)} Std`;
       }
     }
-    return isPast ? $localize`vor ${minutes} Min` : $localize`in ${minutes} Min`;
+    return isPast ? $localize`vor ${-minutes} Min` : $localize`in ${minutes} Min`;
   }
 
   static fmtTime(time: number): string {

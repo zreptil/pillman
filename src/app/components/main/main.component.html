@@ -4,6 +4,20 @@
   </button>
   <div spacer></div>
   <ng-container *ngIf="ss.data.appMode==='edit'">
+    <button [matMenuTriggerFor]="alertMenu" mat-icon-button>
+      <mat-icon>volume_up</mat-icon>
+    </button>
+    <mat-menu #alertMenu="matMenu">
+      <div *ngFor="let alert of alertList" [class]="classForAlertItem(alert)" line>
+        <button (click)="clickAlertSelect($event, alert)" mat-menu-item>{{alert.label}}</button>
+        <button (click)="clickAlertPlay($event, alert)" mat-icon-button>
+          <mat-icon>{{ps.isPlayingAudio ? 'stop' : 'play_arrow'}}</mat-icon>
+        </button>
+      </div>
+    </mat-menu>
+  </ng-container>
+  <div spacer></div>
+  <ng-container *ngIf="ss.data.appMode==='edit'">
     <button (click)="clickExport()" mat-icon-button>
       <mat-icon>file_download</mat-icon>
     </button>

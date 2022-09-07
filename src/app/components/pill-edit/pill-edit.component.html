@@ -64,6 +64,7 @@
       </button>
     </ng-container>
   </div>
+  <div divider></div>
   <div line>
     <ng-container *ngFor="let alert of alertList">
       <button (click)="clickAlert($event, alert)" [class]="ps.classForAlert(data.pill, alert)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>

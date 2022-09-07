@@ -3,6 +3,32 @@ import {JsonData} from './json-data';
 import {ColorData} from '@/_model/color-data';
 import {Utils} from '@/classes/utils';
 
+export class TimeData extends BaseData {
+  count: number = 1;
+  time: number = 8 * 60;
+  dowActive = [true, true, true, true, true, true, true];
+
+  get asJson(): any {
+    return {
+      'c': this.count,
+      't': this.time,
+      'da': this.dowActive
+    };
+  }
+
+  static fromJson(json: any): TimeData {
+    const ret = new TimeData();
+    ret.fillFromJson(json);
+    return ret;
+  }
+
+  _fillFromJson(json: any): void {
+    this.time = JsonData.toNumber(json, 't', 8 * 60);
+    this.count = JsonData.toNumber(json, 'c');
+    this.dowActive = json['da'] ?? [true, true, true, true, true, true, true];
+  }
+}
+
 export class PillData extends BaseData {
   static intervals: { [key: string]: any } = {
     daily: {title: $localize`täglich`, days: 1},
@@ -18,25 +44,27 @@ export class PillData extends BaseData {
   splitv: boolean = false;
   color: ColorData = new ColorData([255, 255, 255]);
   name: string;
-  time: number = 8 * 60;
-  lastConsumed: Date;
-  nextConsume: Date;
   interval: string = 'daily';
-  count: number = 1;
   supply: number = 0;
   supplyLow: number = 0;
   alertAnimation: string = PillData.alertList[1];
   alertAnimationText: string = PillData.alertTextList[1];
+
+  lastConsumed: Date;
+  nextConsume: Date;
+
+  timeList: TimeData[];
+
+  count: number = 1;
+  time: number = 8 * 60;
   dowActive = [true, true, true, true, true, true, true];
 
   get asJson(): any {
     this.setNextConsume();
     return {
       'n': this.name,
-      't': this.time,
       'lc': this.lastConsumed,
       'i': this.interval,
-      'c': this.count,
       's': this.supply,
       'low': this.supplyLow,
       'sh': this.shape,
@@ -45,7 +73,10 @@ export class PillData extends BaseData {
       'spv': this.splitv,
       'aa': this.alertAnimation,
       'at': this.alertAnimationText,
-      'da': this.dowActive
+      'c': this.count,
+      't': this.time,
+      'da': this.dowActive,
+      'tl': this.timeList?.map(m => m.asJson)
     };
   }
 
@@ -71,10 +102,8 @@ export class PillData extends BaseData {
 
   _fillFromJson(json: any): void {
     this.name = JsonData.toString(json, 'n');
-    this.time = JsonData.toNumber(json, 't', 8 * 60);
     this.lastConsumed = JsonData.toDate(json, 'lc', null);
     this.interval = json['i'] || 'daily';
-    this.count = JsonData.toNumber(json, 'c');
     this.supply = JsonData.toNumber(json, 's');
     this.supplyLow = JsonData.toNumber(json, 'low');
     this.shape = json['sh'];
@@ -92,7 +121,10 @@ export class PillData extends BaseData {
     if (PillData.alertTextList.find(a => a === this.alertAnimationText) == null) {
       this.alertAnimationText = PillData.alertTextList[1];
     }
+    this.time = JsonData.toNumber(json, 't', 8 * 60);
+    this.count = JsonData.toNumber(json, 'c');
     this.dowActive = json['da'] ?? [true, true, true, true, true, true, true];
+    this.timeList = (json['tl'] ?? []).map((m: any) => TimeData.fromJson(m));
     this.setNextConsume();
   }
 

@@ -8,19 +8,35 @@
   display: flex;
   flex-flow: column;
 
-  button {
-    min-width: initial;
-    margin-right: 1px;
-    border: 1px solid transparent;
-  }
+  div {
+    display: flex;
+    flex-flow: wrap;
 
-  .mark {
-    border: var(--markBorder);
+    button {
+      min-width: initial;
+      width: 3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1px;
+      border: 1px solid transparent;
+    }
+
+    .mark {
+      border: var(--markBorder);
+    }
   }
 }
 
 [pill].mark {
   outline: 2px solid black;
   border: 2px solid white;
+}
+
+[divider] {
+  background-color: black;
+  height: 1px;
+  width: 100%;
+  margin-bottom: 0.5em;
 }
 

@@ -58,15 +58,15 @@ export class PillViewComponent implements OnInit {
 
   clickMissed(event: MouseEvent) {
     event.preventDefault();
-    this.ps.stopAudio(this.pill);
+    this.ps.stopAudio();
     this.pill.lastConsumed = new Date();
     this.pill.setNextConsume();
     this.ss.save();
   }
-
+  
   clickEat(event: MouseEvent) {
     event.preventDefault();
-    this.ps.stopAudio(this.pill);
+    this.ps.stopAudio();
     if (this.pill.supply > 0) {
       this.pill.supply -= this.pill.count;
     }

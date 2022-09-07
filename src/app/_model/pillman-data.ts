@@ -21,25 +21,23 @@ export class PillmanData extends BaseData {
   timeDisplay = PillmanData.timeList[0];
   showHelp = true;
   colorImage: string;
+  alertName: string = '006';
 
   constructor() {
     super();
   }
 
   get asJson(): any {
-    const medis: PillData[] = [];
-    for (const pill of this.listMedication) {
-      medis.push(pill.asJson);
-    }
     return {
       'u': this.user,
       'm': this.appMode,
       'sp': this.showPast,
-      'cd': this.consumeDisplay?.valueOf() || 0,
-      'med': medis,
+      'cd': this.consumeDisplay?.valueOf() ?? 0,
+      'med': this.listMedication?.map(m => m.asJson),
       'ci': this.colorImage,
       'sh': this.showHelp,
-      'td': this.timeDisplay
+      'td': this.timeDisplay,
+      'an': this.alertName ?? '006'
     };
   }
 
@@ -74,6 +72,7 @@ export class PillmanData extends BaseData {
       if (PillmanData.timeList.find(v => v === this.timeDisplay) == null) {
         this.timeDisplay = PillmanData.timeList[0];
       }
+      this.alertName = JsonData.toString(json, 'an');
     } catch (ex) {
       console.error('Fehler beim Laden', json, ex);
       Log.error($localize`Fehler beim Import der Daten`);

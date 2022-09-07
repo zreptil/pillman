@@ -12,23 +12,29 @@ export class PillService {
   audio = new Audio();
   isEditingPill = false;
   dialogRef: MatDialogRef<PillEditComponent>;
+  isPlayingAudio = false;
 
   constructor(public dialog: MatDialog,
               public ss: SessionService) {
+    this.audio.addEventListener('ended', () => {
+      this.isPlayingAudio = false;
+    });
   }
 
   classForText(pill: PillData): string[] {
     return [pill.alertAnimationText];
   }
 
-  playAudio(_: PillData): void {
-    this.audio.src = '/assets/sound/006.mp3';
+  playAudio(name: string): void {
+    this.audio.src = `/assets/sound/${name}.mp3`;
     this.audio.load();
     this.audio.play();
+    this.isPlayingAudio = true;
   }
 
-  stopAudio(_: PillData): void {
+  stopAudio(): void {
     this.audio.pause();
+    this.isPlayingAudio = false;
   }
 
   styleForPill(pill: PillData): any {

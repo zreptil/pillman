@@ -7,6 +7,17 @@ input[type=file] {
   display: none;
 }
 
+[line] {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.mark {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 mat-toolbar {
   background-color: var(--toolbarBack);
   color: var(--toolbarFore);

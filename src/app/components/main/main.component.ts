@@ -8,6 +8,11 @@ import {PillmanData} from '@/_model/pillman-data';
 import {saveAs} from 'file-saver';
 import {Log} from '@/_services/log.service';
 
+class AlertData {
+  label: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -17,6 +22,14 @@ export class MainComponent implements OnInit {
   viewTimer: any;
   @ViewChild('fileSelect')
   fileSelect: ElementRef<HTMLInputElement>;
+  alertList: AlertData[] = [
+    {label: 'Waltonhupe', name: '001'},
+    {label: 'Chewbacca', name: '002'},
+    {label: 'Flipper', name: '003'},
+    {label: 'Darth Vader', name: '004'},
+    {label: 'Tusch', name: '005'},
+    {label: 'Sirene', name: '006'}
+  ];
 
   constructor(public ss: SessionService,
               public ps: PillService) {
@@ -96,7 +109,7 @@ export class MainComponent implements OnInit {
   onViewTimer(): void {
     const pill = this.ss.data.listMedication.find(p => p.isAlerted);
     if (pill != null) {
-      this.ps.playAudio(pill);
+      this.ps.playAudio(this.ss.data.alertName);
     }
     this.startTimer();
   }
@@ -118,7 +131,7 @@ export class MainComponent implements OnInit {
 
   initMode(): void {
     if (['timeline'].indexOf(this.ss.data.appMode) >= 0) {
-      this.startTimer();
+      this.onViewTimer();
     } else {
       this.stopTimer();
     }
@@ -175,5 +188,28 @@ export class MainComponent implements OnInit {
   clickShowPast() {
     this.ss.data.showPast = !this.ss.data.showPast;
     this.ss.save();
+  }
+
+  clickAlertSelect(event: MouseEvent, alert: AlertData) {
+    this.ss.data.alertName = alert.name;
+    this.ps.stopAudio();
+    this.ss.save();
+  }
+
+  clickAlertPlay(event: MouseEvent, alert: AlertData) {
+    event.stopPropagation();
+    if (this.ps.isPlayingAudio) {
+      this.ps.stopAudio();
+    } else {
+      this.ps.playAudio(alert.name);
+    }
+  }
+
+  classForAlertItem(alert: AlertData): string[] {
+    const ret = [];
+    if (this.ss.data.alertName === alert.name) {
+      ret.push('mark');
+    }
+    return ret;
   }
 }
