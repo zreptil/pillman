@@ -13,23 +13,23 @@
     </mat-form-field>
   </div>
   <h2 i18n>Einnahme</h2>
-  <div line>
-    <button disabled mat-icon-button>
-      <mat-icon>delete</mat-icon>
-    </button>
-    <app-number-picker [(value)]="data.pill.count" i18n-label label="Anzahl"></app-number-picker>
-    <app-time-picker *ngIf="data.pill.count>0" [(value)]="data.pill.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
+  <div *ngFor="let time of data.pill.timeList; let idx = index" line time>
+    <app-number-picker [(value)]="time.count" i18n-label label="Anzahl"></app-number-picker>
+    <app-time-picker *ngIf="time.count>0" [(value)]="time.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
     <div weekdays>
       <div>Wochentage</div>
       <div>
-        <button (click)="clickWeekday($event, idx)" *ngFor="let day of dowShortNames; let idx = index" [class]="classForWeekday(idx)" mat-raised-button>
+        <button (click)="clickWeekday(time, idx)" *ngFor="let day of dowShortNames; let idx = index" [class]="classForWeekday(time, idx)" mat-raised-button>
           {{day}}
         </button>
       </div>
+      <button (click)="clickDeleteTime(idx)" *ngIf="idx > 0" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
   </div>
   <div line>
-    <button mat-icon-button>
+    <button (click)="clickTimeAdd()" mat-icon-button>
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -57,7 +57,7 @@
       <button (click)="clickAlertText($event, alert)" [class]="ps.classForAlertText(data.pill, alert)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
         <div content>
           <div [class]="alert" title>{{data.pill?.name}}</div>
-          <div [class]="alert" label>{{ps.nextPillTime(data.pill)}}</div>
+          <div [class]="alert" label>{{ps.getDisplayTime(data.pill.timeList[0])}}</div>
         </div>
         <div horz></div>
         <div vert></div>
@@ -78,7 +78,7 @@
               <mat-icon>no_meals</mat-icon>
             </button>
           </div>
-          <div [class]="ps.classForText(data.pill)" label>{{ps.nextPillTime(data.pill)}}</div>
+          <div [class]="ps.classForText(data.pill)" label>{{ps.getDisplayTime(data.pill.timeList[0])}}</div>
         </div>
         <div horz></div>
         <div vert></div>

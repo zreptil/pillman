@@ -1,11 +1,12 @@
 import {SessionService} from '@/_services/session.service';
 import {Component, Input, OnInit} from '@angular/core';
-import {PillData} from '@/_model/pill-data';
 import {ColorData} from '@/_model/color-data';
 import {Log} from '@/_services/log.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PillService} from '@/_services/pill.service';
 import {Utils} from '@/classes/utils';
+import {PillData} from '@/_model/pill-data';
+import {TimeData} from '@/_model/time-data';
 
 @Component({
   selector: 'app-pill-view',
@@ -15,6 +16,8 @@ import {Utils} from '@/classes/utils';
 export class PillViewComponent implements OnInit {
   @Input()
   pill: PillData;
+  @Input()
+  time: TimeData;
 
   @Input()
   idx: number;
@@ -38,7 +41,7 @@ export class PillViewComponent implements OnInit {
       return ret;
     }
     if (['timeline'].indexOf(this.ss.data.appMode) >= 0) {
-      if (this.pill.isAlerted) {
+      if (this.time.isAlerted) {
         ret.push('alert');
         ret.push(this.pill.alertAnimation);
       }
@@ -59,19 +62,19 @@ export class PillViewComponent implements OnInit {
   clickMissed(event: MouseEvent) {
     event.preventDefault();
     this.ps.stopAudio();
-    this.pill.lastConsumed = new Date();
-    this.pill.setNextConsume();
+    this.time.lastConsumed = new Date();
+    this.time.setNextConsume();
     this.ss.save();
   }
-  
+
   clickEat(event: MouseEvent) {
     event.preventDefault();
     this.ps.stopAudio();
     if (this.pill.supply > 0) {
-      this.pill.supply -= this.pill.count;
+      this.pill.supply -= this.time.count;
     }
-    this.pill.lastConsumed = new Date();
-    this.pill.setNextConsume();
+    this.time.lastConsumed = new Date();
+    this.time.setNextConsume();
     this.ss.save();
   }
 

@@ -7,6 +7,7 @@ import {TimelineData} from '@/_model/timeline-data';
 import {PillmanData} from '@/_model/pillman-data';
 import {saveAs} from 'file-saver';
 import {Log} from '@/_services/log.service';
+import {PillTimeData} from '@/_model/pill-time-data';
 
 class AlertData {
   label: string;
@@ -23,6 +24,7 @@ export class MainComponent implements OnInit {
   @ViewChild('fileSelect')
   fileSelect: ElementRef<HTMLInputElement>;
   alertList: AlertData[] = [
+    {label: 'Stille', name: null},
     {label: 'Waltonhupe', name: '001'},
     {label: 'Chewbacca', name: '002'},
     {label: 'Flipper', name: '003'},
@@ -50,30 +52,32 @@ export class MainComponent implements OnInit {
     return list[this.ss.data.appMode] ?? 'help';
   }
 
-  get listMedication(): PillData[] {
-    return this.ss.data.listMedication.sort((a, b) => {
-      if (a.time < b.time) {
-        return -1;
+  get listMedication(): PillTimeData[] {
+    const ret: PillTimeData[] = [];
+    for (const pill of this.ss.data.listMedication) {
+      for (const time of pill.timeList) {
+        ret.push(new PillTimeData(pill, time));
       }
-      if (a.time > b.time) {
-        return 1;
-      }
-      return 0;
-    })
+    }
+    return Utils.sortTime(ret, (m) => m.time);
   }
 
   get listTimeline(): TimelineData[] {
     const ret: TimelineData[] = [];
-    let last: PillData = null;
-    for (const pill of this.listMedication) {
-      if (pill.isDowActive(new Date())) {
-        if (Utils.isToday(pill.nextConsume) || this.ss.data.showPast) {
-          if (last == null || last.time !== pill.time) {
-            ret.push(new TimelineData(pill));
+    let last: PillTimeData = null;
+    for (const data of this.listMedication) {
+      if (data.time.isDowActive(new Date())) {
+        if (Utils.isToday(data.time.nextConsume) || this.ss.data.showPast) {
+          if (last == null || last.time.time !== data.time.time) {
+            const time = new TimelineData(data.pill, data.time);
+            if (last != null && data.time.time - last.time.time < 120) {
+              time.offsetY = 90 * ret[ret.length - 1].data.length + ret[ret.length - 1].offsetY;
+            }
+            ret.push(time);
           } else {
-            ret[ret.length - 1].pills.push(pill);
+            ret[ret.length - 1].data.push(data);
           }
-          last = pill;
+          last = data;
         }
       }
     }
@@ -94,9 +98,13 @@ export class MainComponent implements OnInit {
     return {'left': `${x}%`};
   }
 
-  styleForTimepart(time: number): any {
-    const x = time / 24 * 90;
-    return {'left': `${x}%`};
+  styleForTimepart(data: TimelineData): any {
+    const x = data.time / 60 / 24 * 90;
+    const ret: any = {'left': `${x}%`};
+    if (data.offsetY > 0) {
+      ret['padding-top'] = `${data.offsetY}px`;
+    }
+    return ret;
   }
 
   styleForTimetext(time: number): any {

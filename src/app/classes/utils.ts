@@ -28,6 +28,18 @@ export class Utils {
     return isPast ? $localize`vor ${-minutes} Min` : $localize`in ${minutes} Min`;
   }
 
+  static sortTime(list: any[], map: (m: any) => { time: number } = m => m): any[] {
+    return list?.sort((a, b) => {
+      if (map(a).time < map(b).time) {
+        return -1;
+      }
+      if (map(a).time > map(b).time) {
+        return 1;
+      }
+      return 0;
+    })
+  }
+
   static fmtTime(time: number): string {
     if (isNaN(time)) {
       time = 0;

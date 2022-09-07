@@ -53,11 +53,11 @@
     </div>
     <div timespan>
       <ng-container *ngFor="let entry of listTimeline">
-        <div [ngStyle]="styleForTimepart(entry.time/60)" timepart>
+        <div [ngStyle]="styleForTimepart(entry)" timepart>
           <div partmark></div>
           <div timepills>
-            <ng-container *ngFor="let pill of entry.pills">
-              <app-pill-view [pill]="pill"></app-pill-view>
+            <ng-container *ngFor="let data of entry.data">
+              <app-pill-view [pill]="data.pill" [time]="data.time"></app-pill-view>
             </ng-container>
           </div>
         </div>
@@ -65,8 +65,8 @@
     </div>
   </div>
   <ng-container *ngIf="ss.data.appMode==='edit'">
-    <ng-container *ngFor="let pill of listMedication; let idx = index">
-      <app-pill-view *ngIf="ps.showPill(pill)" [idx]="idx" [pill]="pill"></app-pill-view>
+    <ng-container *ngFor="let data of ss.data.listMedication; let idx = index">
+      <app-pill-view *ngIf="ps.showPill(data, data.timeList[0])" [idx]="idx" [pill]="data"></app-pill-view>
     </ng-container>
     <button (click)="clickCross($event)" cross mat-flat-button>
       <div vert></div>

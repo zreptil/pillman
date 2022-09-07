@@ -1,9 +1,12 @@
+<link href="pill-view.component.scss" rel="stylesheet">
 <ng-container *ngIf="ss.data.appMode!=='edit'">
   <div [class]="classForContainer">
     <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
       <div content>
-        <div [class]="ps.classForText(pill)" title>{{pill?.name}}</div>
-        <div *ngIf="pill.isAlerted" actions>
+        <div [class]="ps.classForText(pill)" title>
+          {{time.count}}&nbsp;{{pill.name}}
+        </div>
+        <div *ngIf="time.isAlerted" actions>
           <button (click)="clickEat($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
             <mat-icon>restaurant</mat-icon>
           </button>
@@ -12,7 +15,7 @@
           </button>
         </div>
         <button (click)="clickTime($event)" [class]="ps.classForText(pill)" label mat-flat-button>
-          {{ps.nextPillTime(pill)}}
+          {{ps.getDisplayTime(time)}}
         </button>
       </div>
       <div horz></div>
@@ -28,12 +31,16 @@
   <div [class]="classForContainer">
     <div [class]="classForPill" [ngStyle]="ps.styleForPill(pill)" pill>
       <div content>
-        <div title>{{pill?.name}}</div>
+        <div title>{{pill.name}}</div>
         <div actions>
           <button (click)="clickEdit($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
             <mat-icon>edit</mat-icon>
           </button>
         </div>
+        <button (click)="clickTime($event)" [class]="ps.classForText(pill)" label mat-flat-button>
+          {{ps.getDisplayTime(pill.timeList[0])}}
+          <ng-container *ngIf="pill.timeList.length>1">...</ng-container>
+        </button>
       </div>
       <div horz></div>
       <div vert></div>

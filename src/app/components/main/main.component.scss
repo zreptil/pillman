@@ -150,11 +150,13 @@ mat-toolbar {
       position: absolute;
       height: fit-content;
       top: 2em;
+      pointer-events: none;
 
       [timepills] {
         display: flex;
         flex-flow: column;
         align-items: flex-start;
+        pointer-events: all;
       }
 
       [partmark] {

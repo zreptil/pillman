@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+[time]:hover {
+  outline: var(--markBorder);
+}
+
 [weekdays] {
   display: flex;
   flex-flow: column;

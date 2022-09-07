@@ -4,6 +4,7 @@ import {SessionService} from '@/_services/session.service';
 import {PillService} from '@/_services/pill.service';
 import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {TimeData} from '@/_model/time-data';
 
 export class PillDialogData {
   pill: PillData;
@@ -93,7 +94,9 @@ export class PillEditComponent {
       this.ss.info([$localize`Ein Medikament mit diesem Namen gibt es schon in der Liste.`,
         $localize`Bitte gib einen anderen Namen ein.`]);
     } else {
-      this.data.pill.lastConsumed = null;
+      for (const time of this.data.pill.timeList) {
+        time.lastConsumed = null;
+      }
       this.ss.save();
       this.dialogRef.close();
     }
@@ -116,16 +119,23 @@ export class PillEditComponent {
     this.dialogRef.close();
   }
 
-  clickWeekday(event: MouseEvent, idx: number) {
-    event.preventDefault();
-    this.data.pill.dowActive[idx] = !this.data.pill.dowActive[idx];
+  clickWeekday(time: TimeData, idx: number) {
+    time.dowActive[idx] = !time.dowActive[idx];
   }
 
-  classForWeekday(idx: number): string[] {
+  classForWeekday(time: TimeData, idx: number): string[] {
     const ret = [];
-    if (this.data.pill.dowActive[idx]) {
+    if (time.dowActive[idx]) {
       ret.push('mark');
     }
     return ret;
+  }
+
+  clickDeleteTime(idx: number) {
+    this.data.pill.timeList.splice(idx, 1);
+  }
+
+  clickTimeAdd() {
+    this.data.pill.timeList.push(new TimeData());
   }
 }

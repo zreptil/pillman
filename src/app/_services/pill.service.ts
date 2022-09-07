@@ -4,6 +4,7 @@ import {Utils} from '@/classes/utils';
 import {SessionService} from '@/_services/session.service';
 import {PillEditComponent} from '@/components/pill-edit/pill-edit.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {TimeData} from '@/_model/time-data';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,10 @@ export class PillService {
   }
 
   playAudio(name: string): void {
+    if (name == null || name === '') {
+      this.isPlayingAudio = false;
+      return;
+    }
     this.audio.src = `/assets/sound/${name}.mp3`;
     // it is also possible to provide a link to an mp3, maybe useful for later expansions
     // this.audio.src = `https://legacy.zreptil.de/waveling/mp3.fun/000001.mp3`;
@@ -86,25 +91,25 @@ export class PillService {
   }
 
   showSupplyLow(pill: PillData): boolean {
-    return pill.isSupplyLow && (!pill.isAlerted || this.ss.data.appMode == 'edit');
+    return pill.isSupplyLow;
   }
 
-  nextPillTime(pill: PillData): string {
+  getDisplayTime(time: TimeData): string {
     switch (this.ss.data.timeDisplay) {
       case 'duration':
         const now = new Date();
-        const time = now.getHours() * 60 + now.getMinutes();
-        const duration = pill.time - time;
+        const t = now.getHours() * 60 + now.getMinutes();
+        const duration = time.time - t;
         return Utils.fmtDuration(duration);
     }
-    return Utils.fmtTime(pill.time);
+    return Utils.fmtTime(time.time);
   }
 
-  showPill(pill: PillData): boolean {
+  showPill(pill: PillData, time: TimeData): boolean {
     if (this.ss.data.appMode == 'edit') {
       return true;
     }
-    if (Utils.isToday(pill.nextConsume)) {
+    if (Utils.isToday(time.nextConsume)) {
       return true;
     }
     return pill.isSupplyLow;
