@@ -1,1 +1,17 @@
-<p>This will be the ultimate colormixer, when completed</p>
+<div canvas-container>
+  <div canvas-line>
+    <canvas #canvasImage
+            (click)="clickCanvas($event)"
+            (mousemove)="mouseMoveCanvas($event)"></canvas>
+  </div>
+  <button [matMenuTriggerData]="{pos:'tl'}" [matMenuTriggerFor]="colorMenu" [ngStyle]="selectColor(color_tl)" color-select tl></button>
+  <button [matMenuTriggerData]="{pos:'tr'}" [matMenuTriggerFor]="colorMenu" [ngStyle]="selectColor(color_tr)" color-select tr></button>
+  <button [matMenuTriggerData]="{pos:'bl'}" [matMenuTriggerFor]="colorMenu" [ngStyle]="selectColor(color_bl)" bl color-select></button>
+  <button [matMenuTriggerData]="{pos:'br'}" [matMenuTriggerFor]="colorMenu" [ngStyle]="selectColor(color_br)" br color-select></button>
+</div>
+<mat-menu #colorMenu="matMenu">
+  <ng-template let-position="pos" matMenuContent>
+    <button (click)="clickColorSelect(color.color, position)" *ngFor="let color of colorList" [ngStyle]="selectColor(color.color)" mat-menu-item>
+    </button>
+  </ng-template>
+</mat-menu>

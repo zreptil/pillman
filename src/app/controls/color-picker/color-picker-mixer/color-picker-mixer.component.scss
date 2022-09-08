@@ -1,0 +1,59 @@
+:host {
+  width: 100%;
+  height: 100%;
+  --size: 30px;
+}
+
+[color-select] {
+  width: var(--size);
+  height: var(--size);
+  border: 1px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  z-index: 0;
+}
+
+[color-line] {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+[c-anvas-line] {
+  display: flex;
+  flex-flow: row;
+  padding: 0 calc(var(--size) / 2);
+}
+
+[canvas-container] {
+  position: relative;
+  padding: calc(var(--size) / 2);
+
+  [canvas-line] {
+    display: flex;
+    flex-flow: row;
+    position: relative;
+    z-index: 1;
+  }
+
+  [tl] {
+    top: 0;
+    left: 0;
+  }
+
+  [tr] {
+    top: 0;
+    right: 0;
+  }
+
+  [bl] {
+    bottom: 0;
+    left: 0;
+  }
+
+  [br] {
+    bottom: 0;
+    right: 0;
+  }
+}

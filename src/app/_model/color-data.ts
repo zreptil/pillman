@@ -35,8 +35,8 @@ export class ColorData extends BaseData {
     return ret;
   }
 
-  equals(value: ColorData): boolean {
-    return value?.value.join(',') === this.value?.join(',');
+  equals(check: ColorData): boolean {
+    return ColorUtils.rgb2value(check?.value) === ColorUtils.rgb2value(this.value);
   }
 
   _fillFromJson(json: any): void {

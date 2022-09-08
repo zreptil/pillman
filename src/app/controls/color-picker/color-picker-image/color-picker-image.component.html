@@ -3,8 +3,6 @@
         (click)="canvasClick($event)"
         (mouseenter)="canvasMouseEnter($event)"
         (mousemove)="canvasMouseMove($event)"
-        (mouseout)="canvasMouseOut($event)"
-        id="canvas"></canvas>
-<div class="palette"></div>
+        (mouseout)="canvasMouseOut($event)"></canvas>
 <canvas #canvasLens class="lens" height="100" width="100"></canvas>
 <img #img [src]="data.imageDataUrl" alt="" class="img" id="img">
