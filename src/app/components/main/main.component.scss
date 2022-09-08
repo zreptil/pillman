@@ -22,6 +22,7 @@ mat-toolbar {
   background-color: var(--toolbarBack);
   color: var(--toolbarFore);
   align-items: center;
+  position: relative;
 
   ::ng-deep app-pillman {
     height: 48px;
@@ -29,6 +30,25 @@ mat-toolbar {
     svg {
       height: 48px;
     }
+  }
+
+  [currentmark] {
+    position: absolute;
+    bottom: -0.3em;
+    width: 2px !important;
+    background: rgba(255, 255, 255, 0.8);
+    height: 0.7em;
+  }
+
+  [currenttext] {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    font-size: 0.8em;
+    bottom: 0;
+    width: 10em;
+    height: 2em;
+    color: rgba(255, 255, 255, 0.8);
   }
 }
 
@@ -104,27 +124,9 @@ mat-toolbar {
     display: flex;
     flex-flow: row;
     align-items: flex-start;
-    width: 90%;
+    width: 80%;
     margin-left: 10%;
     position: relative;
-
-    [currentmark] {
-      position: absolute;
-      top: -2em;
-      width: 2px !important;
-      background: rgba(255, 255, 255, 0.8);
-      height: 4em;
-    }
-
-    [currenttext] {
-      display: flex;
-      justify-content: center;
-      position: absolute;
-      top: 2em;
-      width: 10em;
-      height: 2em;
-      color: rgba(255, 255, 255, 0.8);
-    }
 
     [timetext] {
       display: flex;

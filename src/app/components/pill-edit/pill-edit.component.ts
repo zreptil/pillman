@@ -102,11 +102,6 @@ export class PillEditComponent {
     }
   }
 
-  onColorFileLoaded(content: any) {
-    this.ss.data.colorImage = content;
-    this.ss.save();
-  }
-
   clickCancel(event: MouseEvent) {
     event.preventDefault();
     this.data.pill.fillFromString(this.orgPill);

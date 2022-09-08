@@ -6,6 +6,7 @@ import {DialogData, DialogResult, DialogResultButton, DialogType, IDialogDef} fr
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {Log} from '@/_services/log.service';
+import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,12 @@ export class SessionService {
 
   info(content: string | string[], type = DialogType.info): Observable<DialogResult> {
     return this.showDialog(type, content);
+  }
+
+  onColorDataChanged(data: ColorDialogData) {
+    this.data.colorImage = data.imageDataUrl;
+    this.data.colorPickerMode = data.mode;
+    this.save();
   }
 
   confirm(content: string | string[], type = DialogType.confirm): Observable<DialogResult> {

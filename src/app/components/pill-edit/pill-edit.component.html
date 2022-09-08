@@ -46,10 +46,11 @@
         <div vert></div>
       </button>
     </ng-container>
-    <app-color-picker (onFileLoaded)="onColorFileLoaded($event)"
+    <app-color-picker (onDataChanged)="ss.onColorDataChanged($event)"
                       [(color)]="data.pill.color"
                       [imageDataUrl]="ss.data.colorImage"
-                      [maxFilesize]="500000"></app-color-picker>
+                      [maxFilesize]="500000"
+                      [savedColors]="ss.data.savedColors"></app-color-picker>
   </div>
   <h2 i18n>Alarmanzeige</h2>
   <div line>
@@ -72,7 +73,7 @@
           <div [class]="ps.classForText(data.pill)" title>{{data.pill?.name}}</div>
           <div actions>
             <button [ngStyle]="ps.styleForPill(data.pill)" mat-icon-button>
-              <mat-icon>no_meals</mat-icon>
+              <mat-icon>restaurant</mat-icon>
             </button>
             <button [ngStyle]="ps.styleForPill(data.pill)" mat-icon-button>
               <mat-icon>no_meals</mat-icon>

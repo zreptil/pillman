@@ -15,6 +15,12 @@
         </button>
       </div>
     </mat-menu>
+    <app-color-picker (onDataChanged)="ss.onColorDataChanged($event)"
+                      *ngIf="ss.mayDebug"
+                      [imageDataUrl]="ss.data.colorImage"
+                      [maxFilesize]="500000"
+                      [mode]="ss.data.colorPickerMode"
+                      [savedColors]="ss.data.savedColors"></app-color-picker>
   </ng-container>
   <div spacer></div>
   <ng-container *ngIf="ss.data.appMode==='edit'">
@@ -31,6 +37,8 @@
       <mat-icon>{{ss.data.showPast ? 'sync_alt' : 'arrow_right_alt'}}</mat-icon>
     </button>
     <input #fileSelect (change)="fileSelected($event)" accept="application/json" type="file">
+    <div [ngStyle]="styleForToolbarMark" currentmark></div>
+    <div [ngStyle]="styleForToolbarText" currenttext>{{nowText}}</div>
   </ng-container>
   <button (click)="clickPillman()" mat-icon-button>
     <app-pillman [isDoc]="ss.data.appMode==='edit'"></app-pillman>
@@ -40,8 +48,6 @@
   <app-pillman [isDoc]="ss.data.appMode==='edit'" [ngStyle]="{opacity:ss.data.showHelp ? 1.0 : 0.2}"></app-pillman>
   <div *ngIf="ss.data.appMode==='timeline'" timeline>
     <div timespan>
-      <div [ngStyle]="styleForCurrentmark" currentmark></div>
-      <div [ngStyle]="styleForCurrenttext" currenttext>{{nowText}}</div>
       <ng-container *ngFor="let entry of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]; let idx = index">
         <div [ngStyle]="styleForTimetext(entry)" timetext>
           {{entry}}

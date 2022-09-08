@@ -3,6 +3,7 @@ import {PillData} from './pill-data';
 import {JsonData} from './json-data';
 import {UserData} from '@/_model/user-data';
 import {Log} from '@/_services/log.service';
+import {ColorData} from '@/_model/color-data';
 
 export enum ConsumeDisplay {
   Time,
@@ -21,6 +22,8 @@ export class PillmanData extends BaseData {
   timeDisplay = PillmanData.timeList[0];
   showHelp = true;
   colorImage: string;
+  colorPickerMode: string;
+  savedColors: ColorData[];
   alertName: string = '006';
 
   constructor() {
@@ -33,11 +36,13 @@ export class PillmanData extends BaseData {
       'm': this.appMode,
       'sp': this.showPast,
       'cd': this.consumeDisplay?.valueOf() ?? 0,
-      'med': this.listMedication?.map(m => m.asJson),
+      'med': this.listMedication?.map(m => m.asJson) ?? [],
       'ci': this.colorImage,
+      'sc': this.savedColors?.map(m => m.asJson) ?? [],
       'sh': this.showHelp,
       'td': this.timeDisplay,
-      'an': this.alertName ?? '006'
+      'an': this.alertName ?? '006',
+      'cm': this.colorPickerMode ?? 'image'
     };
   }
 
@@ -67,12 +72,17 @@ export class PillmanData extends BaseData {
         this.listMedication.push(PillData.fromJson(med));
       }
       this.colorImage = JsonData.toString(json, 'ci');
+      this.savedColors = [];
+      for (const color of json['sc'] || []) {
+        this.savedColors.push(ColorData.fromJson(color));
+      }
       this.showHelp = JsonData.toBool(json, 'sh', true);
       this.timeDisplay = json?.['td'];
       if (PillmanData.timeList.find(v => v === this.timeDisplay) == null) {
         this.timeDisplay = PillmanData.timeList[0];
       }
       this.alertName = JsonData.toString(json, 'an');
+      this.colorPickerMode = JsonData.toString(json, 'cm') ?? 'image';
     } catch (ex) {
       console.error('Fehler beim Laden', json, ex);
       Log.error($localize`Fehler beim Import der Daten`);

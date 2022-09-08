@@ -84,22 +84,23 @@ export class MainComponent implements OnInit {
     return ret;
   }
 
-  get styleForCurrentmark(): any {
-    return this.styleForTimemark(Utils.getTime() / 60);
+  get styleForToolbarMark(): any {
+    const x = 10 + Utils.getTime() / 60 / 24 * 80;
+    return {'left': `${x}%`};
   }
 
-  get styleForCurrenttext(): any {
-    const x = Utils.getTime() / 60 / 24 * 90;
+  get styleForToolbarText(): any {
+    const x = 10 + Utils.getTime() / 60 / 24 * 80;
     return {'left': `calc(${x}% - 5em)`};
   }
 
   styleForTimemark(time: number): any {
-    const x = time / 24 * 90;
+    const x = time / 24 * 100;
     return {'left': `${x}%`};
   }
 
   styleForTimepart(data: TimelineData): any {
-    const x = data.time / 60 / 24 * 90;
+    const x = data.time / 60 / 24 * 100;
     const ret: any = {'left': `${x}%`};
     if (data.offsetY > 0) {
       ret['padding-top'] = `${data.offsetY}px`;
@@ -108,7 +109,7 @@ export class MainComponent implements OnInit {
   }
 
   styleForTimetext(time: number): any {
-    const x = time / 24 * 90;
+    const x = time / 24 * 100;
     return {'left': `calc(${x}% - 1em)`};
   };
 
