@@ -5,6 +5,7 @@ import {SessionService} from '@/_services/session.service';
 import {PillEditComponent} from '@/components/pill-edit/pill-edit.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {TimeData} from '@/_model/time-data';
+import {HelpData} from '@/_model/help-data';
 
 @Injectable({
   providedIn: 'root'
@@ -106,7 +107,7 @@ export class PillService {
   }
 
   showPill(pill: PillData, time: TimeData): boolean {
-    if (this.ss.data.appMode == 'edit') {
+    if (this.ss.data.appMode === 'edit') {
       return true;
     }
     if (Utils.isToday(time.nextConsume)) {
@@ -117,6 +118,7 @@ export class PillService {
 
   editPill(idx: number): void {
     this.isEditingPill = true;
+    HelpData.set('hlp-editpill');
     this.dialogRef = this.dialog.open(PillEditComponent, {
       minWidth: '50%',
       data: {
@@ -127,6 +129,7 @@ export class PillService {
     });
     this.dialogRef.afterClosed().subscribe(_ => {
       this.isEditingPill = false;
+      HelpData.clear('hlp-editpill');
     });
   }
 }

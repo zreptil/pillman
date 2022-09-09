@@ -1,7 +1,9 @@
 <div *ngIf="show" root>
   <div>
-    <ng-container *ngIf="ss.data.appMode === 'edit'">
-      <ng-container *ngIf="!ps.isEditingPill">
+    <ng-container [ngSwitch]="id">
+      <ng-container *ngSwitchCase="'hlp-mode-edit'">
+        <!-- *ngIf="ss.data.appMode === 'edit'" -->
+        <!-- *ngIf="!ps.isEditingPill"> -->
         <p i18n>Willkommen zu Pillman!</p>
         <p i18n>
           Pillman ist ein einfacher Pillenmanager. Hiermit kann man seine Medikamente erfassen und sich
@@ -13,8 +15,8 @@
           , mit dem man den Modus umschalten kann.
         </p>
         <p i18n>
-          In diesem Modus können die Medikamente verwaltet und App-Einstellungen vorgenommen werden.
-          Mit dem roten Kreuz wird ein neues Medikament angelegt. Mit dem Icon
+          Im aktuellen Modus können die Medikamente verwaltet und Einstellungen vorgenommen
+          werden. Mit dem roten Kreuz wird ein neues Medikament angelegt. Mit dem Icon
           <mat-icon>edit</mat-icon>
           auf den Medikamenten kann das jeweilige Medikament editiert werden.
         </p>
@@ -34,7 +36,9 @@
           wieder aus einer Datei importieren.
         </p>
       </ng-container>
-      <ng-container *ngIf="ps.isEditingPill">
+      <ng-container *ngSwitchCase="'hlp-editpill'">
+        <!-- *ngIf="ss.data.appMode === 'edit'" -->
+        <!-- *ngIf="ps.isEditingPill" -->
         <p i18n>
           In diesem Editor werden die Daten des Medikaments erfasst. Der Name muss eingegeben werden
           und es darf auch nur ein Medikament dieses Namens geben.
@@ -80,48 +84,127 @@
           zur exakten Darstellung.
         </p>
       </ng-container>
+      <ng-container *ngSwitchCase="'hlp-mode-timeline'">
+        <!-- *ngIf="ss.data.appMode === 'timeline'" -->
+        <p i18n>
+          Im aktuellen Modus werden die einzunehmenden Medikamente entlang eines Zeitstrahls für den
+          aktuellen Tag angezeigt. Dabei werden alle Medikamente für den Tag angezeigt und auch
+          die Alarmierung entsprechend der Alarmeinstellungen der Medikamente berücksichtigt.
+        </p>
+        <p i18n>
+          Links oben ist ein kleines Icon
+          <mat-icon>timelapse</mat-icon>
+          , mit dem man den Modus umschalten kann.
+        </p>
+        <p *ngIf="ss.data.showPast" i18n>
+          Mit dem Icon
+          <mat-icon>sync_alt</mat-icon>
+          rechts oben kann man die vergangenen Einnahmen ausblenden.
+        </p>
+        <p *ngIf="!ss.data.showPast" i18n>
+          Mit dem Icon
+          <mat-icon>arrow_right_alt</mat-icon>
+          rechts oben kann man die vergangenen Einnahmen einblenden.
+        </p>
+        <p i18n>
+          Mit dem Icon
+          <mat-icon>restaurant</mat-icon>
+          wird die das Medikament als eingenommen festgelegt, mit dem Icon
+          <mat-icon>no_meals</mat-icon>
+          wird es als verpasst und nicht eingenommen festgelegt.
+        </p>
+        <p *ngIf="ss.data.timeDisplay === 'time'" i18n>
+          Am unteren Rand der Pille wird die Zeit angezeigt, zu der die nächste Einnahme erfolgen
+          soll oder zu der die letzte Einnahme erfolgen sollte. Wenn diese angeklickt wird, dann
+          wird auf die Anzeige der Dauer umgeschaltet.
+        </p>
+        <p *ngIf="ss.data.timeDisplay === 'duration'" i18n>
+          Am unteren Rand der Pille wird die Dauer bis zur nächsten Einnahme oder seit der letzten
+          Einnahme angezeigt. Wenn diese angeklickt wird, dann wird auf die Anzeige des Zeitpunkts
+          der nächsten oder der vergangenen Einnahme umgeschaltet.
+        </p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'hlp-alert-menu'">
+        <p i18n>
+          Das Alarmmenü zeigt die verfügbaren Sounds an. Von diesen Sounds kann einer aktiviert
+          werden, um an die Einnahme von Medikamenten zu erinnern. Mit dem Icon
+          <mat-icon>play_arrow</mat-icon>
+          wird der entsprechende Sound abgespielt, um festzustellen, ob es der Sound der Wahl ist.
+        </p>
+        <p i18n>
+          Während der Sound abgespielt wird (einige sind etwas länger), verändert sich das Icon in
+          <mat-icon>stop</mat-icon>
+          . Wenn dieses angeklickt wird, dann wird der Sound beendet.
+        </p>
+        <p i18n>
+          Mit dem Anklicken des Namens wird der Sound als Erinnerungston festgelegt,.
+        </p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'hlp-cp-dialog'">
+        <p i18n>
+          Hier kann eine Farbe gewählt werden. Es gibt verschiedene Modi, die man mit dem kleinen
+          Icon links oben umschalten kann. Am unteren Rand wird links die aktuelle Farbe angezeigt,
+          die mit dem Dialog geändert werden soll. Daneben befinden sich ein bis zehn Farbfelder,
+          die durch Auswahl einer Farbe erweitert werden. Durch Anklicken eines der Farbfelder wird
+          die Farbe dann dort gesetzt, wo der Dialog gestartet wurde.
+        </p>
+        <p i18n>
+          Der aktuelle Modus ist:
+        </p>
+        <ng-container *ngIf="subId === 'mixer'">
+          <h3>
+            <mat-icon>blender</mat-icon>
+            Farbmischer
+          </h3>
+          <p i18n>
+            In diesem Modus kann man sich die Farbe zusammen mischen. Die runden Ecken des angezeigten
+            Feldes werden mit einer Farbe versehen und das Feld zwischen diesen Ecken wird entsprechend
+            der Farbauswahl mit einem Farbverlauf befüllt. Wenn eine Ecke angeklickt wird, dann erscheint
+            ein Farbrad, aus dem man die Farbe für diese Ecke auswählen kann.
+          </p>
+          <p i18n>
+            Die Farben sind vorgegeben und repräsentieren die hellsten Farben, schwarz und weiss. Wenn man
+            das Farbfeld anklickt, wird zusätzlich dazu, dass die Farbe in die untere Farbleiste übernommen
+            wird, in der Mitte oben im Farbrad diese Farbe eingefügt. Dadurch kann man diese Farbe auch als
+            Farbe für eine Ecke auswählen und so verschiedene Mischungen vornehmen. Die Farbe wird beim
+            nächsten Anklicken einer Farbe ersetzt, so dass immer maximal neun Farben zur Auswahl stehen.
+          </p>
+          <p i18n>
+            Mit dem Mausrad kann das Farbfeld grobkörniger (Mausrad runter) oder feiner (Mausrad hoch)
+            eingestellt werden. Damit kann man eine genauere Farbauswahl treffen.
+          </p>
+        </ng-container>
+        <ng-container *ngIf="subId === 'image'">
+          <h3>
+            <mat-icon>image</mat-icon>
+            Bild
+          </h3>
+          <p i18n>
+            In diesem Modus wird die Farbe aus einem Bild ermittelt. Das Bild kann mit dem Icon
+            <mat-icon>upload</mat-icon>
+            rechts unten geladen werden. Wenn man dann den Cursor über das Bild bewegt, wird eine
+            Lupe angezeigt, die den Bereich unter dem Cursor heranzoomt. Dieser Zoomfaktor kann
+            durch das Mausrad verändert werden. Damit ist es möglich die Farbe, die man gerne
+            möchte besser zu lokalisieren. Wenn der Zoomfaktor ausgeschaltet wurde (Mausrad
+            nach oben), dann verschwindet die Lupe, kann aber mit Mausrad runter wieder angezeigt
+            werden.
+          </p>
+          <p i18n>
+            Das Bild wird im Browser gespeichert und steht beim nächsten Aufruf der Seite wieder
+            zur Verfügung. Es muss also nicht jedesmal neu geladen werden.
+          </p>
+        </ng-container>
+        <p i18n>
+          Die aktuelle Farbe, die sich unter dem Mauscursor befindet wird immer in der Farbleiste
+          am unteren Rand im letzten Farbfeld angezeigt.
+        </p>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        {{defMode()}}
+      </ng-container>
     </ng-container>
-    <ng-container *ngIf="ss.data.appMode === 'timeline'">
-      <p i18n>
-        Links oben ist ein kleines Icon
-        <mat-icon>timelapse</mat-icon>
-        , mit dem man den Modus umschalten kann.
-      </p>
-      <p i18n>
-        Im aktuellen Modus werden die einzunehmenden Medikamente entlang eines Zeitstrahls für den
-        aktuellen Tag angezeigt. Dabei werden alle Medikamente für den Tag angezeigt und auch
-        die Alarmierung entsprechend der Alarmeinstellungen der Medikamente berücksichtigt.
-      </p>
-      <p *ngIf="ss.data.showPast" i18n>
-        Mit dem Icon
-        <mat-icon>sync_alt</mat-icon>
-        rechts oben kann man die vergangenen Einnahmen ausblenden.
-      </p>
-      <p *ngIf="!ss.data.showPast" i18n>
-        Mit dem Icon
-        <mat-icon>arrow_right_alt</mat-icon>
-        rechts oben kann man die vergangenen Einnahmen einblenden.
-      </p>
-      <p i18n>
-        Mit dem Icon
-        <mat-icon>restaurant</mat-icon>
-        wird die das Medikament als eingenommen festgelegt, mit dem Icon
-        <mat-icon>no_meals</mat-icon>
-        wird es als verpasst und nicht eingenommen festgelegt.
-      </p>
-      <p *ngIf="ss.data.timeDisplay === 'time'" i18n>
-        Am unteren Rand der Pille wird die Zeit angezeigt, zu der die nächste Einnahme erfolgen
-        soll oder zu der die letzte Einnahme erfolgen sollte. Wenn diese angeklickt wird, dann
-        wird auf die Anzeige der Dauer umgeschaltet.
-      </p>
-      <p *ngIf="ss.data.timeDisplay === 'duration'" i18n>
-        Am unteren Rand der Pille wird die Dauer bis zur nächsten Einnahme oder seit der letzten
-        Einnahme angezeigt. Wenn diese angeklickt wird, dann wird auf die Anzeige des Zeitpunkts
-        der nächsten oder der vergangenen Einnahme umgeschaltet.
-      </p>
-    </ng-container>
-    <p i18n>
+    <h6 i18n>
       Dieser Text hier kann mit dem kleinen Pillman rechts oben ein- und ausgeschaltet werden.
-    </p>
+    </h6>
   </div>
 </div>

@@ -30,7 +30,7 @@ export abstract class BaseData {
 
   fillFromString(src: string): void {
     try {
-      if (src == null) {
+      if (src == null || src.trim() === '') {
         this.fillFromJson({});
       } else {
         this.fillFromJson(JSON.parse(src));

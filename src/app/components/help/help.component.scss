@@ -24,7 +24,7 @@
     }
 
     mat-icon {
-      font-size: 12px;
+      font-size: 14px;
       width: initial;
       height: initial;
     }
@@ -32,8 +32,19 @@
 
   h3 {
     display: flex;
+    align-items: center;
     margin: 0.5em 0;
     font-weight: bold;
     font-size: 1em;
+
+    mat-icon {
+      font-size: 16px;
+      margin-right: 0.3em;
+    }
+  }
+
+  h6 {
+    font-size: 0.8em;
+    line-height: 0.9em;
   }
 }

@@ -26,9 +26,6 @@
          [ngStyle]="{backgroundColor:color.display}"></div>
     <div spacer></div>
     <ng-container *ngIf="data.mode === 'image'">
-      <button (click)="fire.emit('Palette')" mat-icon-button>
-        <mat-icon>palette</mat-icon>
-      </button>
       <button (click)="fire.emit('File')" mat-icon-button>
         <mat-icon>upload</mat-icon>
       </button>

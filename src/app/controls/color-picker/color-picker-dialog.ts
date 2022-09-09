@@ -35,6 +35,7 @@ export class ColorPickerDialog {
     const iconList: { [key: string]: string } = {mixer: 'blender', image: 'image'};
     if (iconList[this.data.mode] == null) {
       this.data.mode = ColorPickerDialog.modeList[0];
+      this.fireMode();
     }
     return iconList[this.data.mode];
   }
@@ -119,8 +120,14 @@ export class ColorPickerDialog {
     });
   }
 
+  fireMode(): void {
+    this.data.action = `mode-${this.data.mode}`;
+    this.data.onDialogEvent?.emit(this.data);
+  }
+
   clickMode() {
     this.data.mode = Utils.nextListItem(this.data.mode, ColorPickerDialog.modeList);
+    this.fireMode();
     this.data.onDataChanged?.emit(this.data);
   }
 }

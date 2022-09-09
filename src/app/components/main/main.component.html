@@ -4,7 +4,7 @@
   </button>
   <div spacer></div>
   <ng-container *ngIf="ss.data.appMode==='edit'">
-    <button [matMenuTriggerFor]="alertMenu" mat-icon-button>
+    <button (menuClosed)="alertMenuClosed()" (menuOpened)="alertMenuOpened()" [matMenuTriggerFor]="alertMenu" mat-icon-button>
       <mat-icon>volume_up</mat-icon>
     </button>
     <mat-menu #alertMenu="matMenu">
@@ -16,6 +16,7 @@
       </div>
     </mat-menu>
     <app-color-picker (onDataChanged)="ss.onColorDataChanged($event)"
+                      (onDialogEvent)="ss.colorPickerEvent($event)"
                       *ngIf="ss.mayDebug"
                       [imageDataUrl]="ss.data.colorImage"
                       [maxFilesize]="500000"

@@ -8,6 +8,7 @@ import {PillmanData} from '@/_model/pillman-data';
 import {saveAs} from 'file-saver';
 import {Log} from '@/_services/log.service';
 import {PillTimeData} from '@/_model/pill-time-data';
+import {HelpData} from '@/_model/help-data';
 
 class AlertData {
   label: string;
@@ -117,10 +118,6 @@ export class MainComponent implements OnInit {
     this.initMode();
   }
 
-  doit(data: PillData): void {
-    console.log('OLEOLE', data);
-  }
-
   onViewTimer(): void {
     const pill = this.ss.data.listMedication.find(p => p.isAlerted);
     if (pill != null) {
@@ -145,6 +142,7 @@ export class MainComponent implements OnInit {
   }
 
   initMode(): void {
+    HelpData.id = `hlp-mode-${this.ss.data.appMode}`;
     if (['timeline'].indexOf(this.ss.data.appMode) >= 0) {
       this.onViewTimer();
     } else {
@@ -155,6 +153,7 @@ export class MainComponent implements OnInit {
   clickMode(event: MouseEvent) {
     event.stopPropagation();
     this.ss.data.appMode = Utils.nextListItem(this.ss.data.appMode, PillmanData.modeList);
+    HelpData.id = `hlp-mode-${this.ss.data.appMode}`;
     this.initMode();
     this.ss.save();
   }
@@ -226,5 +225,13 @@ export class MainComponent implements OnInit {
       ret.push('mark');
     }
     return ret;
+  }
+
+  alertMenuOpened() {
+    HelpData.set('hlp-alert-menu');
+  }
+
+  alertMenuClosed() {
+    HelpData.clear('hlp-alert-menu');
   }
 }

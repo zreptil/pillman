@@ -7,6 +7,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {Log} from '@/_services/log.service';
 import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
+import {HelpData} from '@/_model/help-data';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class SessionService {
   load(): void {
     this.data = new PillmanData();
     const src = this.ss.read('pillman');
+
     this.data.fillFromString(src);
   }
 
@@ -43,6 +45,23 @@ export class SessionService {
     this.data.colorPickerMode = data.mode;
     this.data.mixColors = data.mixColors;
     this.save();
+  }
+
+  colorPickerEvent(data: ColorDialogData) {
+    switch (data.action) {
+      case 'open':
+        HelpData.set(`hlp-cp-dialog`);
+        break;
+      case 'close':
+        HelpData.clear(`hlp-cp-dialog`);
+        break;
+      case 'mode-mixer':
+        HelpData.subId = 'mixer';
+        break;
+      case 'mode-image':
+        HelpData.subId = 'image';
+        break;
+    }
   }
 
   confirm(content: string | string[], type = DialogType.confirm): Observable<DialogResult> {

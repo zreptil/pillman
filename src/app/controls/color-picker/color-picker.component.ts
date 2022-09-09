@@ -8,11 +8,13 @@ export interface ColorDialogData {
   imageDataUrl: string;
   mode: string;
   onDataChanged: EventEmitter<ColorDialogData>;
+  onDialogEvent: EventEmitter<ColorDialogData>;
   color: ColorData;
   colorChange: EventEmitter<ColorData>;
   maxFilesize: number;
   mixColors: ColorMix;
   savedColors: ColorData[];
+  action: string;
 }
 
 @Component({
@@ -45,21 +47,33 @@ export class ColorPickerComponent {
   @Input()
   mixColors: ColorMix;
 
+  @Output()
+  onDialogEvent = new EventEmitter<ColorDialogData>();
+
   constructor(public dialog: MatDialog) {
   }
 
   clickActivate(_: MouseEvent) {
-    this.dialog.open(ColorPickerDialog, {
-      data: {
-        imageDataUrl: this.imageDataUrl,
-        onDataChanged: this.onDataChanged,
-        color: this.color ?? new ColorData([255, 255, 255]),
-        colorChange: this.colorChange,
-        maxFilesize: this.maxFilesize,
-        mixColors: this.mixColors,
-        savedColors: this.savedColors ?? [],
-        mode: this.mode
-      }
-    })
+    const data = {
+      imageDataUrl: this.imageDataUrl,
+      onDataChanged: this.onDataChanged,
+      onDialogEvent: this.onDialogEvent,
+      color: this.color ?? new ColorData([255, 255, 255]),
+      colorChange: this.colorChange,
+      maxFilesize: this.maxFilesize,
+      mixColors: this.mixColors,
+      savedColors: this.savedColors ?? [],
+      mode: this.mode,
+      action: 'open'
+    };
+    this.onDialogEvent?.emit(data);
+    const dlgRef = this.dialog.open(ColorPickerDialog, {
+      data: data
+    });
+    dlgRef.componentInstance.fireMode();
+    dlgRef.afterClosed().subscribe(data => {
+      data.action = 'close';
+      this.onDialogEvent?.emit(data);
+    });
   }
 }

@@ -3,6 +3,18 @@ import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-bas
 import {ColorData} from '@/_model/color-data';
 import {ColorUtils} from '@/controls/color-picker/color-utils';
 
+//https://github.com/google/material-design-icons/blob/master/font/MaterialIcons-Regular.ttf?raw=true
+//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsOutlined-Regular.otf?raw=true
+//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsRound-Regular.otf?raw=true
+//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsSharp-Regular.otf?raw=true
+//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsTwoTone-Regular.otf?raw=true
+//https://github.com/google/material-design-icons/blob/master/font/MaterialIcons-Regular.ttf?raw=true
+
+//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsSharp%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
+//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsOutlined%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
+//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
+//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsSharp%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
+
 @Component({
   selector: 'app-color-picker-mixer',
   templateUrl: './color-picker-mixer.component.html',
@@ -60,7 +72,7 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
     this.paintCanvas();
   }
 
-  wheelie(event: WheelEvent) {
+  wheelCanvas(event: WheelEvent) {
     this.paintSize += Math.sign(event.deltaY) * 5;
     this.paintSize = Math.max(Math.min(this.paintSize, 100), 1);
     this.paintCanvas();
@@ -186,17 +198,6 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
     return ret;
   }
 
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIcons-Regular.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsOutlined-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsRound-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsSharp-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsTwoTone-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIcons-Regular.ttf?raw=true
-
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsSharp%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsOutlined%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsSharp%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
   clickColorSelect(color: ColorData) {
     (this.data.mixColors as any)[`${this.colorWheelPos}`] = color;
     this.data.onDataChanged?.emit(this.data);

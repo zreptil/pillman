@@ -25,9 +25,9 @@ export class ColorData extends BaseData {
       this.value = [255, 255, 255];
     }
     return {
-      'v': Utils.pad(this.value[0].toString(16)) +
-        Utils.pad(this.value[1].toString(16)) +
-        Utils.pad(this.value[2].toString(16))
+      'v': Utils.pad(this.value[0]?.toString(16) ?? 0) +
+        Utils.pad(this.value[1]?.toString(16) ?? 0) +
+        Utils.pad(this.value[2]?.toString(16) ?? 0)
     };
   }
 

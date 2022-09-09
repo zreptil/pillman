@@ -3,7 +3,7 @@
     <canvas #canvasImage
             (click)="clickCanvas($event)"
             (mousemove)="mouseMoveCanvas($event)"
-            (wheel)="wheelie($event)"></canvas>
+            (wheel)="wheelCanvas($event)"></canvas>
   </div>
   <button (click)="clickSelectTrigger('tl')" [ngStyle]="selectColor(data.mixColors.tl)" color-select tl></button>
   <button (click)="clickSelectTrigger('tr')" [ngStyle]="selectColor(data.mixColors.tr)" color-select tr></button>

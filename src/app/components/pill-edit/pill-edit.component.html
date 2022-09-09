@@ -49,6 +49,7 @@
       </button>
     </ng-container>
     <app-color-picker (onDataChanged)="ss.onColorDataChanged($event)"
+                      (onDialogEvent)="ss.colorPickerEvent($event)"
                       [(color)]="data.pill.color"
                       [imageDataUrl]="ss.data.colorImage"
                       [maxFilesize]="500000"
