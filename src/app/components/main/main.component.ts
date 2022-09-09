@@ -117,6 +117,10 @@ export class MainComponent implements OnInit {
     this.initMode();
   }
 
+  doit(data: PillData): void {
+    console.log('OLEOLE', data);
+  }
+
   onViewTimer(): void {
     const pill = this.ss.data.listMedication.find(p => p.isAlerted);
     if (pill != null) {

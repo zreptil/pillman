@@ -25,13 +25,15 @@ export class ColorData extends BaseData {
       this.value = [255, 255, 255];
     }
     return {
-      'v': `${this.value[0].toString(16)}${this.value[1].toString(16)}${this.value[2].toString(16)}`
+      'v': Utils.pad(this.value[0].toString(16)) +
+        Utils.pad(this.value[1].toString(16)) +
+        Utils.pad(this.value[2].toString(16))
     };
   }
 
-  static fromJson(json: any): ColorData {
+  static fromJson(json: any, def?: ColorData): ColorData {
     const ret = new ColorData(null);
-    ret.fillFromJson(json);
+    ret.fillFromJson(json, def);
     return ret;
   }
 
@@ -39,9 +41,19 @@ export class ColorData extends BaseData {
     return ColorUtils.rgb2value(check?.value) === ColorUtils.rgb2value(this.value);
   }
 
-  _fillFromJson(json: any): void {
+  similar(check: ColorData): boolean {
+    for (let i = 0; i < 3; i++) {
+      if (Math.abs(this.value[i] - check.value[i]) > 5) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  _fillFromJson(json: any, def: ColorData): void {
     const v = [0, 0, 0];
-    const src = JsonData.toString(json, 'v', '000000') ?? '';
+    const d = ColorUtils.rgb2string(def?.value ?? [0, 0, 0]);
+    const src = JsonData.toString(json, 'v', d) ?? '';
     Utils.pad(src, 6);
     for (let i = 0; i < v.length; i++) {
       v[i] = parseInt(src.substring(i * 2, i * 2 + 2), 16);

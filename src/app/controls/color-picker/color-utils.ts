@@ -1,3 +1,5 @@
+import {Utils} from '@/classes/utils';
+
 export class ColorUtils {
   static rgb2hsl(rgb: number[]): number[] {
     const r = rgb[0] / 255;
@@ -37,6 +39,10 @@ export class ColorUtils {
     return rgb[0] * 65536 + rgb[1] * 256 + rgb[2];
   }
 
+  static rgb2string(rgb: number[]): string {
+    return Utils.pad(rgb[0].toString(16)) + Utils.pad(rgb[1].toString(16)) + Utils.pad(rgb[2].toString(16));
+  }
+
   static hsl2rgb(hsl: number[]): number[] {
     // arguments: [H,S,L] or H,S,L
     //return [r, g, b];
@@ -51,11 +57,21 @@ export class ColorUtils {
       b = l; // achromatic
     } else {
       const hue2rgb = (p: number, q: number, t: number) => {
-        if (t < 0) t += 1;
-        if (t > 1) t -= 1;
-        if (t < 1 / 6) return p + (q - p) * 6 * t;
-        if (t < 1 / 2) return q;
-        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        if (t < 0) {
+          t += 1;
+        }
+        if (t > 1) {
+          t -= 1;
+        }
+        if (t < 1 / 6) {
+          return p + (q - p) * 6 * t;
+        }
+        if (t < 1 / 2) {
+          return q;
+        }
+        if (t < 2 / 3) {
+          return p + (q - p) * (2 / 3 - t) * 6;
+        }
         return p;
       }
 
@@ -136,7 +152,9 @@ export class ColorUtils {
     const src = rgb.split(/([()])/)[2].split(',');
     const ret = [];
     for (const v of src) {
-      if (+v < 0 || +v > 255) return [255, 255, 255];
+      if (+v < 0 || +v > 255) {
+        return [255, 255, 255];
+      }
       ret.push(+v);
     }
     return ret;
@@ -150,7 +168,9 @@ export class ColorUtils {
     const ry = hsl.split(/([()])/)[2].split(',');
     for (let i = 0; i < ry.length; i++) {
       const value = +(ry[i].replace('%', ''));
-      if (i > 0 && value > 100) return [0, 0, 100];
+      if (i > 0 && value > 100) {
+        return [0, 0, 100];
+      }
       hslry.push(value);
     }
     return hslry;

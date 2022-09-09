@@ -15,18 +15,20 @@
   <h2 i18n>Einnahme</h2>
   <div *ngFor="let time of data.pill.timeList; let idx = index" line time>
     <app-number-picker [(value)]="time.count" i18n-label label="Anzahl"></app-number-picker>
-    <app-time-picker *ngIf="time.count>0" [(value)]="time.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
-    <div weekdays>
-      <div>Wochentage</div>
-      <div>
-        <button (click)="clickWeekday(time, idx)" *ngFor="let day of dowShortNames; let idx = index" [class]="classForWeekday(time, idx)" mat-raised-button>
-          {{day}}
+    <ng-container *ngIf="time.count>0">
+      <app-time-picker [(value)]="time.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
+      <div weekdays>
+        <div>Wochentage</div>
+        <div>
+          <button (click)="clickWeekday(time, idx)" *ngFor="let day of dowShortNames; let idx = index" [class]="classForWeekday(time, idx)" mat-raised-button>
+            {{day}}
+          </button>
+        </div>
+        <button (click)="clickDeleteTime(idx)" *ngIf="idx > 0" mat-icon-button>
+          <mat-icon>delete</mat-icon>
         </button>
       </div>
-      <button (click)="clickDeleteTime(idx)" *ngIf="idx > 0" mat-icon-button>
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
+    </ng-container>
   </div>
   <div line>
     <button (click)="clickTimeAdd()" mat-icon-button>
@@ -50,6 +52,7 @@
                       [(color)]="data.pill.color"
                       [imageDataUrl]="ss.data.colorImage"
                       [maxFilesize]="500000"
+                      [mixColors]="ss.data.mixColors"
                       [savedColors]="ss.data.savedColors"></app-color-picker>
   </div>
   <h2 i18n>Alarmanzeige</h2>

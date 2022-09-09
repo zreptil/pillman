@@ -20,7 +20,7 @@ export class PillData extends BaseData {
   alertAnimation: string = PillData.alertList[1];
   alertAnimationText: string = PillData.alertTextList[1];
 
-  timeList: TimeData[];
+  timeList: TimeData[] = [new TimeData()];
 
   get asJson(): any {
     return {
@@ -60,14 +60,14 @@ export class PillData extends BaseData {
 
   _fillFromJson(json: any): void {
     this.name = JsonData.toString(json, 'n');
-    this.interval = json['i'] || 'daily';
+    this.interval = json['i'] ?? 'daily';
     this.supply = JsonData.toNumber(json, 's');
     this.supplyLow = JsonData.toNumber(json, 'low');
     this.shape = json['sh'];
     if (PillData.shapeList.find(s => s === this.shape) == null) {
       this.shape = PillData.shapeList[0];
     }
-    this.color = new ColorData(json['col'] || [255, 255, 255]);
+    this.color = new ColorData(json['col'] ?? [255, 255, 255]);
     this.splith = JsonData.toBool(json, 'sph');
     this.splitv = JsonData.toBool(json, 'spv');
     this.alertAnimation = json['aa'];

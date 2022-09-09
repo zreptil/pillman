@@ -26,7 +26,8 @@ export class SessionService {
 
   load(): void {
     this.data = new PillmanData();
-    this.data.fillFromString(this.ss.read('pillman'));
+    const src = this.ss.read('pillman');
+    this.data.fillFromString(src);
   }
 
   save(): void {
@@ -40,6 +41,7 @@ export class SessionService {
   onColorDataChanged(data: ColorDialogData) {
     this.data.colorImage = data.imageDataUrl;
     this.data.colorPickerMode = data.mode;
+    this.data.mixColors = data.mixColors;
     this.save();
   }
 

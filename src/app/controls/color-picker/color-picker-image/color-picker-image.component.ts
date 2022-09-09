@@ -134,7 +134,7 @@ export class ColorPickerImageComponent extends ColorPickerBaseComponent implemen
     return [R, G, B];
   }
 
-  canvasClick(event: MouseEvent) {
+  clickCanvas(event: MouseEvent) {
     const m = this.mousePos(event);
     this.colorClick?.emit(new ColorData(this.getPixelAt(m.x, m.y)));
   }
@@ -156,10 +156,6 @@ export class ColorPickerImageComponent extends ColorPickerBaseComponent implemen
     this.ctxLens.fillRect(0, 0, (xs + 1) * size, (ys + 1) * size);
     for (let y = 0; y <= ys; y++) {
       for (let x = 0; x <= xs; x++) {
-        // const src = (Math.floor(m.x - x2 + x) + Math.floor(m.y - y2 + y) * this.cw) * 4;
-        // const rs = this.pixels[src];
-        // const gs = this.pixels[src + 1];
-        // const bs = this.pixels[src + 2];
         const rgb = this.getPixelAt(Math.floor(m.x - x2 + x), Math.floor(m.y - y2 + y));
         this.ctxLens.fillStyle = ColorUtils.display_rgb(rgb);
         this.ctxLens.fillRect(x * size, y * size, size, size);

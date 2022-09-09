@@ -14,11 +14,14 @@ export abstract class BaseData {
     return null;
   }
 
-  abstract _fillFromJson(json: any): void;
+  abstract _fillFromJson(json: any, def?: any): void;
 
-  fillFromJson(json: any): void {
+  fillFromJson(json: any, def?: any): void {
     try {
-      this._fillFromJson(json);
+      if (json == null) {
+        json = {};
+      }
+      this._fillFromJson(json, def);
     } catch (ex) {
       Utils.showDebug(ex);
       console.error('Fehler bei fillFromJson von', this, json);

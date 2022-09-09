@@ -24,7 +24,8 @@
     flex-flow: column;
     flex: 1;
 
-    div {
+    div:not(:last-child) {
+      border-bottom: 1px solid #000;
     }
   }
 
@@ -46,8 +47,8 @@
   }
 
   [lines] {
-    div {
-      border-bottom: 1px solid var(--logInfoFore);
+    div:not(:last-child) {
+      border-bottom-color: var(--logInfoFore);
     }
   }
 }
@@ -61,8 +62,8 @@
   }
 
   [lines] {
-    div {
-      border-bottom: 1px solid var(--logErrorFore);
+    div:not(:last-child) {
+      border-bottom-color: var(--logErrorFore);
     }
   }
 }
@@ -77,8 +78,8 @@
   }
 
   [lines] {
-    div {
-      border-bottom: 1px solid var(--logDebugFore);
+    div:not(:last-child) {
+      border-bottom-color: var(--logDebugFore);
     }
   }
 }
