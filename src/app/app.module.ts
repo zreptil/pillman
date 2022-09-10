@@ -14,7 +14,7 @@ import {LogPipe} from './components/log/log.pipe';
 import {TimePickerComponent} from './controls/time-picker/time-picker.component';
 import {NumberPickerComponent} from './controls/number-picker/number-picker.component';
 
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {PillEditComponent} from './components/pill-edit/pill-edit.component';
 import {HelpComponent} from './components/help/help.component';
@@ -48,7 +48,8 @@ import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-bas
     BrowserModule,
     FormsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

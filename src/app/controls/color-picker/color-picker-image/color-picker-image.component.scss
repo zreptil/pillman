@@ -12,12 +12,18 @@ input[type=file] {
   height: 100px;
   position: fixed;
   border-radius: 50%;
-  background: red;
+  background: transparent;
   display: none;
   border: 5px solid black;
 }
 
 canvas {
-  max-width: 400px;
   cursor: crosshair;
+}
+
+[image] {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 }

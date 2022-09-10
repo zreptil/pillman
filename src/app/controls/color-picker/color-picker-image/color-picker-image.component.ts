@@ -10,6 +10,8 @@ import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-bas
   styleUrls: ['./color-picker-image.component.scss']
 })
 export class ColorPickerImageComponent extends ColorPickerBaseComponent implements AfterViewInit {
+  @ViewChild('canvasBox')
+  canvasBox: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvasImage')
   canvasImage: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvasLens')
@@ -56,16 +58,24 @@ export class ColorPickerImageComponent extends ColorPickerBaseComponent implemen
   }
 
   init(): void {
-    const ctx = this.canvasImage.nativeElement.getContext('2d');
+    const ctx = this.canvas.getContext('2d');
+    const box = this.canvasBox.nativeElement;
+    this.canvas.width = box.clientWidth;
+    this.canvas.height = box.clientHeight;
     const img = this.img.nativeElement;
-    this.cw = 400;
+    console.log(box.clientWidth, box.clientHeight);
+    this.cw = this.canvas.clientWidth;
     this.ch = Math.floor(this.cw * img.height / img.width);
+    if (this.ch > this.canvas.clientHeight) {
+      this.ch = this.canvas.clientHeight;
+      this.cw = Math.floor(this.ch * img.width / img.height);
+    }
+    ctx.fillRect(0, 0, this.cw, this.ch);
     this.canvas.width = this.cw;
     this.canvas.height = this.ch;
     ctx.drawImage(img, 0, 0, this.cw, this.ch);
     const imgData = ctx.getImageData(0, 0, this.cw, this.ch);
     this.pixels = imgData.data;
-    // ctxLens.width = lens.clientWidth;
     this.ctxLens.fillStyle = '#ff000000';
     this.ctxLens.fillRect(0, 0, this.lens.clientWidth, this.lens.clientHeight);
     this.wl = this.ctxLens.canvas.width;
@@ -101,16 +111,8 @@ export class ColorPickerImageComponent extends ColorPickerBaseComponent implemen
       x: event.clientX,
       y: event.clientY
     };
-    // the position of the mousecurser has to be calculated
-    // depending on the parents, since there are stacked
-    // elements with different positional attributes
-    let parent = this.canvas.parentElement;
-    for (let i = 1; i > 0; i--) {
-      ret.x -= parent.offsetLeft;
-      ret.y -= parent.offsetTop;
-      parent = parent.parentElement;
-    }
-
+    ret.x -= this.canvas.offsetLeft;
+    ret.y -= this.canvas.offsetTop;
     return ret;
   }
 

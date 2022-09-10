@@ -29,12 +29,15 @@ import {MatTreeModule} from '@angular/material/tree';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatStepper, MatStepperModule} from '@angular/material/stepper';
+import {CdkStepperModule, STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   exports: [
     MatFormFieldModule,
     // A11yModule,
-    // CdkStepperModule,
+    CdkStepperModule,
     // CdkTableModule,
     // CdkTreeModule,
     // DragDropModule,
@@ -46,10 +49,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatCardModule,
     MatCheckboxModule,
     // MatChipsModule,
-    // MatStepperModule,
+    MatStepperModule,
     // MatDatepickerModule,
     MatDividerModule,
-    // MatExpansionModule,
+    MatExpansionModule,
     // MatGridListModule,
     MatIconModule,
     MatInputModule,
@@ -76,7 +79,11 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     ScrollingModule,
     MatDialogModule,
     BrowserAnimationsModule
-  ]
+  ],
+  providers: [MatStepper, {
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: {displayDefaultIndicatorType: false}
+  }]
 })
 export class MaterialModule {
 }

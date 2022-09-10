@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
+import {SessionService} from '@/_services/session.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,13 @@ import {Component} from '@angular/core';
 export class AppComponent {
   title = 'pillman';
 
-  constructor() {
+  constructor(public ss: SessionService) {
+  }
+
+  @HostListener('document:keydown.f1', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    event.preventDefault();
+    this.ss.data.showHelp = !this.ss.data.showHelp;
+    this.ss.save();
   }
 }

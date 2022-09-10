@@ -21,6 +21,8 @@ import {ColorUtils} from '@/controls/color-picker/color-utils';
   styleUrls: ['./color-picker-mixer.component.scss']
 })
 export class ColorPickerMixerComponent extends ColorPickerBaseComponent implements AfterViewInit {
+  @ViewChild('canvasBox')
+  canvasBox: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvasImage')
   canvasImage: ElementRef<HTMLCanvasElement>;
   canvas: HTMLCanvasElement;
@@ -65,10 +67,13 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
 
   override ngAfterViewInit() {
     super.ngAfterViewInit();
+    const box = this.canvasBox.nativeElement;
     this.canvas = this.canvasImage.nativeElement;
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
-    this.ctx = this.canvasImage.nativeElement.getContext('2d');
+    this.canvas.width = box.clientWidth;
+    this.canvas.height = box.clientHeight;
+    this.width = this.canvas.clientWidth;
+    this.height = this.canvas.clientHeight;
+    this.ctx = this.canvas.getContext('2d');
     this.paintCanvas();
   }
 

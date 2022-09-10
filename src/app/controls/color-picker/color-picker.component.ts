@@ -72,6 +72,9 @@ export class ColorPickerComponent {
     });
     dlgRef.componentInstance.fireMode();
     dlgRef.afterClosed().subscribe(data => {
+      if (data == null) {
+        data = {};
+      }
       data.action = 'close';
       this.onDialogEvent?.emit(data);
     });

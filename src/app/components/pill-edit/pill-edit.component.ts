@@ -5,6 +5,7 @@ import {PillService} from '@/_services/pill.service';
 import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TimeData} from '@/_model/time-data';
+import {Utils} from '@/classes/utils';
 
 export class PillDialogData {
   pill: PillData;
@@ -29,6 +30,17 @@ export class PillEditComponent {
               @Inject(MAT_DIALOG_DATA)
               public data: PillDialogData) {
     this.orgPill = this.data.pill.asString;
+  }
+
+  get dialogTitle(): string {
+    if (!Utils.isEmpty(this.data.pill.name)) {
+      return this.data.pill.name;
+    }
+    return $localize`Medikament`;
+  }
+
+  get labelForEat(): string {
+    return this.data.pill.timeList.length > 1 ? $localize`Einnahmen` : $localize`Einnahme`;
   }
 
   clickDelete(event: MouseEvent) {

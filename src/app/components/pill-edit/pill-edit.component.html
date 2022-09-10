@@ -1,95 +1,116 @@
 <h1 mat-dialog-title>
-  <div i18n>Medikament</div>
+  <div i18n>{{dialogTitle}}</div>
   <div spacer></div>
   <button (click)="clickCancel($event)" mat-icon-button>
     <mat-icon>close</mat-icon>
   </button>
 </h1>
 <div mat-dialog-content>
-  <div line>
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input [(ngModel)]="data.pill.name" autofocus matInput required>
-    </mat-form-field>
-  </div>
-  <h2 i18n>Einnahme</h2>
-  <div *ngFor="let time of data.pill.timeList; let idx = index" line time>
-    <app-number-picker [(value)]="time.count" i18n-label label="Anzahl"></app-number-picker>
-    <ng-container *ngIf="time.count>0">
-      <app-time-picker [(value)]="time.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
-      <div weekdays>
-        <div>Wochentage</div>
-        <div>
-          <button (click)="clickWeekday(time, idx)" *ngFor="let day of dowShortNames; let idx = index" [class]="classForWeekday(time, idx)" mat-raised-button>
-            {{day}}
-          </button>
-        </div>
-        <button (click)="clickDeleteTime(idx)" *ngIf="idx > 0" mat-icon-button>
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </ng-container>
-  </div>
-  <div line>
-    <button (click)="clickTimeAdd()" mat-icon-button>
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <h2 i18n>Vorrat</h2>
-  <div line>
-    <app-number-picker [(value)]="data.pill.supply" [max]="500" i18n-label label="Anzahl"></app-number-picker>
-    <app-number-picker [(value)]="data.pill.supplyLow" i18n-label label="Warnung"></app-number-picker>
-  </div>
-  <h2 i18n>Anzeige</h2>
-  <div line>
-    <ng-container *ngFor="let shape of shapeList">
-      <button (click)="clickShape($event, shape)" [class]="ps.classForShape(data.pill, shape)" [ngStyle]="ps.styleForPill(data.pill)" pill>
-        <div horz></div>
-        <div vert></div>
-      </button>
-    </ng-container>
-    <app-color-picker (onDataChanged)="ss.onColorDataChanged($event)"
-                      (onDialogEvent)="ss.colorPickerEvent($event)"
-                      [(color)]="data.pill.color"
-                      [imageDataUrl]="ss.data.colorImage"
-                      [maxFilesize]="500000"
-                      [mixColors]="ss.data.mixColors"
-                      [savedColors]="ss.data.savedColors"></app-color-picker>
-  </div>
-  <h2 i18n>Alarmanzeige</h2>
-  <div line>
-    <ng-container *ngFor="let alert of alertTextList">
-      <button (click)="clickAlertText($event, alert)" [class]="ps.classForAlertText(data.pill, alert)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
-        <div content>
-          <div [class]="alert" title>{{data.pill?.name}}</div>
-          <div [class]="alert" label>{{ps.getDisplayTime(data.pill.timeList[0])}}</div>
-        </div>
-        <div horz></div>
-        <div vert></div>
-      </button>
-    </ng-container>
-  </div>
-  <div divider></div>
-  <div line>
-    <ng-container *ngFor="let alert of alertList">
-      <button (click)="clickAlert($event, alert)" [class]="ps.classForAlert(data.pill, alert)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
-        <div content>
-          <div [class]="ps.classForText(data.pill)" title>{{data.pill?.name}}</div>
-          <div actions>
-            <button [ngStyle]="ps.styleForPill(data.pill)" mat-icon-button>
-              <mat-icon>restaurant</mat-icon>
-            </button>
-            <button [ngStyle]="ps.styleForPill(data.pill)" mat-icon-button>
-              <mat-icon>no_meals</mat-icon>
+  <mat-accordion>
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Name des Medikaments</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field>
+        <mat-label i18n>Medikament</mat-label>
+        <input [(ngModel)]="data.pill.name" autofocus matInput required>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{labelForEat}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div *ngFor="let time of data.pill.timeList; let idx = index" line time>
+        <app-number-picker [(value)]="time.count" i18n-label label="Anzahl"></app-number-picker>
+        <ng-container *ngIf="time.count>0">
+          <app-time-picker [(value)]="time.time" i18n-label label="Zeitpunkt" minuteDiff="5"></app-time-picker>
+          <div weekdays>
+            <div>Wochentage</div>
+            <div>
+              <button (click)="clickWeekday(time, idx)" *ngFor="let day of dowShortNames; let idx = index" [class]="classForWeekday(time, idx)" mat-raised-button>
+                {{day}}
+              </button>
+            </div>
+            <button (click)="clickDeleteTime(idx)" *ngIf="idx > 0" mat-icon-button>
+              <mat-icon>delete</mat-icon>
             </button>
           </div>
-          <div [class]="ps.classForText(data.pill)" label>{{ps.getDisplayTime(data.pill.timeList[0])}}</div>
-        </div>
-        <div horz></div>
-        <div vert></div>
-      </button>
-    </ng-container>
-  </div>
+        </ng-container>
+      </div>
+      <div line>
+        <button (click)="clickTimeAdd()" mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Vorrat</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div line>
+        <app-number-picker [(value)]="data.pill.supply" [max]="500" i18n-label label="Anzahl"></app-number-picker>
+        <app-number-picker [(value)]="data.pill.supplyLow" i18n-label label="Warnung"></app-number-picker>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Anzeige</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div line>
+        <ng-container *ngFor="let shape of shapeList">
+          <button (click)="clickShape($event, shape)" [class]="ps.classForShape(data.pill, shape)" [ngStyle]="ps.styleForPill(data.pill)" pill>
+            <div horz></div>
+            <div vert></div>
+          </button>
+        </ng-container>
+        <app-color-picker (onDataChanged)="ss.onColorDataChanged($event)"
+                          (onDialogEvent)="ss.colorPickerEvent($event)"
+                          [(color)]="data.pill.color"
+                          [imageDataUrl]="ss.data.colorImage"
+                          [maxFilesize]="500000"
+                          [mixColors]="ss.data.mixColors"
+                          [savedColors]="ss.data.savedColors"></app-color-picker>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Alarmanzeige</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div line>
+        <ng-container *ngFor="let alert of alertTextList">
+          <button (click)="clickAlertText($event, alert)" [class]="ps.classForAlertText(data.pill, alert)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
+            <div content>
+              <div [class]="alert" title>{{data.pill?.name}}</div>
+              <div [class]="alert" label>{{ps.getDisplayTime(data.pill.timeList[0])}}</div>
+            </div>
+            <div horz></div>
+            <div vert></div>
+          </button>
+        </ng-container>
+      </div>
+      <div divider></div>
+      <div line>
+        <ng-container *ngFor="let alert of alertList">
+          <button (click)="clickAlert($event, alert)" [class]="ps.classForAlert(data.pill, alert)" [ngStyle]="ps.styleForPill(data.pill)" i18n pill>
+            <div content>
+              <div [class]="ps.classForText(data.pill)" title>{{data.pill?.name}}</div>
+              <div actions>
+                <button [ngStyle]="ps.styleForPill(data.pill)" mat-icon-button>
+                  <mat-icon>restaurant</mat-icon>
+                </button>
+                <button [ngStyle]="ps.styleForPill(data.pill)" mat-icon-button>
+                  <mat-icon>no_meals</mat-icon>
+                </button>
+              </div>
+              <div [class]="ps.classForText(data.pill)" label>{{ps.getDisplayTime(data.pill.timeList[0])}}</div>
+            </div>
+            <div horz></div>
+            <div vert></div>
+          </button>
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 <div mat-dialog-actions>
   <button (click)="clickSave($event)" mat-flat-button>

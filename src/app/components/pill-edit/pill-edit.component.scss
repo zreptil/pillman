@@ -1,3 +1,21 @@
+:host {
+  ::ng-deep .mat-step-header .mat-step-icon,
+  .mat-step-header .mat-step-icon-selected,
+  .mat-step-header .mat-step-icon-state-done,
+  .mat-step-header .mat-step-icon-state-edit {
+    background-color: var(--toolbarBack) !important;
+    color: #ff0 !important;
+  }
+
+  ::ng-deep .mat-step-icon-content span {
+    display: none;
+  }
+
+  ::ng-deep .mat-step-icon-content .mat-icon {
+    color: black;
+  }
+}
+
 .mat-dialog-title {
   display: flex;
   flex-flow: row;
@@ -6,6 +24,10 @@
 
 [time]:hover {
   outline: var(--markBorder);
+}
+
+[line] {
+  margin-top: 2px;
 }
 
 [weekdays] {

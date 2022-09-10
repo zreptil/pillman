@@ -2,8 +2,6 @@
   <div>
     <ng-container [ngSwitch]="id">
       <ng-container *ngSwitchCase="'hlp-mode-edit'">
-        <!-- *ngIf="ss.data.appMode === 'edit'" -->
-        <!-- *ngIf="!ps.isEditingPill"> -->
         <p i18n>Willkommen zu Pillman!</p>
         <p i18n>
           Pillman ist ein einfacher Pillenmanager. Hiermit kann man seine Medikamente erfassen und sich
@@ -37,8 +35,6 @@
         </p>
       </ng-container>
       <ng-container *ngSwitchCase="'hlp-editpill'">
-        <!-- *ngIf="ss.data.appMode === 'edit'" -->
-        <!-- *ngIf="ps.isEditingPill" -->
         <p i18n>
           In diesem Editor werden die Daten des Medikaments erfasst. Der Name muss eingegeben werden
           und es darf auch nur ein Medikament dieses Namens geben.
@@ -204,7 +200,7 @@
       </ng-container>
     </ng-container>
     <h6 i18n>
-      Dieser Text hier kann mit dem kleinen Pillman rechts oben ein- und ausgeschaltet werden.
+      Dieser Text hier kann mit dem kleinen Pillman rechts oben oder der Taste F1 ein- und ausgeschaltet werden.
     </h6>
   </div>
 </div>

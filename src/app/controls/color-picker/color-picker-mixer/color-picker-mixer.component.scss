@@ -28,9 +28,9 @@ canvas {
   position: relative;
   padding: calc(var(--size) / 2);
 
-  [canvas-line] {
+  [image] {
     display: flex;
-    flex-flow: row;
+    flex: 1;
     position: relative;
     z-index: 1;
   }

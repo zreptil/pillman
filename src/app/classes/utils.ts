@@ -105,4 +105,8 @@ export class Utils {
     }
     return list[idx + 1]
   }
+
+  static isEmpty(text: string): boolean {
+    return text == null || text.trim() === '';
+  }
 }
