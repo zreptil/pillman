@@ -6,6 +6,7 @@ import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TimeData} from '@/_model/time-data';
 import {Utils} from '@/classes/utils';
+import {DateAdapter} from '@angular/material/core';
 
 export class PillDialogData {
   pill: PillData;
@@ -28,8 +29,10 @@ export class PillEditComponent {
               public ps: PillService,
               public dialogRef: MatDialogRef<PillEditComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: PillDialogData) {
+              public data: PillDialogData,
+              private dateAdapter: DateAdapter<any>) {
     this.orgPill = this.data.pill.asString;
+    dateAdapter.setLocale('de');
   }
 
   get dialogTitle(): string {
@@ -110,6 +113,7 @@ export class PillEditComponent {
         time.lastConsumed = null;
       }
       this.ss.save();
+      console.log(this.data.pill.timeList);
       this.dialogRef.close();
     }
   }

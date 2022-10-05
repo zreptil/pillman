@@ -223,6 +223,25 @@
   height: calc(var(--size) * 0.75);
 }
 
+[pill].oval {
+  transform: scaleY(0.75);
+  border-radius: 50%;
+  width: calc(var(--size) * 0.75);
+  height: calc(var(--size) * 0.75);
+
+  [content] {
+    transform: scaleX(0.75);
+  }
+}
+
+[pill].creme {
+  border-radius: 20% 0 20% 0;
+  width: var(--size);
+  height: calc(var(--size) * 0.75);
+  transform: skewX(-10deg);
+  margin-right: 1em;
+}
+
 .splitv {
   [vert] {
     display: block;

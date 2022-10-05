@@ -132,4 +132,18 @@ export class PillService {
       HelpData.clear('hlp-editpill');
     });
   }
+
+  iconConsumed(pill: PillData): string {
+    if (pill.shape === 'creme') {
+      return 'clean_hands';
+    }
+    return 'restaurant';
+  }
+
+  iconMissed(pill: PillData): string {
+    if (pill.shape === 'creme') {
+      return 'do_not_touch';
+    }
+    return 'no_meals';
+  }
 }

@@ -1,6 +1,6 @@
 :host {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 input[type=file] {
@@ -23,6 +23,7 @@ mat-toolbar {
   color: var(--toolbarFore);
   align-items: center;
   position: relative;
+  height: 64px;
 
   ::ng-deep app-pillman {
     height: 48px;
@@ -30,6 +31,11 @@ mat-toolbar {
     svg {
       height: 48px;
     }
+  }
+
+  [userimage] {
+    height: 48px;
+    border-radius: 50%;
   }
 
   [currentmark] {

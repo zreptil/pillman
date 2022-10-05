@@ -105,9 +105,14 @@
         <p i18n>
           Mit dem Icon
           <mat-icon>restaurant</mat-icon>
-          wird die das Medikament als eingenommen festgelegt, mit dem Icon
+          wird das Medikament als eingenommen festgelegt, mit dem Icon
           <mat-icon>no_meals</mat-icon>
-          wird es als verpasst und nicht eingenommen festgelegt.
+          wird es als verpasst und nicht eingenommen festgelegt. Wenn es sich um eine Salbe handelt,
+          werden die Icons
+          <mat-icon>clean_hands</mat-icon>
+          und
+          <mat-icon>do_not_touch</mat-icon>
+          verwendet.
         </p>
         <p *ngIf="ss.data.timeDisplay === 'time'" i18n>
           Am unteren Rand der Pille wird die Zeit angezeigt, zu der die nächste Einnahme erfolgen
@@ -188,6 +193,16 @@
           <p i18n>
             Das Bild wird im Browser gespeichert und steht beim nächsten Aufruf der Seite wieder
             zur Verfügung. Es muss also nicht jedesmal neu geladen werden.
+          </p>
+        </ng-container>
+        <ng-container *ngIf="subId === 'rgb'">
+          <h3>
+            <mat-icon>palette</mat-icon>
+            RGB
+          </h3>
+          <p i18n>
+            In diesem Modus wird die Farbe mit Reglern für RGB (Rot, Grün, Blau) und HSL (Hue,
+            Saturation, Lightness) eingestellt.
           </p>
         </ng-container>
         <p i18n>

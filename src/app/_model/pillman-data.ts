@@ -43,7 +43,7 @@ export class PillmanData extends BaseData {
       'sc': this.savedColors?.map(m => m.asJson) ?? [],
       'sh': this.showHelp,
       'td': this.timeDisplay,
-      'an': this.alertName ?? '006',
+      'an': this.alertName,
       'cm': this.colorPickerMode ?? 'image',
       'colmix': this.mixColors.asJson
     };

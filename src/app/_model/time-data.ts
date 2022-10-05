@@ -8,6 +8,8 @@ export class TimeData extends BaseData {
   dowActive = [true, true, true, true, true, true, true];
   lastConsumed: Date;
   nextConsume: Date;
+  start: Date;
+  end: Date;
 
   get asJson(): any {
     this.setNextConsume();
@@ -15,7 +17,9 @@ export class TimeData extends BaseData {
       'c': this.count,
       't': this.time,
       'da': this.dowActive,
-      'lc': this.lastConsumed
+      'lc': this.lastConsumed,
+      's': this.start?.getTime(),
+      'e': this.end?.getTime()
     };
   }
 
@@ -34,6 +38,8 @@ export class TimeData extends BaseData {
     this.count = JsonData.toNumber(json, 'c');
     this.dowActive = json['da'] ?? [true, true, true, true, true, true, true];
     this.lastConsumed = JsonData.toDate(json, 'lc', null);
+    this.start = JsonData.toDate(json, 's', null);
+    this.end = JsonData.toDate(json, 'e', null);
     this.setNextConsume();
   }
 

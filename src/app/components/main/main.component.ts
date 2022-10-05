@@ -6,9 +6,12 @@ import {Utils} from '@/classes/utils';
 import {TimelineData} from '@/_model/timeline-data';
 import {PillmanData} from '@/_model/pillman-data';
 import {saveAs} from 'file-saver';
-import {Log} from '@/_services/log.service';
+import {Log, LogService} from '@/_services/log.service';
 import {PillTimeData} from '@/_model/pill-time-data';
 import {HelpData} from '@/_model/help-data';
+import {ColorData} from '@/_model/color-data';
+import {HttpClient} from '@angular/common/http';
+import {GoogleService} from '@/_services/google.service';
 
 class AlertData {
   label: string;
@@ -35,9 +38,12 @@ export class MainComponent implements OnInit {
     {label: 'Wecker', name: '007'},
     {label: 'Buzzer', name: '008'}
   ];
+  debugColor = new ColorData([67, 58, 187]);
 
   constructor(public ss: SessionService,
-              public ps: PillService) {
+              public ps: PillService,
+              public http: HttpClient,
+              public gs: GoogleService) {
   }
 
   get nowText(): string {
@@ -66,8 +72,15 @@ export class MainComponent implements OnInit {
   get listTimeline(): TimelineData[] {
     const ret: TimelineData[] = [];
     let last: PillTimeData = null;
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const today = now.getTime();
     for (const data of this.listMedication) {
-      if (data.time.isDowActive(new Date())) {
+      let isVisible = data.time.isDowActive(new Date());
+      if (isVisible && data.time.start != null && data.time.end != null) {
+        isVisible = data.time.start.getTime() <= today && data.time.end.getTime() >= today;
+      }
+      if (isVisible) {
         if (Utils.isToday(data.time.nextConsume) || this.ss.data.showPast) {
           if (last == null || last.time.time !== data.time.time) {
             const time = new TimelineData(data.pill, data.time);
@@ -114,16 +127,41 @@ export class MainComponent implements OnInit {
     return {'left': `calc(${x}% - 1em)`};
   };
 
-  ngOnInit(): void {
-    this.initMode();
-  }
-
   onViewTimer(): void {
     const pill = this.ss.data.listMedication.find(p => p.isAlerted);
     if (pill != null) {
       this.ps.playAudio(this.ss.data.alertName);
     }
     this.startTimer();
+  }
+
+  ngOnInit(): void {
+    this.initMode();
+    this.gs.onEvent.subscribe({
+      next: () => {
+        LogService.refreshUI();
+        // const url = `http://corg.reptilefarm.ddns.net/pillman.php`;
+        // const req = new HttpRequest('POST', url, this.gs.id_token, {
+        //   responseType: 'text'
+        // });
+        // let response = '';
+        // this.http.request<string>(req).subscribe({
+        //   next: (data: any) => {
+        //     if (data.body != null) {
+        //       response += data.body;
+        //     }
+        //   }, error: (error) => {
+        //     Log.error(error);
+        //     this.gs.logout();
+        //   }, complete: () => {
+        //     // retrieved data from webapi
+        //     console.log(response);
+        //     LogService.refreshUI();
+        //   }
+        // });
+      }
+    });
+    this.gs.init();
   }
 
   startTimer(): void {
@@ -138,7 +176,9 @@ export class MainComponent implements OnInit {
   }
 
   stopTimer(): void {
-    clearTimeout(this.viewTimer);
+    if (this.viewTimer != null) {
+      clearTimeout(this.viewTimer);
+    }
   }
 
   initMode(): void {

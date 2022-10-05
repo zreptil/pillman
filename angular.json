@@ -49,7 +49,8 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "file-saver"
+              "file-saver",
+              "https://apis.google.com/js/api.js"
             ]
           },
           "configurations": {

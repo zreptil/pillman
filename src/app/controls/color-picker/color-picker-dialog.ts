@@ -10,7 +10,7 @@ import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
   styleUrls: ['./color-picker-dialog.scss']
 })
 export class ColorPickerDialog {
-  static modeList = ['mixer', 'image'];
+  static modeList = ['mixer', 'image', 'rgb'];
   isActive = false;
 
   fire = new EventEmitter<string>();
@@ -32,7 +32,7 @@ export class ColorPickerDialog {
   }
 
   get modeIcon(): string {
-    const iconList: { [key: string]: string } = {mixer: 'blender', image: 'image'};
+    const iconList: { [key: string]: string } = {mixer: 'blender', image: 'image', rgb: 'palette'};
     if (iconList[this.data.mode] == null) {
       this.data.mode = ColorPickerDialog.modeList[0];
       this.fireMode();

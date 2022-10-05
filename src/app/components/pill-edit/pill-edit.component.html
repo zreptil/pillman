@@ -9,11 +9,15 @@
   <mat-accordion>
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header>
-        <mat-panel-title i18n>Name des Medikaments</mat-panel-title>
+        <mat-panel-title i18n>Medikament</mat-panel-title>
       </mat-expansion-panel-header>
       <mat-form-field>
         <mat-label i18n>Medikament</mat-label>
         <input [(ngModel)]="data.pill.name" autofocus matInput required>
+      </mat-form-field>
+      <mat-form-field class="fullwidth">
+        <mat-label i18n>Beschreibung</mat-label>
+        <textarea [(ngModel)]="data.pill.description" appTextareaAutoresize matInput required></textarea>
       </mat-form-field>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -35,6 +39,21 @@
               <mat-icon>delete</mat-icon>
             </button>
           </div>
+          <mat-form-field appearance="fill">
+            <mat-label>Einnahmezeitraum</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input [(ngModel)]="time.start" matStartDate placeholder="Startdatum">
+              <input [(ngModel)]="time.end" matEndDate placeholder="Enddatum">
+            </mat-date-range-input>
+            <mat-hint></mat-hint>
+            <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+            <mat-date-range-picker #picker>
+              <mat-date-range-picker-actions>
+                <button mat-button matDateRangePickerCancel>Abbruch</button>
+                <button color="primary" mat-raised-button matDateRangePickerApply>Ok</button>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
         </ng-container>
       </div>
       <div line>

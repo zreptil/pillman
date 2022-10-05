@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Log} from '@/_services/log.service';
+import {SessionService} from '@/_services/session.service';
 
 @Component({
   selector: 'app-log',
@@ -7,7 +8,7 @@ import {Log} from '@/_services/log.service';
   styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
-  constructor() {
+  constructor(public ss: SessionService) {
   }
 
   get msg(): { [key: string]: any[] } {

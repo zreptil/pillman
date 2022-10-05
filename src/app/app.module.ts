@@ -22,10 +22,14 @@ import {ColorPickerImageComponent} from './controls/color-picker/color-picker-im
 import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog';
 import {ColorPickerMixerComponent} from './controls/color-picker/color-picker-mixer/color-picker-mixer.component';
 import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-base.component';
+import {ColorPickerRGBComponent} from './controls/color-picker/color-picker-rgb/color-picker-rgb.component';
+import {AppRoutingModule} from './app-routing.module';
+import {TextareaAutoresizeDirective} from '@/_directives/textarea-autoresize.directive';
 
 @NgModule({
   declarations: [
     AutofocusDirective,
+    TextareaAutoresizeDirective,
     LogPipe,
     AppComponent,
     MainComponent,
@@ -42,14 +46,16 @@ import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-bas
     HelpComponent,
     ColorPickerImageComponent,
     ColorPickerMixerComponent,
-    ColorPickerBaseComponent
+    ColorPickerBaseComponent,
+    ColorPickerRGBComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     MaterialModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

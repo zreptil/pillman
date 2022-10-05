@@ -5,7 +5,7 @@ import {Utils} from '@/classes/utils';
 import {TimeData} from '@/_model/time-data';
 
 export class PillData extends BaseData {
-  static shapeList = ['roundS', 'roundM', 'roundL', 'capsule'];
+  static shapeList = ['roundS', 'roundM', 'roundL', 'capsule', 'oval', 'creme'];
   static alertList = ['none', 'wiggle', 'wobble', 'sizer'];
   static alertTextList = ['none', 'pulse'];
 
@@ -14,6 +14,7 @@ export class PillData extends BaseData {
   splitv: boolean = false;
   color: ColorData = new ColorData([255, 255, 255]);
   name: string;
+  description: string;
   interval: string = 'daily';
   supply: number = 0;
   supplyLow: number = 0;
@@ -25,6 +26,7 @@ export class PillData extends BaseData {
   get asJson(): any {
     return {
       'n': this.name,
+      'd': this.description,
       'i': this.interval,
       's': this.supply,
       'low': this.supplyLow,
@@ -60,6 +62,7 @@ export class PillData extends BaseData {
 
   _fillFromJson(json: any): void {
     this.name = JsonData.toString(json, 'n');
+    this.description = JsonData.toString(json, 'd');
     this.interval = json['i'] ?? 'daily';
     this.supply = JsonData.toNumber(json, 's');
     this.supplyLow = JsonData.toNumber(json, 'low');

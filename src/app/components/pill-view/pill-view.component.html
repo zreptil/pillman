@@ -8,10 +8,10 @@
         </div>
         <div *ngIf="time.isAlerted" actions>
           <button (click)="clickEat($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
-            <mat-icon>restaurant</mat-icon>
+            <mat-icon>{{ps.iconConsumed(pill)}}</mat-icon>
           </button>
           <button (click)="clickMissed($event)" [ngStyle]="ps.styleForPill(pill)" mat-icon-button>
-            <mat-icon>no_meals</mat-icon>
+            <mat-icon>{{ps.iconMissed(pill)}}</mat-icon>
           </button>
         </div>
         <button (click)="clickTime($event)" [class]="ps.classForText(pill)" label mat-flat-button>

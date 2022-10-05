@@ -1,3 +1,4 @@
+<script async defer src="https://accounts.google.com/gsi/client"></script>
 <mat-toolbar>
   <button (click)="clickMode($event)" mat-icon-button>
     <mat-icon>{{modeIcon}}</mat-icon>
@@ -18,6 +19,7 @@
     <app-color-picker (onDataChanged)="ss.onColorDataChanged($event)"
                       (onDialogEvent)="ss.colorPickerEvent($event)"
                       *ngIf="ss.mayDebug"
+                      [(color)]="debugColor"
                       [imageDataUrl]="ss.data.colorImage"
                       [maxFilesize]="500000"
                       [mixColors]="ss.data.mixColors"
@@ -43,7 +45,8 @@
     <div [ngStyle]="styleForToolbarText" currenttext>{{nowText}}</div>
   </ng-container>
   <button (click)="clickPillman()" mat-icon-button>
-    <app-pillman [isDoc]="ss.data.appMode==='edit'"></app-pillman>
+    <app-pillman *ngIf="gs?.userImage == null" [isDoc]="ss.data.appMode==='edit'"></app-pillman>
+    <img *ngIf="gs?.userImage != null" [src]="gs?.userImage" alt="userimage" userimage>
   </button>
 </mat-toolbar>
 <div content>

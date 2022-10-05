@@ -1,5 +1,6 @@
-import {Component, HostListener} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener} from '@angular/core';
 import {SessionService} from '@/_services/session.service';
+import {LogService} from '@/_services/log.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,9 @@ import {SessionService} from '@/_services/session.service';
 export class AppComponent {
   title = 'pillman';
 
-  constructor(public ss: SessionService) {
+  constructor(public ss: SessionService,
+              cr: ChangeDetectorRef) {
+    LogService.cr = cr;
   }
 
   @HostListener('document:keydown.f1', ['$event'])

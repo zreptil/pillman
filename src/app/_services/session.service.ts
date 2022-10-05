@@ -61,6 +61,9 @@ export class SessionService {
       case 'mode-image':
         HelpData.subId = 'image';
         break;
+      case 'mode-rgb':
+        HelpData.subId = 'rgb';
+        break;
     }
   }
 
