@@ -96,12 +96,24 @@ export class PillService {
   }
 
   getDisplayTime(time: TimeData): string {
+    const now = new Date();
     switch (this.ss.data.timeDisplay) {
       case 'duration':
-        const now = new Date();
         const t = now.getHours() * 60 + now.getMinutes();
         const duration = time.time - t;
         return Utils.fmtDuration(duration);
+      case 'fulltime':
+        let date = Utils.fmtDate(time.nextConsume, 'dd.MM');
+        if (time.nextConsume.getFullYear() === now.getFullYear() &&
+          time.nextConsume.getMonth() === now.getMonth()) {
+          if (time.nextConsume.getDate() === now.getDate() + 1) {
+            date = 'Morgen';
+          } else if (time.nextConsume.getDate() === now.getDate()) {
+            date = 'Heute';
+          }
+          return `${date} ${Utils.fmtTime(time.time)}`;
+        }
+        return Utils.fmtDate(time.nextConsume, 'dd.MM. hh:mm');
     }
     return Utils.fmtTime(time.time);
   }

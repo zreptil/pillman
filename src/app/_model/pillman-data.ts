@@ -12,7 +12,7 @@ export enum ConsumeDisplay {
 }
 
 export class PillmanData extends BaseData {
-  static timeList = ['time', 'duration'];
+  static timeList = ['time', 'duration', 'fulltime'];
   static modeList = ['edit', 'timeline'];
 
   user: UserData;

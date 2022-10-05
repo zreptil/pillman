@@ -17,7 +17,7 @@ export class TimeData extends BaseData {
       'c': this.count,
       't': this.time,
       'da': this.dowActive,
-      'lc': this.lastConsumed,
+      'lc': this.lastConsumed?.getTime(),
       's': this.start?.getTime(),
       'e': this.end?.getTime()
     };

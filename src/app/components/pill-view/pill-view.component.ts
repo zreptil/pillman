@@ -1,12 +1,13 @@
 import {SessionService} from '@/_services/session.service';
 import {Component, Input, OnInit} from '@angular/core';
 import {ColorData} from '@/_model/color-data';
-import {Log} from '@/_services/log.service';
+import {Log, LogService} from '@/_services/log.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PillService} from '@/_services/pill.service';
 import {Utils} from '@/classes/utils';
 import {PillData} from '@/_model/pill-data';
 import {TimeData} from '@/_model/time-data';
+import {PillmanData} from '@/_model/pillman-data';
 
 @Component({
   selector: 'app-pill-view',
@@ -80,8 +81,9 @@ export class PillViewComponent implements OnInit {
 
   clickTime(event: MouseEvent) {
     event.preventDefault();
-    this.ss.data.timeDisplay = Utils.nextListItem(this.ss.data.timeDisplay, ['duration', 'time']);
+    this.ss.data.timeDisplay = Utils.nextListItem(this.ss.data.timeDisplay, PillmanData.timeList);
     this.ss.save();
+    LogService.refreshUI();
   }
 
   onColorSelected(color: ColorData) {

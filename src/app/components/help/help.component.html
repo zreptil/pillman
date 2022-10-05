@@ -122,7 +122,12 @@
         <p *ngIf="ss.data.timeDisplay === 'duration'" i18n>
           Am unteren Rand der Pille wird die Dauer bis zur nächsten Einnahme oder seit der letzten
           Einnahme angezeigt. Wenn diese angeklickt wird, dann wird auf die Anzeige des Zeitpunkts
-          der nächsten oder der vergangenen Einnahme umgeschaltet.
+          der nächsten Einnahme umgeschaltet.
+        </p>
+        <p *ngIf="ss.data.timeDisplay === 'fulltime'" i18n>
+          Am unteren Rand der Pille wird der Zeitpunkt der nächsten Einnahme angezeigt. Wenn
+          das angeklickt wird, dann wird auf die Anzeige des Zeitpunkts der nächsten oder der
+          vergangenen Einnahme umgeschaltet.
         </p>
       </ng-container>
       <ng-container *ngSwitchCase="'hlp-alert-menu'">
