@@ -57,7 +57,6 @@ export class PillViewComponent implements OnInit {
 
   clickCard(event: MouseEvent) {
     event.preventDefault();
-
   }
 
   clickMissed(event: MouseEvent) {
@@ -66,6 +65,7 @@ export class PillViewComponent implements OnInit {
     this.time.lastConsumed = new Date();
     this.time.setNextConsume();
     this.ss.save();
+    LogService.refreshUI();
   }
 
   clickEat(event: MouseEvent) {
@@ -77,6 +77,7 @@ export class PillViewComponent implements OnInit {
     this.time.lastConsumed = new Date();
     this.time.setNextConsume();
     this.ss.save();
+    LogService.refreshUI();
   }
 
   clickTime(event: MouseEvent) {
